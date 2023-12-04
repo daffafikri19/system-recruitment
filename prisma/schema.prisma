@@ -8,6 +8,7 @@ generator client {
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
+  relationMode = "prisma"
 }
 
 enum question_type {
@@ -17,7 +18,7 @@ enum question_type {
 
 model Account {
   id                 String  @id @default(cuid())
-  userId             String
+  userId             String  @unique
   type               String
   provider           String
   providerAccountId  String
@@ -37,7 +38,7 @@ model Account {
 model Session {
   id           String   @id @default(cuid())
   sessionToken String   @unique
-  userId       String
+  userId       String   @unique
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
@@ -53,7 +54,6 @@ model User {
   password String
   accounts      Account[]
   sessions      Session[]
-  questions question_banks[] 
   answers       Answer[]
 }
 
@@ -78,17 +78,14 @@ model question_banks {
   question String @db.LongText
   type question_type @default(text) 
   category String
-  answer Answer[]
   required Boolean
   createdAt String
   updatedAt String  
+  createdBy String? @unique
 
-  createdBy String?
-  createdByAdmin User? @relation(fields: [createdBy], references: [id])
+  questionId String @unique
+  answer Answer[]
 }
-
-
-
 
 model Answer {
   id            String    @id @default(cuid())
@@ -98,6 +95,6 @@ model Answer {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
-  userId        String
-  questionId    String
+  userId        String @unique
+  questionId    String @unique
 }

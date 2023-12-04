@@ -6,8 +6,8 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
   relationMode = "prisma"
 }
 
@@ -17,18 +17,18 @@ enum question_type {
 }
 
 model Account {
-  id                 String  @id @default(cuid())
-  userId             String  @unique
-  type               String
-  provider           String
-  providerAccountId  String
-  refresh_token      String?  @db.Text
-  access_token       String?  @db.Text
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String?  @db.Text
-  session_state      String?
+  id                String  @id @default(cuid())
+  userId            String  @unique
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -48,10 +48,10 @@ model User {
   name          String?
   email         String?   @unique
   emailVerified DateTime?
-  role role @default(peserta)
-  profession String
+  role          role      @default(peserta)
+  profession    String
   image         String?
-  password String
+  password      String
   accounts      Account[]
   sessions      Session[]
   answers       Answer[]
@@ -74,27 +74,25 @@ model VerificationToken {
 }
 
 model question_banks {
-  id String @id @unique @default(cuid())
-  question String @db.LongText
-  type question_type @default(text) 
+  id       String        @id @unique @default(cuid())
+  question String        @db.LongText
+  type     question_type @default(text)
   category String
   required Boolean
-  createdAt String
-  updatedAt String  
-  createdBy String? @unique
 
-  questionId String @unique
-  answer Answer[]
+  createdBy String?  @unique
+  answer    Answer[]
+  createdAt String
+  updatedAt String
 }
 
 model Answer {
-  id            String    @id @default(cuid())
-  user          User      @relation(fields: [userId], references: [id])
-  question      question_banks @relation(fields: [questionId], references: [id])
-  userAnswer    String
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-
-  userId        String @unique
-  questionId    String @unique
+  id         String         @id @default(cuid())
+  user       User           @relation(fields: [userId], references: [id])
+  userAnswer String
+  userId     String         @unique
+  questionId String         @unique
+  question   question_banks @relation(fields: [questionId], references: [id])
+  createdAt  String
+  updatedAt  String
 }

@@ -9,7 +9,7 @@ export const getAllQuestion = async () => {
         const response = await prisma.question_banks.findMany({
             include: {
                 _count: true,
-                createdByAdmin: true
+                answer: true
             }
         });
         revalidatePath('/dashboard/question-banks')

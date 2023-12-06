@@ -10,3 +10,10 @@ export interface QuestionType {
     createdByAdmin: [] | null,
     _count: number
 }
+
+export interface CategoryType {
+    id: string,
+    name: string,
+    createdAt: string,
+    updatedAt: string,
+}

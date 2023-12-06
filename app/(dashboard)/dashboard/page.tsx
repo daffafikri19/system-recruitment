@@ -1,25 +1,18 @@
-"use client"
 import React from 'react'
-// without this the component renders on server and throws an error
-import dynamic from "next/dynamic";
-import CardDataStats from './components/CardDataStats';
+import CardDataStats from './components/card-data-stats';
 import ChartOne from './components/Charts/ChartOne';
 import ChartTwo from './components/Charts/ChartTwo';
 import ChartThree from './components/Charts/ChartThree';
 import TableOne from './components/Tables/TableOne';
 import ChatCard from './components/Chat/ChatCard';
-import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
 
-const MapOne = dynamic(() => import("./components/Maps/MapOne"), {
-  ssr: false,
-});
+
 
 const DashboardPage = () => {
 
   return (
     <>
-    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
         <CardDataStats title="Total views" total="$3.456K" rate="0.43%" levelUp>
           <svg
             className="fill-primary dark:fill-white"
@@ -110,7 +103,6 @@ const DashboardPage = () => {
         <ChartOne />
         <ChartTwo />
         <ChartThree />
-        <MapOne />
         <div className="col-span-12 xl:col-span-8">
           <TableOne />
         </div>

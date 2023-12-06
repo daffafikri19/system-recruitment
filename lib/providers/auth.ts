@@ -72,7 +72,6 @@ export const authOptions: NextAuthOptions = {
     secret: process.env.NEXTAUTH_SECRET,
     callbacks: {
         async jwt({ token, user }) {
-            console.log("user data", user)
             if (user) {
                 return {
                     ...token,
@@ -86,7 +85,7 @@ export const authOptions: NextAuthOptions = {
             return token
         },
         async session({ session, token }) {
-            return {
+            const context = {
                 ...session,
                     user: {
                     ...session.user,
@@ -96,8 +95,8 @@ export const authOptions: NextAuthOptions = {
                     profession: token.profession,
                     image: token.image
                 }
-            
             }
+            return context
         }
     }
 }

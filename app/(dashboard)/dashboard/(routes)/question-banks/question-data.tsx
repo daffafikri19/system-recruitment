@@ -9,11 +9,10 @@ import {
     TableRow,
 } from "@/components/ui/table"
 import { toast } from "@/components/ui/use-toast";
-import { QuestionType } from "@/types";
+import { CategoryType, QuestionType } from "@/types";
 import { Skeleton } from "@mui/material";
 import { Edit, Trash2 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import useSWR, { useSWRConfig } from "swr";
 import {
     AlertDialog,
     AlertDialogCancel,
@@ -28,16 +27,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { updateQuestion } from "@/actions/question-banks/updateQuestion";
-import { deleteQuestion } from "@/actions/question-banks/deleteQuestion";
-import { getAllQuestion } from "@/actions/question-banks/getAllQuestions";
 
 export const revalidate = true;
 
 export function QuestionDataTable() {
-    // const [dataQuestions, setdataQuestions] = useState<QuestionType[]>([]);
+    const [dataQuestions, setdataQuestions] = useState<QuestionType[]>([]);
     const [openEditDialog, setOpenEditDialog] = useState(false);
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+    const [loading, setloading] = useState(false)
     const [questions, setQuestions] = useState({
         id: "",
         question: "",
@@ -48,90 +45,84 @@ export function QuestionDataTable() {
         updatedAt: "",
         createdBy: "",
     });
-    const questionRefId = useRef<string>("")
+    const questionRefId = useRef<string>("");
 
-    const { mutate } = useSWRConfig();
+    useEffect(() => {
+        const getQuestions = async () => {
+            setloading(true)
+            try {
+                const response = await fetch('/api/question/get', {
+                    cache: 'no-cache'
+                });
+                const data = await response.json();
+                console.log(data)
+                setdataQuestions(data)
+                return data
+            } catch (error: any) {
+                toast({
+                    title: 'terjadi kesalahan saat mendapatkan data pertanyaan',
+                    description: error.message
+                })
+                return;
+            } finally {
+                setloading(false)
+            }
+        }
 
-    const fetcher = async () => {
-        const response = await fetch('/api/question/get');
-        const data = await response.json();
-        console.log(data)
-        return data
-    }
+        getQuestions();
+    }, [openEditDialog, openDeleteDialog])
 
-    const { data: QuestionsData, error, isLoading } = useSWR('/api/question/get', fetcher);
-    if (isLoading) {
-        return (
-            <Table>
-                <TableHeader>
-                    <TableRow className="truncate">
-                        {/* <TableHead>No</TableHead> */}
-                        <TableHead className="min-w-[300px]"><Skeleton variant="text" /></TableHead>
-                        <TableHead><Skeleton variant="text" /></TableHead>
-                        <TableHead className="min-w-[150px]"><Skeleton variant="text" /></TableHead>
-                        <TableHead><Skeleton variant="text" /></TableHead>
-                        <TableHead><Skeleton variant="text" /></TableHead>
-                        <TableHead className="text-right"><Skeleton variant="text" /></TableHead>
-                    </TableRow>
-                </TableHeader>
-                <TableBody className="w-full">
-                    <TableRow>
-                        <TableCell><Skeleton variant="text" /></TableCell>
-                        <TableCell><Skeleton variant="text" /></TableCell>
-                        <TableCell><Skeleton variant="text" /></TableCell>
-                        <TableCell><Skeleton variant="text" /></TableCell>
-                        <TableCell><Skeleton variant="text" /></TableCell>
-                        <TableCell className="flex items-center justify-center space-x-2">
-                            <Skeleton variant="text" />
-                            <Skeleton variant="text" />
-                        </TableCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableCell><Skeleton variant="text" /></TableCell>
-                        <TableCell><Skeleton variant="text" /></TableCell>
-                        <TableCell><Skeleton variant="text" /></TableCell>
-                        <TableCell><Skeleton variant="text" /></TableCell>
-                        <TableCell><Skeleton variant="text" /></TableCell>
-                        <TableCell className="flex items-center justify-center space-x-2">
-                            <Skeleton variant="text" />
-                            <Skeleton variant="text" />
-                        </TableCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableCell><Skeleton variant="text" /></TableCell>
-                        <TableCell><Skeleton variant="text" /></TableCell>
-                        <TableCell><Skeleton variant="text" /></TableCell>
-                        <TableCell><Skeleton variant="text" /></TableCell>
-                        <TableCell><Skeleton variant="text" /></TableCell>
-                        <TableCell className="flex items-center justify-center space-x-2">
-                            <Skeleton variant="text" />
-                            <Skeleton variant="text" />
-                        </TableCell>
-                    </TableRow>
-                </TableBody>
-            </Table >
-        )
-    }
+    // update question
+    const updateQuestion = async (formdata: FormData, id: string) => {
 
+        const question = formdata.get('question') as string
+        const type = formdata.get('type') as any
+        const category = formdata.get('category') as string
+        const required = formdata.get('required') as string
 
-    if (error) {
-        toast({
-            title: 'terjadi kesalahan saat fetch data',
-            description: error.message
-        })
-    }
-
-    async function getAllQuestionData() {
         try {
-            const response = await fetch('/api/question/get');
-            const data = await response.json();
-            return data
+            await axios.post('/api/question/update', {
+                id: id,
+                question: question,
+                type: type,
+                category: category,
+                required: Boolean(required)
+            }, {
+                headers: {
+                    "Content-Type": 'application/json'
+                }
+            })
         } catch (error: any) {
-            toast({
-                title: 'terjadi kesalahan saat mendapatkan data pertanyaan',
-                variant: 'destructive',
-                description: error.message
+            if (error) {
+                toast({
+                    title: error.response.data.message,
+                    description: error.message,
+                    variant: "destructive"
+                })
+                return;
+            }
+        }
+    }
+
+    // delete question
+    const deleteQuestion = async (id: string) => {
+        try {
+            await axios.post('/api/question/delete', {
+                id: id
             });
+            toast({
+                title: 'berhasil delete pertanyaan'
+            })
+            return
+        } catch (error: any) {
+            if (error) {
+                toast({
+                    title: error.response.data.message,
+                    description: error.message,
+                    variant: "destructive"
+                })
+                return;
+            }
         }
     }
 
@@ -160,46 +151,79 @@ export function QuestionDataTable() {
         setOpenDeleteDialog(true)
     }
 
-    
-    const revalidateData = () => {
-        console.log("data was revalidate")
-        mutate('/dashboard/question-banks')
-    }
-
     return (
         <>
             <Table>
                 <TableHeader>
                     <TableRow className="truncate">
                         <TableHead>No</TableHead>
-                        <TableHead className="min-w-[300px]">Pertanyaan</TableHead>
+                        <TableHead className="min-w-[200px]">Pertanyaan</TableHead>
                         <TableHead>tipe</TableHead>
-                        <TableHead className="min-w-[150px]">kategori</TableHead>
+                        <TableHead>kategori</TableHead>
                         <TableHead>Dibuat Oleh</TableHead>
-                        <TableHead>Responden</TableHead>
-                        <TableHead className="text-right">Actions</TableHead>
+                        <TableHead className="text-center">Actions</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody className="w-full">
-                    {QuestionsData.map((data: any, index: number) => (
-                        <TableRow key={data.id}>
-                            <TableCell>{index + 1}</TableCell>
-                            <TableCell>{data.question}</TableCell>
-                            <TableCell>{data.type}</TableCell>
-                            <TableCell>{data.category}</TableCell>
-                            <TableCell>{data.createdBy}</TableCell>
-                            <TableCell>{''}</TableCell>
-                            <TableCell className="flex items-center justify-center space-x-2">
-                                <Button size="icon" variant="outline" asChild className="cursor-pointer"
-                                    onClick={() => getQuestionById(data.id)}>
-                                    <Edit className="w-5 h-5" />
-                                </Button>
-                                <Button size="icon" variant="outline" asChild className="cursor-pointer" onClick={() => opendialogDelete(data.id)}>
-                                    <Trash2 className="w-5 h-5" />
-                                </Button>
-                            </TableCell>
-                        </TableRow>
-                    ))}
+                    {loading ? (
+                            <>
+                           <TableRow>
+                                    <TableCell><Skeleton variant="text" /></TableCell>
+                                    <TableCell><Skeleton variant="text" /></TableCell>
+                                    <TableCell><Skeleton variant="text" /></TableCell>
+                                    <TableCell><Skeleton variant="text" /></TableCell>
+                                    <TableCell><Skeleton variant="text" /></TableCell>
+                                    <TableCell className="flex items-center justify-center space-x-2">
+                                        <Skeleton variant="text" width={50} />
+                                        <Skeleton variant="text" width={50} />
+                                    </TableCell>
+                                </TableRow>
+                                <TableRow>
+                                    <TableCell><Skeleton variant="text" /></TableCell>
+                                    <TableCell><Skeleton variant="text" /></TableCell>
+                                    <TableCell><Skeleton variant="text" /></TableCell>
+                                    <TableCell><Skeleton variant="text" /></TableCell>
+                                    <TableCell><Skeleton variant="text" /></TableCell>
+                                    <TableCell className="flex items-center justify-center space-x-2">
+                                        <Skeleton variant="text" width={50} />
+                                        <Skeleton variant="text" width={50} />
+                                    </TableCell>
+                                </TableRow>
+                                <TableRow>
+                                    <TableCell><Skeleton variant="text" /></TableCell>
+                                    <TableCell><Skeleton variant="text" /></TableCell>
+                                    <TableCell><Skeleton variant="text" /></TableCell>
+                                    <TableCell><Skeleton variant="text" /></TableCell>
+                                    <TableCell><Skeleton variant="text" /></TableCell>
+                                    <TableCell className="flex items-center justify-center space-x-2">
+                                        <Skeleton variant="text" width={50} />
+                                        <Skeleton variant="text" width={50} />
+                                    </TableCell>
+                                </TableRow>
+                            </>
+                    ) : (
+                        <>
+                            {dataQuestions.map((data: any, index: number) => (
+                                <TableRow key={data.id} className="truncate">
+                                    <TableCell>{index + 1}</TableCell>
+                                    <TableCell>{data.question}</TableCell>
+                                    <TableCell>{data.type}</TableCell>
+                                    <TableCell>{data.category.map((item: CategoryType) => item.name).join(', ')}</TableCell>
+                                    <TableCell>{data.createdBy ? data.createdBy : "no data"}</TableCell>
+                                    <TableCell className="flex items-center justify-center space-x-2">
+                                        <Button size="icon" variant="outline" asChild className="cursor-pointer dark:bg-boxdark"
+                                            onClick={() => getQuestionById(data.id)}>
+                                            <Edit className="w-5 h-5" />
+                                        </Button>
+                                        <Button size="icon" variant="outline" asChild className="cursor-pointer dark:bg-boxdark" onClick={() => opendialogDelete(data.id)}>
+                                            <Trash2 className="w-5 h-5" />
+                                        </Button>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </>
+                    )}
+
                 </TableBody>
             </Table >
 
@@ -214,9 +238,7 @@ export function QuestionDataTable() {
                     </AlertDialogHeader>
                     <form action={async formdata => {
                         await updateQuestion(formdata, questions.id);
-                        setOpenEditDialog(false);
-                        await getAllQuestionData();
-                        revalidateData();
+                        setOpenEditDialog(false)
                     }}>
                         <div className="w-full">
                             <div className="flex items-center space-x-4">
@@ -281,9 +303,8 @@ export function QuestionDataTable() {
                                 setOpenDeleteDialog(false)
                                 toast({
                                     title: 'berhasil menghapus soal'
-                                })
-                                await getAllQuestionData()
-                                revalidateData();
+                                });
+                                window.location.reload();
                             }}>Hapus</Button>
                         </AlertDialogFooter>
                     </AlertDialogContent>

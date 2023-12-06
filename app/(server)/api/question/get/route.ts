@@ -3,14 +3,18 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
     try {
-        const response =  await prisma.question_banks.findMany();
-
+        const response =  await prisma.question_banks.findMany({
+            include: {
+                category: true,
+                _count: true
+            }
+        });
         return NextResponse.json(response, {
             status: 200
         })
     } catch (error) {
         return NextResponse.json(error, {
-            status: 200
+            status: 500
         })
     }
 }

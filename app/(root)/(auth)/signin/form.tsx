@@ -7,7 +7,7 @@ import { signIn } from "next-auth/react";
 import { useState } from "react"
 import { toast } from "@/components/ui/use-toast"
 import { useRouter } from "next/navigation"
-import { AlertTriangle } from "lucide-react"
+import { AlertTriangle, Loader2 } from "lucide-react"
 import { Toaster } from "@/components/ui/toaster"
 
 export const FormLogin = () => {
@@ -18,8 +18,10 @@ export const FormLogin = () => {
     });
     const [errorEmail, setErrorEmail] = useState(false);
     const [errorPassword, setErrorPassword] = useState(false);
+    const [loading, setloading] = useState(false);
 
     const LoginWithEmail = async () => {
+        setloading(true)
         if (formdata.email.length <= 5) {
             setErrorEmail(true);
             return;
@@ -36,7 +38,12 @@ export const FormLogin = () => {
         });
 
         if (LOGIN?.error) {
+            toast({
+                title: 'terjadi kesalahan saat login',
+                variant: 'destructive'
+            })
             console.log(LOGIN.error)
+            setloading(false)
         } else {
             router.push('/dashboard');
         }
@@ -147,12 +154,16 @@ export const FormLogin = () => {
                         {errorPassword && (
                                 <span className="text-red-500 flex items-center">
                                     <AlertTriangle className="w-4 h-4 mr-2" />
-                                    <p>pasword tidak valid atau terlalu pendek</p>
+                                        <p>pasword tidak valid atau terlalu pendek</p>
                                 </span>
                             )}
                     </div>
                     <div className="mb-5">
-                        <Button type="submit" className="text-white flex w-full items-center justify-center">Login</Button>
+                        <Button disabled={loading} type="submit" className="text-white flex w-full items-center justify-center">
+                            { loading? (
+                                <Loader2 className="animate-spin w-5 h-5" />
+                            ) : "Login"}
+                        </Button>
                     </div>
 
                     <div className="w-full flex items-center justify-between space-x-2">

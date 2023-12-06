@@ -1,10 +1,18 @@
 import React from 'react'
 import { StepperAssesment } from './stepper'
+import { Navbar } from '@/components/navbar'
+import { StepWrapper } from './step'
+
 
 const AssesmentPage = () => {
     return (
-        <div className="h-full px-4 lg:px-6 rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-            <StepperAssesment />
+        <div className="w-full h-full">
+            <Navbar />
+            <div>
+                <StepWrapper>
+                    <StepperAssesment />
+                </StepWrapper>
+            </div>
         </div>
     )
 }

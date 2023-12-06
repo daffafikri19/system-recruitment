@@ -77,11 +77,19 @@ model question_banks {
   id       String        @id @unique @default(cuid())
   question String        @db.LongText
   type     question_type @default(text)
-  category String
+  category questionCategory[]
   required Boolean
-
-  createdBy String?  @unique
+  createdBy String?
   answer    Answer[]
+  createdAt String
+  updatedAt String
+}
+
+model questionCategory {
+  id String @id @unique @default(cuid())
+  name String @unique
+  questionId String? @unique
+  question question_banks? @relation(fields: [questionId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   createdAt String
   updatedAt String
 }

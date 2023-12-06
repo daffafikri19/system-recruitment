@@ -1,9 +1,9 @@
 "use client"
-import RegisterUser from "@/actions/auth/userRegister";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "@/components/ui/use-toast";
+import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -12,6 +12,7 @@ export const FormSignUp = () => {
     const router = useRouter();
     const [hidePassword, setHidePassword] = useState(true);
     const [hideConfPassword, setHideConfPassword] = useState(true);
+    // const { name, email, password, confPassword, role, profession } = body
 
     const handleShowPassword = () => {
         setHidePassword(!hidePassword)
@@ -19,6 +20,40 @@ export const FormSignUp = () => {
 
     const handleShowConfPassword = () => {
         setHideConfPassword(!hideConfPassword)
+    }
+
+    const RegisterUser = async (formdata: FormData) => {
+
+        const name = formdata.get('name') as string
+        const email = formdata.get('email') as string
+        const password = formdata.get('password') as string
+        const confPassword = formdata.get('confPassword') as string
+
+        try {
+            const response = await axios.post('/api/auth/register', {
+                name: name,
+                email: email,
+                password: password,
+                confPassword: confPassword
+            }, {
+                headers: {
+                    "Content-Type": 'application/json'
+                }
+            });
+            toast({
+                title: 'berhasil register'
+            })
+            router.push('/signin')
+        } catch (error : any) {
+            if(error) {
+                toast({
+                    title: error.response.data.message,
+                    description: error.message,
+                    variant: 'destructive'
+                })
+                return;
+            }
+        }
     }
 
     return (

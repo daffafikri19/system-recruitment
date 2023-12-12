@@ -37,7 +37,7 @@ const Step2 = () => {
         }
 
         getMatchQuestion()
-    }, [])
+    }, [selectedProfession])
 
     
 

@@ -12,6 +12,7 @@ export async function POST(req: NextRequest) {
             email: email
         }
     });
+    
     if(existingEmail) {
         return NextResponse.json({
             message: 'Akun dengan email ini sudah terdaftar'
@@ -19,6 +20,17 @@ export async function POST(req: NextRequest) {
             status: 400
         })
     }
+
+    const existingUser = await prisma.user.findUnique({
+        where: {
+            name: name
+        }
+    });
+    if(existingUser) return NextResponse.json({
+        message: `Nama Anda sudah terdaftar sebagai ${existingUser.role}`
+    }, {
+        status: 400
+    })
 
     if(password !== confPassword) return NextResponse.json({
         message: 'password dengan konfirmasi password tidak cocok'

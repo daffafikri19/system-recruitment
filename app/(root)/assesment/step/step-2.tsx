@@ -11,7 +11,7 @@ const Step2 = () => {
     const { selectedProfession } = useProfessionContext()!;
     const { isRadioSelected } = useProfessionContext() || {};
     const [loading, setLoading] = useState(false);
-
+    
     useEffect(() => {
         const getMatchQuestion = async () => {
             setLoading(true)

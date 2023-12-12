@@ -34,11 +34,7 @@ export const authOptions: NextAuthOptions = {
                     console.log("no email was found")
                     return null
                 };
-                console.log({
-                    email: credentials.email,
-                    password: credentials.password
-                });
-
+            
                 const comparePassword = await bcrypt.compare(credentials.password, existingUser.password);
                 if (!comparePassword) {
                     console.log("invalid password")
@@ -50,7 +46,7 @@ export const authOptions: NextAuthOptions = {
                     name: existingUser.name,
                     email: existingUser.email,
                     role: existingUser.role,
-                    image: existingUser.image,
+                    foto_profile: existingUser.foto_profile,
                     profession: existingUser.profession
                 }
             }
@@ -59,7 +55,7 @@ export const authOptions: NextAuthOptions = {
             secret: process.env.NEXTAUTH_SECRET,
             server: process.env.SMTP_SERVER!,
             from: process.env.SMTP_LOGIN,
-            maxAge: 24 * 60 * 60, // email are valid for 1 day before authenticated
+            maxAge: 2 * 60 * 60, // email are valid for 2 hour before authenticated
         })
     ],
     pages: {
@@ -79,7 +75,7 @@ export const authOptions: NextAuthOptions = {
                     email: user.email,
                     role: user.role,
                     profession: user.profession,
-                    image: user.image
+                    foto_profile: user.foto_profile
                 }
             }
             return token
@@ -87,13 +83,13 @@ export const authOptions: NextAuthOptions = {
         async session({ session, token }) {
             const context = {
                 ...session,
-                    user: {
+                user: {
                     ...session.user,
                     name: token.name,
                     email: token.email,
                     role: token.role,
                     profession: token.profession,
-                    image: token.image
+                    foto_profile: token.foto_profile
                 }
             }
             return context

@@ -44,25 +44,241 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  role          role      @default(peserta)
-  profession    String
-  image         String?
-  password      String
-  accounts      Account[]
-  sessions      Session[]
-  answers       Answer[]
+  id              String            @id @default(cuid())
+  name            String?           @unique
+  email           String?           @unique
+  emailVerified   DateTime?
+  role            role              @default(peserta)
+  profession      String
+  foto_profile    String?
+  password        String
+  no_pendaftaran  String?            @unique // format yyyy-mm-dd-xxx
+  biodata         biodataUser[]
+  questions       question_banks[]
+  answers         answers[]
+  berkas          userDataFiles[]
+  accounts        Account[]
+  sessions        Session[]
+}
+
+model biodataUser {
+  id                String        @id @unique @default(cuid())
+  id_user           String?       @unique
+  user              User?         @relation(fields: [id_user], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  nama_lengkap      String
+  jenis_kelamin     String
+  agama             String
+  tanggal_lahir     String
+  negara_lahir      String
+  provinsi_lahir    String
+  kota_lahir        String
+  kewarganegaraan   String
+  negara_asal       String
+  nik               String
+  no_paspor         String?
+  buta_warna        String
+  kebutuhan_khusus  String
+  negara            String
+  provinsi          String
+  kota              String
+  kecamatan         String
+  alamat            String
+  kode_pos          String
+  no_telp_rumah     String
+  email             String
+  no_ponsel         String
+  no_wa             String
+  dataKeluarga    dataKeluarga[]
+  pendidikan      pendidikanUser[]
+  pengalamanKerja pengalamanKerja[]
+  pendidikan_non_formal pendidikanNonFormalUser[]
+  keterampilan_bahasa keterampilanBahasaUser[]
+  keterampilan_komputer keterampilanKomputerUser[]
+  aktifitas_sosial aktifitasSosialUser[]
+  sim               simUser[]
+  kerabat           kerabatUser[]
+  status_pernikahan String
+  createdAt         String
+  updatedAt         String
+}
+
+model kerabatUser {
+  id         String       @id @unique @default(cuid())
+  relationId String?      @unique
+  biodata    biodataUser? @relation(fields: [relationId], references: [id_user], onDelete: Cascade, onUpdate: Cascade)
+  nama       String
+  alamat     String
+  no_telp    String
+  hubungan   String
+  createdAt  String
+  updatedAt  String
+}
+
+model simUser {
+  id         String       @id @unique @default(cuid())
+  relationId String?      @unique
+  biodata    biodataUser? @relation(fields: [relationId], references: [id_user])
+  tipe_sim   String
+  no_sim     String
+  exp_sim    String
+  createdAt  String
+  updatedAt  String
+}
+
+model pendidikanUser {
+  id                  String  @id @unique @default(cuid())
+  id_user             String? @unique
+  biodata                biodataUser?   @relation(fields: [id_user], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  luar_negeri         String
+  tipe_pendidikan     String
+  pendidikan_terakhir String
+  provinsi            String
+  kota                String
+  nama_institusi      String
+  nama_jurusan        String
+  no_ijazah           String
+  tgl_terbit          String
+  tahun_masuk         String
+  tahun_lulus         String
+  ipk                 String?
+  createdAt           String
+  updatedAt           String
+}
+
+model pendidikanNonFormalUser {
+  id            String @id @unique @default(cuid())
+  relationId String? @unique
+  biodata biodataUser? @relation(fields: [relationId], references: [id_user])
+  nama_kursus   String
+  lokasi_kursus String
+  tahun_masuk   String
+  tahun_keluar  String
+  status        String
+  createdAt     String
+  updatedAt     String
+}
+
+model keterampilanBahasaUser {
+  id         String  @id @unique @default(cuid())
+  relationId String? @unique
+  biodata biodataUser? @relation(fields: [relationId], references: [id_user])
+  bahasa     String
+  lisan      String?
+  tulisan    String?
+  keterangan String?
+  createdAt  String
+  updatedAt  String
+}
+
+model keterampilanKomputerUser {
+  id            String  @id @unique @default(cuid())
+  relationId String? @unique
+  biodata biodataUser? @relation(fields: [relationId], references: [id_user])
+  jenis_program String
+  kemampuan     String?
+  keterangan    String?
+  createdAt     String
+  updatedAt     String
+}
+
+model aktifitasSosialUser {
+  id        String @id @unique @default(cuid())
+  relationId String? @unique
+  biodata biodataUser? @relation(fields: [relationId], references: [id_user])
+  hobby String?
+  nama_organisasi String
+  jabatan String
+  tahun_masuk String
+  tahun_keluar String
+  Alasan String @db.Text
+  createdAt String
+  updatedAt String
+}
+
+model dataKeluarga {
+  id            String  @id @unique @default(cuid())
+  id_user       String? @unique
+  biodata       biodataUser?   @relation(fields: [id_user], references: [id])
+  hubungan      String
+  nama_lengkap  String
+  jenis_kelamin String
+  tempat_lahir  String
+  tanggal_lahir String
+  no_kk         String
+  no_nik        String
+  pekerjaan     String
+  pendidikan    String
+  createdAt     String
+  updatedAt     String
+}
+
+model pengalamanKerja {
+  id               String  @id @unique @default(cuid())
+  id_user          String? @unique
+  biodata          biodataUser?   @relation(fields: [id_user], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  nama_perusahaan  String
+  posisi           String
+  gaji             String
+  awal_masuk       String
+  keluar           String
+  uraian_pekerjaan String  @db.Text
+  alasan_pindah    String  @db.Text
+  createdAt        String
+  updatedAt        String
+}
+
+enum options {
+  Ya
+  Tidak
+  Parsial
+}
+
+model answers {
+  id          String          @id @unique @default(cuid())
+  userId      String          @unique
+  respondedBy User?           @relation(fields: [userId], references: [id])
+  questionId  String          @unique
+  questions   question_banks? @relation(fields: [questionId], references: [id])
+  answer      String
+  createdAt   String
+  updatedAt   String
+}
+
+model userDataFiles {
+  id             String           @id @unique @default(cuid())
+  userid         String?          @unique
+  user           User?             @relation(fields: [userid], references: [id])
+  ijazah         Bytes?
+  npwp           Bytes?
+  ktp            Bytes?
+  photo          Bytes?
+  cv             Bytes?
+  sertification  sertifications[]
+  aditionalFiles aditionalFiles[]
+  createdAt      String
+  updatedAt      String
+}
+
+model sertifications {
+  id            String         @id @unique @default(cuid())
+  file          Bytes?
+  relationId    String         @unique
+  sertification userDataFiles? @relation(fields: [relationId], references: [userid])
+}
+
+model aditionalFiles {
+  id         String         @id @unique @default(cuid())
+  file       Bytes?
+  relationId String         @unique
+  files      userDataFiles? @relation(fields: [relationId], references: [userid])
 }
 
 enum role {
   superadmin
+  hrd
   admin
+  manager
   peserta
-  karyawan
-  tamu
 }
 
 model VerificationToken {
@@ -74,33 +290,22 @@ model VerificationToken {
 }
 
 model question_banks {
-  id       String        @id @unique @default(cuid())
-  question String        @db.LongText
-  type     question_type @default(text)
-  category questionCategory[]
-  required Boolean
-  createdBy String?
-  answer    Answer[]
-  createdAt String
-  updatedAt String
+  id         String             @id @unique @default(cuid())
+  question   String             @db.LongText
+  type       question_type      @default(text)
+  category   questionCategory[]
+  required   Boolean
+  createdBy  User[]
+  respondens answers[]
+  createdAt  String
+  updatedAt  String
 }
 
 model questionCategory {
-  id String @id @unique @default(cuid())
-  name String @unique
-  questionId String? @unique
-  question question_banks? @relation(fields: [questionId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  createdAt String
-  updatedAt String
-}
-
-model Answer {
-  id         String         @id @default(cuid())
-  user       User           @relation(fields: [userId], references: [id])
-  userAnswer String
-  userId     String         @unique
-  questionId String         @unique
-  question   question_banks @relation(fields: [questionId], references: [id])
+  id         String          @id @unique @default(cuid())
+  name       String          @unique
+  questionId String?         @unique
+  question   question_banks? @relation(fields: [questionId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   createdAt  String
   updatedAt  String
 }

@@ -19,11 +19,16 @@ import Step1 from './step/step-1';
 import Step2 from './step/step-2';
 import Step3 from './step/step-3';
 import { useProfessionContext } from './step';
+import Step4 from './step/step-4';
+import Step5 from './step/step-5';
+import { BookAIcon, BookIcon, Briefcase, User2Icon, UsersIcon } from 'lucide-react';
 
 export const steps = [
-    { label: 'profesi', component: <Step1 /> },
-    { label: 'Pertanyaan', component: <Step2 /> },
-    { label: 'Selesai', component: <Step3 /> },
+    { label: 'DATA DIRI', component: <Step1 />, logo: <User2Icon /> },
+    { label: 'PENDIDIKAN', component: <Step2 />, logo: <BookAIcon /> },
+    { label: 'KELUARGA', component: <Step3 />, logo: <UsersIcon /> },
+    { label: 'PEKERJAAN', component: <Step4 />, logo: <Briefcase /> },
+    { label: 'SERTIFIKAT', component: <Step5 />, logo: <BookIcon /> },
 ];
 
 export const StepperAssesment = () => {
@@ -64,10 +69,10 @@ export const StepperAssesment = () => {
     return (
         <div className='w-full h-screen flex-1 bg-primary/5'>
             <Stepper activeStep={activeStep} alternativeLabel className='rounded-md pt-5'>
-                {steps.map(({ label }, index) => (
-                    <Step key={label} completed={completed[index]}>
+                {steps.map((item, index : number) => (
+                    <Step key={item.label} completed={completed[index]}>
                         <StepButton className='rounded-non' color="" onClick={handleStep(index)}>
-                            <p className='text-muted-foreground text-sm font-bold'>{label}</p>
+                            <p className='text-muted-foreground text-sm font-bold'>{item.label}</p>
                         </StepButton>
                     </Step>
                 ))}
@@ -99,15 +104,17 @@ export const StepperAssesment = () => {
                                 </div>
                             </div>
 
-                            <div className='flex items-center w-full justify-between mt-10 px-5'>
+                            <div className='flex items-center w-full justify-between mt-10 px-10 mb-10'>
                                 <Button
                                     disabled={activeStep === 0}
+                                    className='px-10'
                                     onClick={handleBack}
                                     variant="outline">
+                                        
                                     Back
                                 </Button>
                                 <Box sx={{ flex: '1 1 auto' }} />
-                                <Button onClick={handleNext} className='text-white' disabled={!isRadioSelected}>
+                                <Button onClick={handleNext} className='text-white px-10'>
                                     {isLastStep() ? 'Finish' : 'Next'}
                                 </Button>
                             </div>

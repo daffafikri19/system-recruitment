@@ -1,6 +1,7 @@
 import React from "react";
 import { FormSignUp } from "./form";
 import { Metadata } from "next";
+import { Search } from "lucide-react";
 
 
 export const metadata : Metadata = ({
@@ -16,11 +17,8 @@ const SignUp: React.FC = () => {
           <div className="hidden w-full lg:block lg:w-1/2">
             <div className="py-17.5 px-26 text-center">
               <div>
-                <h1>Logo</h1>
+              <Search className="w-5 h-5 font-bold mr-1" /><h1 className="font-bold tracking-tighter text-xl md:text-2xl">Recruitment</h1>
               </div>
-              <p className="2xl:px-20">
-                Daftar untuk melanjutkan ke aplikasi
-              </p>
               <span className="mt-15 inline-block">
                 <svg
                   width="350"

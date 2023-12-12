@@ -3,7 +3,6 @@ export const questionBank = [
         id: "1",
         category: 'Tenaga Ahli',
         question: 'Jabatan Anda Saat Ini ?',
-        answer: '',
         type: 'text',
         required: true,
         createdAt: new Date(Date.now()).toLocaleDateString(),
@@ -13,7 +12,6 @@ export const questionBank = [
         id: "2",
         category: 'Tenaga Ahli',
         question: 'Tuliskan kompetensi yang Anda miliki dan memiliki kontribusi dalam organisasi Anda',
-        answer: '',
         type: 'text',
         required: true,
         createdAt: new Date(Date.now()).toLocaleDateString(),
@@ -22,7 +20,6 @@ export const questionBank = [
     {
         id: "3",
         question: 'Tuliskan dengan detail pekerjaan yang saat ini dilakukan selama menjadi Tenaga Ahli dilingkungan Pemprov Banten',
-        answer: '',
         type: 'text',
         category: 'Tenaga Ahli',
         required: true,
@@ -32,7 +29,6 @@ export const questionBank = [
     {
         id: "4",
         question: 'Tuliskan kendala-kendala yang dihadapi yang Anda hadapi selama ini',
-        answer: '',
         type: 'text',
         category: 'Tenaga Ahli',
         required: true,
@@ -42,7 +38,6 @@ export const questionBank = [
     {
         id: "5",
         question: 'Apakah harapan Anda terhadap organisasi Anda ke depannya',
-        answer: '',
         type: 'text',
         category: 'Tenaga Ahli',
         required: true,
@@ -52,7 +47,6 @@ export const questionBank = [
     {
         id: "6",
         question: 'Bagaimana harapan Anda, organisasi kedepan seperti apa, uraikan dengan detail ',
-        answer: '',
         type: 'text',
         category: 'Kepala Dinas, Sekretaris dan Kabid',
         required: true,
@@ -62,7 +56,6 @@ export const questionBank = [
     {
         id: "7",
         question: 'Bagaimana harapan Anda selaku pimpinan kepada terhadap TA ( Tenaga Ahli yg dibutuhkan) ?',
-        answer: '',
         type: 'text',
         category: 'Kepala Dinas, Sekretaris dan Kabid',
         required: true,
@@ -72,7 +65,6 @@ export const questionBank = [
     {
         id: "8",
         question: 'Kendala yang dihadapi oleh Organisasi/ Bagian yg Bapak/ Ibu Pimpin seperti apa',
-        answer: '',
         type: 'text',
         category: 'Kepala Dinas, Sekretaris dan Kabid',
         required: true,
@@ -82,7 +74,6 @@ export const questionBank = [
     {
         id: "9",
         question: 'Kendala yang dihadapi oleh Bapak/ Ibu pimpinan terhadap Tenaga Ahli, seperti apa saja',
-        answer: '',
         type: 'text',
         category: 'Kepala Dinas, Sekretaris dan Kabid',
         required: true,

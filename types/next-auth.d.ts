@@ -8,7 +8,7 @@ declare module "next-auth" {
         email?: any
         role?: any
         profession?: any
-        image?: any
+        foto_profile?: any
     }
 
     interface Session {
@@ -18,7 +18,7 @@ declare module "next-auth" {
             email?: any
             role?: any
             profession?: any
-            image?: any
+            foto_profile?: any
         }
         token: {
             id?: any
@@ -26,7 +26,7 @@ declare module "next-auth" {
             email?: any
             role?: any
             profession?: any
-            image?: any
+            foto_profile?: any
         }
     }
 }

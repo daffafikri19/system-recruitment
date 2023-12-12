@@ -1,9 +1,9 @@
+import { useProfessionContext } from '@/app/(dashboard)/dashboard/(routes)/biodata/step';
 import { Card, CardContent } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { User } from 'lucide-react';
 import React, { useState } from 'react';
-import { useProfessionContext } from '.';
 
 const ProfessionList = [
   {

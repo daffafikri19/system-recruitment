@@ -25,29 +25,31 @@ export const authOptions: NextAuthOptions = {
                     console.log("no credentials provided")
                     return null
                 }
-                const existingUser = await prisma.user.findUnique({
+                const user = await prisma.user.findUnique({
                     where: {
                         email: credentials?.email
                     }
                 });
-                if (!existingUser) {
+                if (!user) {
                     console.log("no email was found")
                     return null
                 };
             
-                const comparePassword = await bcrypt.compare(credentials.password, existingUser.password);
+                const comparePassword = await bcrypt.compare(credentials.password, user.password);
                 if (!comparePassword) {
                     console.log("invalid password")
                     return null
                 };
 
                 return {
-                    id: existingUser.id,
-                    name: existingUser.name,
-                    email: existingUser.email,
-                    role: existingUser.role,
-                    foto_profile: existingUser.foto_profile,
-                    profession: existingUser.profession
+                    id: user.id,
+                    name: user.name,
+                    email: user.email,
+                    role: user.role,
+                    foto_profile: user.foto_profile,
+                    profession: user.profession,
+                    isNewUser: user.isNewUser,
+                    no_pendaftaran: user.no_pendaftaran
                 }
             }
         }),
@@ -59,7 +61,7 @@ export const authOptions: NextAuthOptions = {
         })
     ],
     pages: {
-        signIn: '/signin',
+        signIn: '/signin'
     },
     session: {
         strategy: 'jwt',
@@ -71,11 +73,14 @@ export const authOptions: NextAuthOptions = {
             if (user) {
                 return {
                     ...token,
+                    id: user.id,
                     name: user.name,
                     email: user.email,
                     role: user.role,
                     profession: user.profession,
-                    foto_profile: user.foto_profile
+                    foto_profile: user.foto_profile,
+                    isNewUser: user.isNewUser,
+                    no_pendaftaran: user.no_pendaftaran
                 }
             }
             return token
@@ -85,11 +90,14 @@ export const authOptions: NextAuthOptions = {
                 ...session,
                 user: {
                     ...session.user,
+                    id: token.id,
                     name: token.name,
                     email: token.email,
                     role: token.role,
                     profession: token.profession,
-                    foto_profile: token.foto_profile
+                    foto_profile: token.foto_profile,
+                    isNewUser: token.isNewUser,
+                    no_pendaftaran: token.no_pendaftaran
                 }
             }
             return context

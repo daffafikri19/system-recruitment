@@ -9,6 +9,8 @@ declare module "next-auth" {
         role?: any
         profession?: any
         foto_profile?: any
+        isNewUser?: any
+        no_pendaftaran?: any
     }
 
     interface Session {
@@ -19,6 +21,8 @@ declare module "next-auth" {
             role?: any
             profession?: any
             foto_profile?: any
+            isNewUser?: any
+            no_pendaftaran?: any
         }
         token: {
             id?: any
@@ -27,6 +31,8 @@ declare module "next-auth" {
             role?: any
             profession?: any
             foto_profile?: any
+            isNewUser?: any
+            no_pendaftaran?: any
         }
     }
 }

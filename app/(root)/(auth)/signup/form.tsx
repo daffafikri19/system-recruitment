@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "@/components/ui/use-toast";
 import axios from "axios";
+import { CircleDashed } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -12,7 +13,15 @@ export const FormSignUp = () => {
     const router = useRouter();
     const [hidePassword, setHidePassword] = useState(true);
     const [hideConfPassword, setHideConfPassword] = useState(true);
-    // const { name, email, password, confPassword, role, profession } = body
+    const [loading, setLoading] = useState(false);
+
+    const [formdata, setFormdata] = useState({
+        name: "",
+        email: "",
+        tgl_lahir: "",
+        password: "",
+        confPassword: "",
+    })
 
     const handleShowPassword = () => {
         setHidePassword(!hidePassword)
@@ -22,19 +31,15 @@ export const FormSignUp = () => {
         setHideConfPassword(!hideConfPassword)
     }
 
-    const RegisterUser = async (formdata: FormData) => {
-
-        const name = formdata.get('name') as string
-        const email = formdata.get('email') as string
-        const password = formdata.get('password') as string
-        const confPassword = formdata.get('confPassword') as string
-
+    const RegisterUser = async () => {
+        setLoading(true)
         try {
             const response = await axios.post('/api/auth/register', {
-                name: name,
-                email: email,
-                password: password,
-                confPassword: confPassword
+                name: formdata.name,
+                email: formdata.email,
+                tgl_lahir: formdata.tgl_lahir,
+                password: formdata.password,
+                confPassword: formdata.confPassword
             }, {
                 headers: {
                     "Content-Type": 'application/json'
@@ -42,18 +47,19 @@ export const FormSignUp = () => {
             });
             toast({
                 title: 'berhasil register'
-            })
+            });
+            setLoading(false);
             router.push('/signin')
         } catch (error : any) {
             if(error) {
                 toast({
                     title: error.response.data.message,
-                    description: error.message,
                     variant: 'destructive'
-                })
+                });
+                setLoading(false)
                 return;
             }
-        }
+        } 
     }
 
     return (
@@ -62,13 +68,10 @@ export const FormSignUp = () => {
                 <h2 className="mb-9 text-2xl font-bold text-black dark:text-white sm:text-title-xl2">
                     Daftar
                 </h2>
-                <form action={async formdata => {
-                    await RegisterUser(formdata);
-                    toast({
-                        title: 'berhasil daftar akun'
-                    })
-                    router.push('/signin');
-                }}>
+                <form onSubmit={(e) => {
+                    e.preventDefault();
+                    RegisterUser();
+                }}> 
                     <div className="mb-4">
                         <Label className="mb-2.5 block font-medium text-black dark:text-white">
                             Nama Lengkap
@@ -78,6 +81,13 @@ export const FormSignUp = () => {
                                 required
                                 type="text"
                                 name="name"
+                                value={formdata.name}
+                                onChange={(e) => {
+                                    setFormdata((prev) => ({
+                                        ...prev,
+                                        name: e.target.value
+                                    }))
+                                }}
                                 placeholder="masukan nama lengkap anda"
                                 className="w-full py-4 pl-6 pr-10"
                             />
@@ -111,6 +121,13 @@ export const FormSignUp = () => {
                         <div className="relative">
                             <Input
                                 required
+                                value={formdata.email}
+                                onChange={(e) => {
+                                    setFormdata((prev) => ({
+                                        ...prev,
+                                        email: e.target.value
+                                    }))
+                                }}
                                 type="email"
                                 name="email"
                                 placeholder="Masukan email"
@@ -138,12 +155,41 @@ export const FormSignUp = () => {
 
                     <div className="mb-4">
                         <Label className="mb-2.5 block font-medium text-black dark:text-white">
+                            Tanggal Lahir
+                        </Label>
+                        <div className="relative">
+                            <Input
+                                required
+                                value={formdata.tgl_lahir}
+                                onChange={(e) => {
+                                    setFormdata((prev) => ({
+                                        ...prev,
+                                        tgl_lahir: e.target.value
+                                    }))
+                                }}
+                                type="text"
+                                name="tgl_lahir"
+                                className="w-full py-4 pl-6 pr-10"
+                            />
+                           
+                        </div>
+                    </div>
+
+                    <div className="mb-4">
+                        <Label className="mb-2.5 block font-medium text-black dark:text-white">
                             Password
                         </Label>
                         <div className="relative">
                             <Input
                                 required
                                 type={hidePassword ? "password" : "text"}
+                                value={formdata.password}
+                                onChange={(e) => {
+                                    setFormdata((prev) => ({
+                                        ...prev,
+                                        password: e.target.value
+                                    }))
+                                }}
                                 name="password"
                                 className="w-full py-4 pl-6 pr-10"
                                 placeholder="Masukan password" />
@@ -179,6 +225,13 @@ export const FormSignUp = () => {
                         <div className="relative">
                             <Input
                                 required
+                                value={formdata.confPassword}
+                                onChange={(e) => {
+                                    setFormdata((prev) => ({
+                                        ...prev,
+                                        confPassword: e.target.value
+                                    }))
+                                }}
                                 type={hideConfPassword ? "password" : "text"}
                                 name="confPassword"
                                 className="w-full py-4 pl-6 pr-10"
@@ -209,12 +262,26 @@ export const FormSignUp = () => {
                     </div>
 
                     <div className="mb-5">
-                        <Button
-                            type="submit"
-                            className="w-full cursor-pointer p-4 text-white ">Daftar</Button>
-                    </div>
+                        <Button disabled={loading} type="submit" className="w-full cursor-pointer p-4 text-white ">
+                            {loading ? (
+                                <CircleDashed className="w-5 h-5 text-white animate-spin" /> 
+                            ) : (
+                                "Submit"
+                            )}
+                        </Button>
+                    </div>                    
 
-                    <Button type="button" className="flex w-full items-center justify-center gap-3.5" variant="outline">
+                    <div className="mt-6 text-center">
+                        <p>
+                            Sudah memiliki akun ?{" "}
+                            <Link href="/signin" className="text-primary">
+                                Login
+                            </Link>
+                        </p>
+                    </div>
+                </form>
+
+                <Button type="button" className="flex w-full mt-2 items-center justify-center gap-3.5" variant="outline">
                         <span>
                             <svg
                                 width="20"
@@ -250,16 +317,6 @@ export const FormSignUp = () => {
                         </span>
                         Sign up with Google
                     </Button>
-
-                    <div className="mt-6 text-center">
-                        <p>
-                            Sudah memiliki akun ?{" "}
-                            <Link href="/signin" className="text-primary">
-                                Login
-                            </Link>
-                        </p>
-                    </div>
-                </form>
             </div>
         </div>
     )

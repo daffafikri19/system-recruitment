@@ -63,3 +63,15 @@
     @apply bg-background text-foreground;
   }
 }
+
+@media (min-width: 1024px) {
+  .tox-dialog-wrap {
+      margin-left: 18rem !important
+  }
+}
+
+.no-scrollbar::-webkit-scrollbar {
+ display: none;
+}
+
+/* filemanager custom styles */

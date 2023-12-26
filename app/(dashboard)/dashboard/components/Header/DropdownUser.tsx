@@ -2,32 +2,60 @@ import Link from "next/link";
 import Image from "next/image";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { signOut, useSession } from "next-auth/react";
-import { Book, UserCheck2, UserCog2, WorkflowIcon } from "lucide-react";
+import { Book, File, UserCheck2, UserCog2, WorkflowIcon } from "lucide-react";
+import { sessionProps } from "@/types";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const DropdownUser = () => {
 
+  const {data: session, status} = useSession();
+
+  const getLetterFallback = (name : string) => {
+    if (name) {
+      const names = name.split(" ");
+      if (names.length >= 2) {
+        const firstName = names[0];
+        const lastName = names[names.length - 1];
+        const firstInitial = firstName.charAt(0).toUpperCase();
+        const lastInitial = lastName.charAt(0).toUpperCase();
+        return `${firstInitial}${lastInitial}`;
+      } else if (names.length === 1) {
+        const firstName = names[0];
+        const firstInitial = firstName.charAt(0).toUpperCase();
+        return firstInitial;
+      }
+    }
+    
+    return "";
+  };
+
   return (
-    <div className="relative">
+    <div className="relative"> 
       <Popover>
         <PopoverTrigger>
           <div className="flex items-center gap-4">
             <div className="hidden text-right md:flex md:flex-col md:items-end">
-              <p className="font-medium">
-                {/* {session?.user.name ? session?.user.name : session?.user.email} */}
+              <p className="font-medium text-sm">
+                {session?.user.name ? session.user.name : (<Skeleton className="w-14 h-4 animate-pulse mb-1" />)}
               </p>
-              <p className="text-muted-foreground font-medium">
-                {/* {session?.user.role ? session.user.role : '-'} */}
+              <p className="text-muted-foreground font-medium text-xs">
+                {session?.user.role ? session.user.role : (<Skeleton className="w-14 h-4 animate-pulse" />)}
               </p>
             </div>
 
-            <span className="h-12 w-12 rounded-full bg-white dark:bg-white/40">
-              <Image
+            <div className="flex items-center justify-center border rounded-full dark:border-white">
+              {/* <Image
                 width={112}
                 height={112}
-                src={'/images/user/blank-user.png'}
+                src={'/images/user/blank_user.webp'}
                 alt="User"
-              />
-            </span>
+              /> */}
+              <Avatar>
+                <AvatarImage className="object-cover w-full h-full" src="/images/user/blank_user.webp" alt={session?.user.name} width={100} height={100} />
+                <AvatarFallback>{getLetterFallback(session?.user.name)}</AvatarFallback>
+              </Avatar>
+            </div>
 
             <svg
               className="hidden fill-current sm:block"
@@ -51,11 +79,15 @@ const DropdownUser = () => {
             <li className="flex items-start space-y-2 flex-col md:hidden border-b pb-4">
               <p className="flex items-center font-medium">
                 <UserCheck2 className="w-5 h-5 mr-4" />
-                {/* {session?.user.name ? session?.user.name : session?.user.email} */}
+                {session?.user.name ? session.user.name : (<Skeleton className="w-10 h-4 animate-pulse" />)}
               </p>
               <p className="flex items-center font-medium">
                 <WorkflowIcon className="w-5 h-5 mr-4" /> 
-                {/* {session?.user.role ? session.user.role : '-'} */}
+                {session?.user.role ? session.user.role : (<Skeleton className="w-10 h-4 animate-pulse" />)}
+              </p>
+              <p className="flex items-center font-medium">
+                <File className="w-5 h-5 mr-4" /> 
+                {session?.user.no_pendaftaran ? session.user.no_pendaftaran : "belum menyelesaikan pendataan"}
               </p>
             </li>
             <li>

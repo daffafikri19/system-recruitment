@@ -18,10 +18,13 @@ import {
 import Step1 from './step/step-1';
 import Step2 from './step/step-2';
 import Step3 from './step/step-3';
-import { useProfessionContext } from './step';
 import Step4 from './step/step-4';
 import Step5 from './step/step-5';
+import { useDataDiriStepContext } from './step';
 import { BookAIcon, BookIcon, Briefcase, User2Icon, UsersIcon } from 'lucide-react';
+import { toast } from '@/components/ui/use-toast';
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
 
 export const steps = [
     { label: 'DATA DIRI', component: <Step1 />, logo: <User2Icon /> },
@@ -32,9 +35,10 @@ export const steps = [
 ];
 
 export const StepperAssesment = () => {
-    const { selectedProfession } = useProfessionContext()!;
-    const { isRadioSelected } = useProfessionContext() || {};
-
+    const router = useRouter();
+    const { submittedStep1, setSubmittedStep1 } = useDataDiriStepContext();
+    const { submittedStep2, setSubmittedStep2 } = useDataDiriStepContext();
+    const { username } = useDataDiriStepContext();
     const [activeStep, setActiveStep] = useState(0);
     const [completed, setCompleted] = useState<{ [k: number]: boolean }>({});
     const [showDialog, setShowDialog] = useState(false);
@@ -46,6 +50,7 @@ export const StepperAssesment = () => {
 
 
     const handleNext = () => {
+        
         const newActiveStep = isLastStep() && !allStepsCompleted()
             ? steps.findIndex((step, i) => !(i in completed))
             : activeStep + 1;
@@ -66,12 +71,34 @@ export const StepperAssesment = () => {
         setCompleted({});
     };
 
+    const handleSubmitGenerateIdPendaftaran = async () => {
+        try {
+            const response = await axios.post('/api/pendaftaran/create', {
+                username: username
+            }, {
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            });
+            console.log(response.data)
+            router.push('/dashboard')
+        } catch (error : any) {
+            if(error) {
+                toast({
+                    title: error.message,
+                    description: error.response.data.message,
+                    variant: 'destructive'
+                });
+            }
+        }
+    }
+
     return (
-        <div className='w-full h-screen flex-1 bg-primary/5'>
-            <Stepper activeStep={activeStep} alternativeLabel className='rounded-md pt-5'>
-                {steps.map((item, index : number) => (
+        <div className='w-full h-full bg-primary/5 rounded-lg'>
+            <Stepper activeStep={activeStep} alternativeLabel className='h-full flex items-center rounded-md pt-5 pb-2 w-full overflow-x-scroll flex-1 min-w-[100px] max-w-full overflow-y-hidden whitespace-nowrap'>
+                {steps.map((item, index : number) => ( 
                     <Step key={item.label} completed={completed[index]}>
-                        <StepButton className='rounded-non' color="" onClick={handleStep(index)}>
+                        <StepButton className='' onClick={handleStep(index)}>
                             <p className='text-muted-foreground text-sm font-bold'>{item.label}</p>
                         </StepButton>
                     </Step>
@@ -97,25 +124,29 @@ export const StepperAssesment = () => {
                                                 <Step1 />
                                             ) : activeStep === 1 ? (
                                                 <Step2 />
-                                            ) : activeStep === 2 && (
+                                            ) : activeStep === 2 ? (
                                                 <Step3 />
+                                            ) : activeStep === 3 ? (
+                                                <Step4 />
+                                            ) : activeStep === 4 && (
+                                                <Step5 />
                                             )}        
                                     </div>
                                 </div>
                             </div>
 
-                            <div className='flex items-center w-full justify-between mt-10 px-10 mb-10'>
+                            <div className='flex items-center w-full justify-between px-4 mt-10 mb-10'>
                                 <Button
                                     disabled={activeStep === 0}
                                     className='px-10'
                                     onClick={handleBack}
                                     variant="outline">
                                         
-                                    Back
+                                    Kembali
                                 </Button>
-                                <Box sx={{ flex: '1 1 auto' }} />
+                               
                                 <Button onClick={handleNext} className='text-white px-10'>
-                                    {isLastStep() ? 'Finish' : 'Next'}
+                                    {isLastStep() ? 'Selesai' : 'Lanjutkan'}
                                 </Button>
                             </div>
                         </div>
@@ -126,15 +157,14 @@ export const StepperAssesment = () => {
             <AlertDialog open={showDialog} onOpenChange={setShowDialog}>
                 <AlertDialogContent>
                     <AlertDialogHeader>
-                        <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                        <AlertDialogTitle>Apakah semua data sudah benar ?</AlertDialogTitle>
                         <AlertDialogDescription>
-                            This action cannot be undone. This will permanently delete your account
-                            and remove your data from our servers.
+                            
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
-                        <AlertDialogCancel onClick={handleReset}>Cancel</AlertDialogCancel>
-                        <AlertDialogAction>Continue</AlertDialogAction>
+                        <AlertDialogCancel>Batal</AlertDialogCancel>
+                        <AlertDialogAction onClick={handleSubmitGenerateIdPendaftaran}>Lanjutkan</AlertDialogAction>
                     </AlertDialogFooter>
                 </AlertDialogContent>
             </AlertDialog>

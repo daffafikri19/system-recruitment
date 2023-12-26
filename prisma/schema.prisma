@@ -44,91 +44,93 @@ model Session {
 }
 
 model User {
-  id              String            @id @default(cuid())
-  name            String?           @unique
-  email           String?           @unique
-  emailVerified   DateTime?
-  role            role              @default(peserta)
-  profession      String
-  foto_profile    String?
-  password        String
-  no_pendaftaran  String?            @unique // format yyyy-mm-dd-xxx
-  biodata         biodataUser[]
-  questions       question_banks[]
-  answers         answers[]
-  berkas          userDataFiles[]
-  accounts        Account[]
-  sessions        Session[]
+  id             String           @id @default(cuid())
+  name           String?          @unique
+  email          String?          @unique
+  emailVerified  DateTime?
+  role           role             @default(peserta)
+  isNewUser      String?
+  profession     String
+  foto_profile   String?
+  tgl_lahir      String?
+  password       String
+  no_pendaftaran String?          @unique // format yyyy-mm-dd-xxx
+  biodata        biodataUser[]
+  questions      question_banks[]
+  accounts       Account[]
+  sessions       Session[]
+  nilaiTPA       nilaiTPA[]
+  disc_answer    disc_answer[]
+  papi_answer    papi_answer[]
+  nilai_tpa_user nilai_tpa_user[]
+  nilai_tkb_user nilai_tkb_user[]
 }
 
 model biodataUser {
-  id                String        @id @unique @default(cuid())
-  id_user           String?       @unique
-  user              User?         @relation(fields: [id_user], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  nama_lengkap      String
-  jenis_kelamin     String
-  agama             String
-  tanggal_lahir     String
-  negara_lahir      String
-  provinsi_lahir    String
-  kota_lahir        String
-  kewarganegaraan   String
-  negara_asal       String
-  nik               String
-  no_paspor         String?
-  buta_warna        String
-  kebutuhan_khusus  String
-  negara            String
-  provinsi          String
-  kota              String
-  kecamatan         String
-  alamat            String
-  kode_pos          String
-  no_telp_rumah     String
-  email             String
-  no_ponsel         String
-  no_wa             String
-  dataKeluarga    dataKeluarga[]
-  pendidikan      pendidikanUser[]
-  pengalamanKerja pengalamanKerja[]
-  pendidikan_non_formal pendidikanNonFormalUser[]
-  keterampilan_bahasa keterampilanBahasaUser[]
+  id                    String                     @id @unique @default(cuid())
+  id_user               String?                    @unique
+  user                  User?                      @relation(fields: [id_user], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  nama_lengkap          String                     @unique
+  jenis_kelamin         String
+  agama                 String
+  tanggal_lahir         String
+  negara_lahir          String
+  provinsi_lahir        String
+  kota_lahir            String
+  kewarganegaraan       String
+  negara_asal           String
+  nik                   String
+  no_paspor             String?
+  buta_warna            String
+  kebutuhan_khusus      String
+  negara                String
+  provinsi              String
+  kota                  String
+  kecamatan             String
+  alamat                String
+  kode_pos              String
+  no_telp_rumah         String
+  email                 String
+  no_ponsel             String
+  no_wa                 String
+  dataKeluarga          dataKeluarga[]
+  pendidikan            pendidikanUser[]
+  pengalamanKerja       pengalamanKerja[]
+  keterampilan_bahasa   keterampilanBahasaUser[]
   keterampilan_komputer keterampilanKomputerUser[]
-  aktifitas_sosial aktifitasSosialUser[]
-  sim               simUser[]
-  kerabat           kerabatUser[]
-  status_pernikahan String
-  createdAt         String
-  updatedAt         String
+  aktifitas_sosial      pengalamanOrganisasi[]
+  sim                   simUser[]
+  kerabat               kerabatUser[]
+  sertifikat            serfitikatUser[]
+  status_pernikahan     String
+  createdAt             String
+  updatedAt             String
 }
 
 model kerabatUser {
-  id         String       @id @unique @default(cuid())
-  relationId String?      @unique
-  biodata    biodataUser? @relation(fields: [relationId], references: [id_user], onDelete: Cascade, onUpdate: Cascade)
-  nama       String
-  alamat     String
-  no_telp    String
-  hubungan   String
-  createdAt  String
-  updatedAt  String
+  id        String        @id @unique @default(cuid())
+  biodata   biodataUser[]
+  nama      String
+  alamat    String
+  no_telp   String
+  hubungan  String
+  createdAt String
+  updatedAt String
 }
 
 model simUser {
-  id         String       @id @unique @default(cuid())
-  relationId String?      @unique
-  biodata    biodataUser? @relation(fields: [relationId], references: [id_user])
-  tipe_sim   String
-  no_sim     String
-  exp_sim    String
-  createdAt  String
-  updatedAt  String
+  id        String        @id @unique @default(cuid())
+  biodata   biodataUser[]
+  tipe_sim  String
+  no_sim    String
+  exp_sim   String
+  createdAt String
+  updatedAt String
 }
 
 model pendidikanUser {
-  id                  String  @id @unique @default(cuid())
-  id_user             String? @unique
-  biodata                biodataUser?   @relation(fields: [id_user], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  id                  String        @id @unique @default(cuid())
+  biodata             biodataUser[]
   luar_negeri         String
   tipe_pendidikan     String
   pendidikan_terakhir String
@@ -145,23 +147,9 @@ model pendidikanUser {
   updatedAt           String
 }
 
-model pendidikanNonFormalUser {
-  id            String @id @unique @default(cuid())
-  relationId String? @unique
-  biodata biodataUser? @relation(fields: [relationId], references: [id_user])
-  nama_kursus   String
-  lokasi_kursus String
-  tahun_masuk   String
-  tahun_keluar  String
-  status        String
-  createdAt     String
-  updatedAt     String
-}
-
 model keterampilanBahasaUser {
-  id         String  @id @unique @default(cuid())
-  relationId String? @unique
-  biodata biodataUser? @relation(fields: [relationId], references: [id_user])
+  id         String        @id @unique @default(cuid())
+  biodata    biodataUser[]
   bahasa     String
   lisan      String?
   tulisan    String?
@@ -171,9 +159,8 @@ model keterampilanBahasaUser {
 }
 
 model keterampilanKomputerUser {
-  id            String  @id @unique @default(cuid())
-  relationId String? @unique
-  biodata biodataUser? @relation(fields: [relationId], references: [id_user])
+  id            String        @id @unique @default(cuid())
+  biodata       biodataUser[]
   jenis_program String
   kemampuan     String?
   keterangan    String?
@@ -181,24 +168,21 @@ model keterampilanKomputerUser {
   updatedAt     String
 }
 
-model aktifitasSosialUser {
-  id        String @id @unique @default(cuid())
-  relationId String? @unique
-  biodata biodataUser? @relation(fields: [relationId], references: [id_user])
-  hobby String?
+model pengalamanOrganisasi {
+  id              String        @id @unique @default(cuid())
+  biodata         biodataUser[]
   nama_organisasi String
-  jabatan String
-  tahun_masuk String
-  tahun_keluar String
-  Alasan String @db.Text
-  createdAt String
-  updatedAt String
+  jabatan         String
+  tahun_masuk     String
+  tahun_keluar    String
+  detail          String?       @db.Text
+  createdAt       String
+  updatedAt       String
 }
 
 model dataKeluarga {
-  id            String  @id @unique @default(cuid())
-  id_user       String? @unique
-  biodata       biodataUser?   @relation(fields: [id_user], references: [id])
+  id            String        @id @unique @default(cuid())
+  biodata       biodataUser[]
   hubungan      String
   nama_lengkap  String
   jenis_kelamin String
@@ -213,16 +197,29 @@ model dataKeluarga {
 }
 
 model pengalamanKerja {
-  id               String  @id @unique @default(cuid())
-  id_user          String? @unique
-  biodata          biodataUser?   @relation(fields: [id_user], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  id               String        @id @unique @default(cuid())
+  biodata          biodataUser[]
   nama_perusahaan  String
   posisi           String
   gaji             String
   awal_masuk       String
   keluar           String
-  uraian_pekerjaan String  @db.Text
-  alasan_pindah    String  @db.Text
+  uraian_pekerjaan String        @db.Text
+  alasan_pindah    String        @db.Text
+  createdAt        String
+  updatedAt        String
+}
+
+model serfitikatUser {
+  id               String        @id @unique @default(cuid())
+  biodata          biodataUser[]
+  jenis_sertifikat String // nasiaonal / internasional
+  nama_sertifikat  String
+  nama_org         String
+  no_sertifikat    String
+  negara_terbit    String
+  tanggal_terbit   String
+  tanggal_exp      String
   createdAt        String
   updatedAt        String
 }
@@ -231,46 +228,6 @@ enum options {
   Ya
   Tidak
   Parsial
-}
-
-model answers {
-  id          String          @id @unique @default(cuid())
-  userId      String          @unique
-  respondedBy User?           @relation(fields: [userId], references: [id])
-  questionId  String          @unique
-  questions   question_banks? @relation(fields: [questionId], references: [id])
-  answer      String
-  createdAt   String
-  updatedAt   String
-}
-
-model userDataFiles {
-  id             String           @id @unique @default(cuid())
-  userid         String?          @unique
-  user           User?             @relation(fields: [userid], references: [id])
-  ijazah         Bytes?
-  npwp           Bytes?
-  ktp            Bytes?
-  photo          Bytes?
-  cv             Bytes?
-  sertification  sertifications[]
-  aditionalFiles aditionalFiles[]
-  createdAt      String
-  updatedAt      String
-}
-
-model sertifications {
-  id            String         @id @unique @default(cuid())
-  file          Bytes?
-  relationId    String         @unique
-  sertification userDataFiles? @relation(fields: [relationId], references: [userid])
-}
-
-model aditionalFiles {
-  id         String         @id @unique @default(cuid())
-  file       Bytes?
-  relationId String         @unique
-  files      userDataFiles? @relation(fields: [relationId], references: [userid])
 }
 
 enum role {
@@ -290,15 +247,14 @@ model VerificationToken {
 }
 
 model question_banks {
-  id         String             @id @unique @default(cuid())
-  question   String             @db.LongText
-  type       question_type      @default(text)
-  category   questionCategory[]
-  required   Boolean
-  createdBy  User[]
-  respondens answers[]
-  createdAt  String
-  updatedAt  String
+  id        String             @id @unique @default(cuid())
+  question  String             @db.LongText
+  type      question_type      @default(text)
+  category  questionCategory[]
+  required  Boolean
+  createdBy User[]
+  createdAt String
+  updatedAt String
 }
 
 model questionCategory {
@@ -308,4 +264,171 @@ model questionCategory {
   question   question_banks? @relation(fields: [questionId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   createdAt  String
   updatedAt  String
+}
+
+model soalTPA {
+  id            Int     @id @unique @default(autoincrement())
+  soal          String  @db.LongText
+  a             String
+  b             String
+  c             String
+  d             String
+  kunci_jawaban String  @db.TinyText
+  gambar        String?
+
+  isAktif   String @db.VarChar(5)
+  createdAt String
+  updatedAt String
+}
+
+model nilaiTPA {
+  id         Int    @id @unique @default(autoincrement())
+  user       User[]
+  benar      Int
+  salah      Int
+  nilai      Int
+  keterangan String
+  waktu      String
+  createdAt  String
+  updatedAt  String
+}
+
+model soalTKB {
+  id            Int     @id @unique @default(autoincrement())
+  soal          String  @db.LongText
+  a             String
+  b             String
+  c             String
+  point_a       String
+  point_b       String
+  point_c       String
+  kunci_jawaban String  @db.TinyText
+  isAktif       String  @db.VarChar(5)
+  gambar        String?
+  createdAt     String
+  updatedAt     String
+}
+
+model soalBahasaInggris {
+  id            Int     @id @unique @default(autoincrement())
+  soal          String  @db.LongText
+  a             String
+  b             String
+  c             String
+  d             String
+  kunci_jawaban String  @db.TinyText
+  gambar        String?
+  isAktif       Boolean @default(true)
+  createdAt     String
+  updatedAt     String
+}
+
+model disc_pattern {
+  id          Int    @id @unique @default(autoincrement())
+  type        String @db.TinyText
+  pattern     String
+  behaviour   String @db.LongText
+  jobs        String @db.LongText
+  description String @db.LongText
+}
+
+model disc_personalities {
+  id    Int    @id @unique @default(autoincrement())
+  no    Int
+  term  String @db.Text
+  most  String @db.TinyText
+  least String @db.TinyText
+}
+
+model disc_result {
+  id    Int   @id @unique @default(autoincrement())
+  value Int
+  d     Float
+  i     Float
+  s     Float
+  c     Float
+  line  Int   @db.TinyInt
+}
+
+model disc_answer {
+  id      Int    @id @unique @default(autoincrement())
+  id_user String
+  user    User[]
+  type    String
+  val     String
+}
+
+model papi_answer {
+  id      Int    @id @unique @default(autoincrement())
+  id_user String
+  user    User[]
+  val     String
+}
+
+model papi_aspect {
+  id         Int          @id @unique @default(autoincrement())
+  aspect     String
+  papi_roles papi_roles[]
+}
+
+model papi_questions {
+  id        Int    @id @unique @default(autoincrement())
+  question1 String
+  value1    String @db.TinyText
+  question2 String
+  value2    String @db.TinyText
+}
+
+model papi_result {
+  id      Int          @id @unique @default(autoincrement())
+  id_user String
+  role_id String
+  role    papi_roles[]
+  value   String       @db.TinyText
+}
+
+model papi_roles {
+  id          Int           @id @unique @default(autoincrement())
+  aspect_id   String
+  aspect      papi_aspect[]
+  code        String        @db.TinyText
+  role        String
+  papi_result papi_result[]
+  rules       papi_rules[]
+}
+
+model papi_rules {
+  id              Int          @id @unique @default(autoincrement())
+  role_id         String
+  roles           papi_roles[]
+  low_value       Int          @db.TinyInt
+  high_value      Int          @db.TinyInt
+  interprestation String
+}
+
+model nilai_tpa_user {
+  id         Int     @id @unique @default(autoincrement())
+  id_user    String
+  user       User[]
+  benar      String
+  salah      String
+  kosong     String?
+  score      String
+  keterangan String?
+  wm1        Int
+  wm2        Int
+  wm3        Int
+  createdAt  String
+}
+
+model nilai_tkb_user {
+  id         Int     @id @unique @default(autoincrement())
+  id_user    String
+  user       User[]
+  benar      String
+  salah      String
+  kosong     String?
+  score      String
+  keterangan String?
+  createdAt  String
 }

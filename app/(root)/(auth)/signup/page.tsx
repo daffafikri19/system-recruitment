@@ -17,7 +17,7 @@ const SignUp: React.FC = () => {
           <div className="hidden w-full lg:block lg:w-1/2">
             <div className="py-17.5 px-26 text-center">
               <div>
-              <Search className="w-5 h-5 font-bold mr-1" /><h1 className="font-bold tracking-tighter text-xl md:text-2xl">Recruitment</h1>
+              <Search className="w-5 h-5 font-bold mr-1" /><h1 className="font-bold tracking-tighter text-xl md:text-2xl">E-Recruitment</h1>
               </div>
               <span className="mt-15 inline-block">
                 <svg

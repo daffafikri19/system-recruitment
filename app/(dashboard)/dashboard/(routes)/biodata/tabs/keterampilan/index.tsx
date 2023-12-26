@@ -1,19 +1,20 @@
-import { getSertifikatUser } from '@/actions/services/getSertifikatUser'
 import { Card, CardContent } from '@/components/ui/card'
 import { toast } from '@/components/ui/use-toast'
-import { SerfitikatUserProps } from '@/types'
 import React from 'react'
 import { FormDialog } from './formDialog'
 import { TableData } from './dataTable'
+import { getKeterampilan } from '@/actions/services/getKeterampilanUser'
+import { keterampilanUser } from '@prisma/client'
 
 interface KeterampilanTabProps {
     username: string,
     sessionUserId: string
 }
 
-export const getDataKeterampilanUser = async ({ sessionUserId }: { sessionUserId: string }) => {
+export const getDataKeterampilanUser = async ({ sessionUserId, username }: { sessionUserId: string, username: string }) => {
     try {
-        const result = await getSertifikatUser({ sessionUserId });
+        const result = await getKeterampilan({ sessionUserId, username });
+        console.log(result)
         return result
     } catch (error: any) {
         if (error) {
@@ -27,7 +28,7 @@ export const getDataKeterampilanUser = async ({ sessionUserId }: { sessionUserId
 
 export const KeterampilanTab = async ({ username, sessionUserId }: KeterampilanTabProps) => {
 
-    const dataKeterampilan = await getDataKeterampilanUser({ sessionUserId }) as SerfitikatUserProps[];
+    const dataKeterampilan = await getDataKeterampilanUser({ sessionUserId, username }) as keterampilanUser[];
     if (!dataKeterampilan) {
         return (
             <div>

@@ -53,6 +53,7 @@ export const DataTable = ({ contentData }: DataTableProps) => {
     }
 
     const [openEditDialog, setOpenEditDialog] = useState(false);
+    
     const handleEditData = (data: DataKeluargaProps) => {
         setOpenEditDialog(true);
         setEditData(data)

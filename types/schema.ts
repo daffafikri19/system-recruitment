@@ -139,36 +139,34 @@ export const SertifikatSchema = z.object({
 });
 
 
-export const KeterampilanBahasaSchema = z.object({
-  bahasa: z.string().min(3, {
+export const KeterampilanSchema = z.object({
+  tipe_keterampilan: z.string().min(3, {
     message: 'minimal 3 karakter'
   }),
-  lisan: z.string().min(3, {
+  nama_keterampilan: z.string().min(3, {
     message: 'minimal 3 karakter'
-  }).nullable(),
-  tulisan: z.string().min(3, {
-    message: 'minimal 3 karakter'
-  }).nullable(),
+  }),
   keterangan: z.string().min(3, {
     message: 'minimal 3 karakter'
-  }).nullable(),
+  }),
   username: z.string().min(3).optional()
 });
 
-export const KeterampilanKomputerSchema = z.object({
-  jenis_program: z.string().min(3, {
+export const DokumenSchema = z.object({
+  no_urut: z.string().min(3, {
     message: 'minimal 3 karakter'
   }),
-  kemampuan: z.string().min(3, {
+  nama_dokumen: z.string().min(3, {
     message: 'minimal 3 karakter'
-  }).nullable(),
-  keterangan: z.string().min(3, {
+  }),
+  status_dokumen: z.string().min(3, {
     message: 'minimal 3 karakter'
-  }).nullable(),
-  username: z.string().min(3, {
-    message: 'minimal 3 karakter'
-  }).optional()
-});
+  }).optional().nullable(),
+  file: z.string().min(1, {
+    message: 'harap upload dokumen'
+  }),
+  username: z.string().min(3).optional()
+})
 
 
 export const PengalamanOrganisasiSchema = z.object({

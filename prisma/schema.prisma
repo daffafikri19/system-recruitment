@@ -96,12 +96,12 @@ model biodataUser {
   dataKeluarga          dataKeluarga[]
   pendidikan            pendidikanUser[]
   pengalamanKerja       pengalamanKerja[]
-  keterampilan_bahasa   keterampilanBahasaUser[]
-  keterampilan_komputer keterampilanKomputerUser[]
+  keterampilan   keterampilanUser[]
   aktifitas_sosial      pengalamanOrganisasi[]
   sim                   simUser[]
   kerabat               kerabatUser[]
   sertifikat            serfitikatUser[]
+  dokumen               dokumenUser[]
   status_pernikahan     String
   createdAt             String
   updatedAt             String
@@ -147,25 +147,14 @@ model pendidikanUser {
   updatedAt           String
 }
 
-model keterampilanBahasaUser {
+model keterampilanUser {
   id         String        @id @unique @default(cuid())
   biodata    biodataUser[]
-  bahasa     String
-  lisan      String?
-  tulisan    String?
-  keterangan String?
+  tipe_keterampilan String
+  nama_keterampilan String
+  keterangan String
   createdAt  String
   updatedAt  String
-}
-
-model keterampilanKomputerUser {
-  id            String        @id @unique @default(cuid())
-  biodata       biodataUser[]
-  jenis_program String
-  kemampuan     String?
-  keterangan    String?
-  createdAt     String
-  updatedAt     String
 }
 
 model pengalamanOrganisasi {
@@ -222,6 +211,17 @@ model serfitikatUser {
   tanggal_exp      String
   createdAt        String
   updatedAt        String
+}
+
+model dokumenUser {
+  id String @id @unique @default(cuid())
+  biodata biodataUser[]
+  no_urut String
+  nama_dokumen String
+  status_dokumen String?
+  file String @db.LongText
+  createdAt String
+  updatedAt String
 }
 
 enum options {

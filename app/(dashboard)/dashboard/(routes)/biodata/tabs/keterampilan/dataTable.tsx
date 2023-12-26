@@ -1,6 +1,6 @@
 "use client"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { PengalamanKerjaProps, SerfitikatUserProps } from "@/types"
+import { KeterampilanProps, PengalamanKerjaProps, SerfitikatUserProps } from "@/types"
 import { Edit2Icon, Eye, Trash2Icon } from "lucide-react"
 import {
     Popover,
@@ -12,74 +12,44 @@ import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Dialog, DialogContent } from "@/components/ui/dialog"
+import { keterampilanUser } from "@prisma/client"
+import { EditForm } from "./editForm"
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog"
+import { deleteKeterampilan } from "@/actions/mutations/keterampilan/deleteKeterampilan"
+import { toast } from "@/components/ui/use-toast"
 
 
 interface tableDataProps {
-    contentData: SerfitikatUserProps[]
+    contentData: keterampilanUser[]
 }
 
 export const TableData = ({ contentData }: tableDataProps) => {
-    const [openDetail, setOpenDetail] = useState(false);
-    const [detailContent, setDetailContent] = useState<SerfitikatUserProps>({
+    const [openEditDialog, setOpenEditDialog] = useState(false);
+    const [openValidationDialog, setOpenValidationDialog] = useState(false);
+    
+    const [editData, setEditData] = useState<KeterampilanProps>({
         id: "",
-        nama_sertifikat: "",
-        jenis_sertifikat: "",
-        nama_org: "",
-        negara_terbit: "",
-        no_sertifikat: "",
-        tanggal_exp: "",
-        tanggal_terbit: "",
+        nama_keterampilan: "",
+        tipe_keterampilan: "",
+        keterangan: "",
         createdAt: "",
         updatedAt: ""
-    });
+    })
 
-    const getDetailContent = (value: any) => {
-        console.log(value)
-        setOpenDetail(true)
-        setDetailContent(value)
+    const handleEditData = (data: KeterampilanProps) => {
+        setOpenEditDialog(true);
+        setEditData(data)
     }
-
+    
     return (
         <div>
             <div>
-                <h1 className="text-base md:text-xl font-semibold py-2 text-center">Kemampuan Bahasa</h1>
                 <Table>
                     <TableHeader className='bg-primary w-full '>
                         <TableRow className='!text-white text-center truncate'>
                             <TableHead className='!text-white text-center'>No</TableHead>
-                            <TableHead className='!text-white'>Bahasa</TableHead>
-                            <TableHead className='!text-white'>Lisan</TableHead>
-                            <TableHead className='!text-white'>Tulisan</TableHead>
-                            <TableHead className="!text-white text-center">Actions</TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        {contentData.map((data, index: number) => (
-                            <TableRow key={data.id}>
-                                <TableCell className="text-center">{index + 1}</TableCell>
-                                <TableCell>{data.nama_sertifikat}</TableCell>
-                                <TableCell>{data.jenis_sertifikat}</TableCell>
-                                <TableCell>{data.nama_org}</TableCell>
-                                <TableCell className="text-center">
-                                    <div className='flex items-center justify-center space-x-2'>
-                                        <Edit2Icon className='w-4 h-4 cursor-pointer' />
-                                        <Trash2Icon className='w-4 h-4 cursor-pointer' />
-                                    </div>
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </div>
-
-            <div>
-                <h1 className="text-base md:text-xl font-semibold py-2 text-center">Kemampuan Perangkat Lunak</h1>
-                <Table>
-                    <TableHeader className='bg-primary w-full '>
-                        <TableRow className='!text-white text-center truncate'>
-                            <TableHead className='!text-white text-center'>No</TableHead>
-                            <TableHead className='!text-white'>Nama Program</TableHead>
-                            <TableHead className='!text-white'>Kemampuan</TableHead>
+                            <TableHead className='!text-white'>Nama Keterampilan</TableHead>
+                            <TableHead className='!text-white'>Tipe Keterampilan</TableHead>
                             <TableHead className='!text-white'>Keterangan</TableHead>
                             <TableHead className="!text-white text-center">Actions</TableHead>
                         </TableRow>
@@ -88,13 +58,37 @@ export const TableData = ({ contentData }: tableDataProps) => {
                         {contentData.map((data, index: number) => (
                             <TableRow key={data.id}>
                                 <TableCell className="text-center">{index + 1}</TableCell>
-                                <TableCell>{data.nama_sertifikat}</TableCell>
-                                <TableCell>{data.jenis_sertifikat}</TableCell>
-                                <TableCell>{data.nama_org}</TableCell>
+                                <TableCell>{data.nama_keterampilan}</TableCell>
+                                <TableCell>{data.tipe_keterampilan}</TableCell>
+                                <TableCell>{data.keterangan}</TableCell>
                                 <TableCell className="text-center">
                                     <div className='flex items-center justify-center space-x-2'>
-                                        <Edit2Icon className='w-4 h-4 cursor-pointer' />
-                                        <Trash2Icon className='w-4 h-4 cursor-pointer' />
+                                        <Edit2Icon className='w-4 h-4 cursor-pointer' 
+                                         onClick={() => handleEditData(data)}
+                                        />
+                                        <AlertDialog open={openValidationDialog} onOpenChange={setOpenValidationDialog}>
+                                        <AlertDialogTrigger>
+                                            <Trash2Icon className='w-4 h-4 cursor-pointer' />
+                                        </AlertDialogTrigger>
+                                        <AlertDialogContent>
+                                            <AlertDialogHeader>
+                                                <AlertDialogTitle>
+                                                    Apakah anda yakin menghapus data ini ?
+                                                </AlertDialogTitle>
+                                            </AlertDialogHeader>
+                                            <div className="grid grid-cols-2 gap-2">
+                                                <AlertDialogCancel>Batal</AlertDialogCancel>
+                                                <AlertDialogAction className="text-white" onClick={() => {
+                                                    deleteKeterampilan(data.id).then(response => {
+                                                        toast({
+                                                            title: response.message,
+                                                            variant: response.status === 200 ? "default" : "destructive"
+                                                        })
+                                                    })
+                                                }}>Hapus</AlertDialogAction>
+                                            </div>
+                                        </AlertDialogContent>
+                                    </AlertDialog>
                                     </div>
                                 </TableCell>
                             </TableRow>
@@ -102,6 +96,10 @@ export const TableData = ({ contentData }: tableDataProps) => {
                     </TableBody>
                 </Table>
             </div>
+
+            <EditForm selectedData={editData} openDialog={openEditDialog} setOpenDialog={setOpenEditDialog} />
+
+
         </div>
     )
 }

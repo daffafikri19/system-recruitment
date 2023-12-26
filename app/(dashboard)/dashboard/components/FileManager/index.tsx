@@ -3,11 +3,11 @@ import { Button } from "@/components/ui/button";
 import React, { useEffect } from "react";
 import { toast } from "@/components/ui/use-toast";
 
-interface TabFileProps {
+interface FileManagerProps {
     onFileSelected: (image: string) => void;
 }
 
-export const TabFile: React.FC<TabFileProps> = ({ onFileSelected }) => {
+export const Filemanager: React.FC<FileManagerProps> = ({ onFileSelected }) => {
     useEffect(() => {
         try {
             if (typeof window !== "undefined") {

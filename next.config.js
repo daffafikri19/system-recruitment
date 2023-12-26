@@ -4,11 +4,18 @@ const nextConfig = {
         ignoreDuringBuilds: true
     },
     images: {
-        domains: ["filemanager-e-recruitment.teinsolutions.com", "localhost:3000", "filemanager-e-recruitment.teinsolutions.comnull"],
         remotePatterns: [
             {
                 protocol: 'https',
                 hostname: 'filemanager-e-recruitment.teinsolutions.comnull'
+            },
+            {
+                protocol: 'http',
+                hostname: 'localhost'
+            },
+            {
+                protocol: 'https',
+                hostname: 'filemanager-e-recruitment.teinsolutions.com'
             }
         ]
     }

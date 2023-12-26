@@ -12,6 +12,52 @@ import { addPengalamanKerja } from '@/actions/mutations/pengalaman-kerja/addPeng
 import { addSertifikat } from '@/actions/mutations/sertifikat/addSertifikat';
 import { DatePicker } from '@/app/(dashboard)/dashboard/components/DatePicker';
 
+// 1. ijazah
+// 2. pas foto,
+// 3. ktp,
+// 4. npwp,
+// 5. transkrip nilai,
+// 6. sertifikat,
+// 7. CV,
+// 8. Surat Lamaran Kerja,
+// 9. SKCK,
+// 10. Surat Pengalaman Kerja,
+// 11. Dokumen Pendukung lainnya,
+// 12. Kartu Keluarga,
+// 13. Akte Kelahiran,
+// 14. Dokumen Pelengkap Lainnya
+
+export const DokumenList = [
+    {
+        no_urut: "1",
+        nama_dokumen: "Pas Foto",
+        status_dokumen: "" || "Review" || "Valid",
+    },
+    {
+        no_urut: "2",
+        nama_dokumen: "Ijazah",
+        status_dokumen: "" || "Review" || "Valid",
+    },
+    {
+        no_urut: "3",
+        nama_dokumen: "KTP",
+        status_dokumen: "" || "Review" || "Valid",
+    },
+    {
+        no_urut: "4",
+        nama_dokumen: "NPWP",
+        status_dokumen: "" || "Review" || "Valid",
+    },
+    {
+        no_urut: "5",
+        nama_dokumen: "Transkrip Nilai",
+        status_dokumen: "" || "Review" || "Valid",
+    },
+    {
+        
+    }
+]
+
 export const FormDialog = ({ username }: { username: string }) => {
     const [openDialog, setOpenDialog] = useState(false);
     const ref = useRef<HTMLFormElement>(null);
@@ -42,10 +88,6 @@ export const FormDialog = ({ username }: { username: string }) => {
                 <div>
                     <Button onClick={() => setOpenDialog(true)} className='flex items-center text-white' variant="default">Tambah Data <Plus className='w-4 h-4 ml-4' />
                     </Button>
-                </div>
-                <div className='my-4 w-full px-4 flex items-center justify-end space-x-3'>
-                    <Input className='w-full sm:w-[300px]' type='search' placeholder='' />
-                    <Button size="icon" className='text-white'><Search className='w-4 h-4' /></Button>
                 </div>
             </div>
             <AlertDialog open={openDialog} onOpenChange={setOpenDialog}>

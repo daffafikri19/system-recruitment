@@ -16,7 +16,7 @@ export async function getKeterampilan({ sessionUserId, username } : { sessionUse
     }
 
     try {
-        const keterampilanKomputer = await prisma.keterampilanBahasaUser.findMany({
+        const result = await prisma.keterampilanUser.findMany({
             where: {
                 biodata: {
                     every: {
@@ -24,23 +24,12 @@ export async function getKeterampilan({ sessionUserId, username } : { sessionUse
                     }
                 }
             },
-        });
-
-        const keterampilanBahasa = await prisma.keterampilanBahasaUser.findMany({
-            where: {
-                biodata: {
-                    every: {
-                        nama_lengkap: username
-                    }
-                }
+            orderBy: {
+                tipe_keterampilan: 'desc'
             }
         });
 
-        return {
-            keterampilan_bahasa: keterampilanBahasa,
-            keterampilan_komputer: keterampilanKomputer,
-            status: 200
-        }
+        return result
     } catch (error : any) {
         return {
             message: 'terjadi kesalahan server saat mendapatkan data keluarga',

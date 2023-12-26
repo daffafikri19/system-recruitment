@@ -1,19 +1,19 @@
-import { getSertifikatUser } from '@/actions/services/getSertifikatUser'
 import { Card, CardContent } from '@/components/ui/card'
 import { toast } from '@/components/ui/use-toast'
-import { SerfitikatUserProps } from '@/types'
 import React from 'react'
 import { FormDialog } from './formDialog'
 import { TableData } from './dataTable'
+import { getDokumenUser } from '@/actions/services/getDokumenUser'
+import { dokumenUser } from '@prisma/client'
 
-interface SertifikatTabProps {
+interface DokumenProps {
     username: string,
     sessionUserId: string
 }
 
-export const getDataDokumenUser = async ({ sessionUserId }: { sessionUserId: string }) => {
+export const getDataDokumen = async ({ sessionUserId }: { sessionUserId: string }) => {
     try {
-        const result = await getSertifikatUser({ sessionUserId });
+        const result = await getDokumenUser({ sessionUserId });
         return result
     } catch (error: any) {
         if (error) {
@@ -25,9 +25,8 @@ export const getDataDokumenUser = async ({ sessionUserId }: { sessionUserId: str
     }
 }
 
-export const DokumenTab = async ({ username, sessionUserId }: SertifikatTabProps) => {
-
-    const dataSertifikat = await getDataDokumenUser({ sessionUserId }) as SerfitikatUserProps[];
+export const DokumenTab = async ({ username, sessionUserId }: DokumenProps) => {
+    const dataSertifikat = await getDataDokumen({ sessionUserId }) as dokumenUser[];
     if (!dataSertifikat) {
         return (
             <div>

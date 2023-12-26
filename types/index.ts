@@ -117,20 +117,10 @@ export interface PengalamanOrganisasiProps {
     updatedAt: string
 }
 
-export interface KeterampilanBahasaProps {
+export interface KeterampilanProps {
     id: string,
-    bahasa: string,
-    lisan: string,
-    tulisan: string,
-    keterangan: string,
-    createdAt: string,
-    updatedAt: string
-}
-
-export interface KeterampilanKomputerProps {
-    id: string,
-    jenis_program: string,
-    kemampuan: string,
+    nama_keterampilan: string,
+    tipe_keterampilan: string,
     keterangan: string,
     createdAt: string,
     updatedAt: string
@@ -148,4 +138,14 @@ export interface SoalTPAProps {
     isAktif: string;
     createdAt: string;
     updatedAt: string;
+}
+
+export interface DokumenProps {
+    id: string,
+    no_urut: string,
+    nama_dokumen: string,
+    status_dokumen: string,
+    file: string,
+    createdAt: string,
+    updatedAt: string
 }

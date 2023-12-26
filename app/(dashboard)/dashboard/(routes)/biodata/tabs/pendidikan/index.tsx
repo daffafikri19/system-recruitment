@@ -28,7 +28,6 @@ export const getDataPendidikanUser = async ({ sessionUserId, username } : pendid
 export const PendidikanTab = async ({ sessionUserId, username } : pendidikanUserTabProps) => {
 
     const pendidikanUser = await getDataPendidikanUser({ sessionUserId, username }) as PendidikanUserProps[];
-    console.log(pendidikanUser)
     if(!pendidikanUser) {
         return (
             <div>loading...</div>

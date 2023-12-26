@@ -1,21 +1,16 @@
 "use client"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { PengalamanKerjaProps, SerfitikatUserProps } from "@/types"
+import { SerfitikatUserProps } from "@/types"
 import { Edit2Icon, Eye, Trash2Icon } from "lucide-react"
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-} from "@/components/ui/popover"
 import { useState } from "react"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
 import { Dialog, DialogContent } from "@/components/ui/dialog"
+import { dokumenUser } from "@prisma/client"
 
 
 interface tableDataProps {
-    contentData: SerfitikatUserProps[]
+    contentData: dokumenUser[]
 }
 
 export const TableData = ({ contentData }: tableDataProps) => {
@@ -45,9 +40,10 @@ export const TableData = ({ contentData }: tableDataProps) => {
                 <TableHeader className='bg-primary w-full '>
                     <TableRow className='!text-white text-center truncate'>
                         <TableHead className='!text-white text-center'>No</TableHead>
-                        <TableHead className='!text-white'>Nama Sertifikat</TableHead>
-                        <TableHead className='!text-white'>Jenis Sertifikat</TableHead>
-                        <TableHead className='!text-white'>Nama Instansi / Lembaga</TableHead>
+                        <TableHead className='!text-white'>No Urut</TableHead>
+                        <TableHead className='!text-white'>Dokumen</TableHead>
+                        <TableHead className='!text-white'>Status Dokumen</TableHead>
+                        <TableHead className='!text-white'>File</TableHead>
                         <TableHead className="!text-white text-center">Actions</TableHead>
                     </TableRow>
                 </TableHeader>
@@ -55,9 +51,10 @@ export const TableData = ({ contentData }: tableDataProps) => {
                     {contentData.map((data, index: number) => (
                         <TableRow key={data.id}>
                             <TableCell className="text-center">{index + 1}</TableCell>
-                            <TableCell>{data.nama_sertifikat}</TableCell>
-                            <TableCell>{data.jenis_sertifikat}</TableCell>
-                            <TableCell>{data.nama_org}</TableCell>
+                            <TableCell>{data.no_urut}</TableCell>
+                            <TableCell>{data.nama_dokumen}</TableCell>
+                            <TableCell>{data.status_dokumen}</TableCell>
+                            <TableCell>{data.file}</TableCell>
                             <TableCell className="text-center">
                                 <div className='flex items-center justify-center space-x-2'>
                                     <Eye className="w-4 h-4 cursor-pointer" 

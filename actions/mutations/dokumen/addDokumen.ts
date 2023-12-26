@@ -1,14 +1,15 @@
 "use server"
-
 import prisma from "@/lib/utils/prisma"
-import { KeterampilanSchema } from "@/types/schema"
+import { DokumenSchema } from "@/types/schema"
 import { revalidatePath } from "next/cache";
 
-export const addKeterampilan = async (formdata : FormData) => {
-    const parse = KeterampilanSchema.safeParse({
-        tipe_keterampilan: formdata.get('tipe_keterampilan'),
-        nama_keterampilan: formdata.get('nama_keterampilan'),
-        keterangan: formdata.get('keterangan'),
+export async function addDokumen(formdata: FormData) {
+
+    const parse = DokumenSchema.safeParse({
+        no_urut: formdata.get('no_urut'),
+        nama_dokumen: formdata.get('nama_dokument'),
+        status_dokumen: formdata.get('status_dokumen'),
+        file: formdata.get('file'),
         username: formdata.get('username')
     });
 
@@ -27,11 +28,12 @@ export const addKeterampilan = async (formdata : FormData) => {
     const data = parse.data;
 
     try {
-        await prisma.keterampilanUser.create({
+        await prisma.dokumenUser.create({
             data: {
-                tipe_keterampilan: data.tipe_keterampilan,
-                nama_keterampilan: data.nama_keterampilan,
-                keterangan: data?.keterangan,
+                no_urut: data.no_urut,
+                nama_dokumen: data.nama_dokumen,
+                status_dokumen: data.status_dokumen,
+                file: data.file,
                 createdAt: new Date(Date.now()).toLocaleString(),
                 updatedAt: new Date(Date.now()).toLocaleString(),
                 biodata: {
@@ -45,14 +47,14 @@ export const addKeterampilan = async (formdata : FormData) => {
 
         revalidatePath('/dashboard/biodata', "page")
         return {
-            message: 'berhasil menambahkan data keterampilan',
+            message: 'Berhasil menambahkan data dokumen',
             status: 200
         }
-    } catch (error : any) {
+    } catch (error) {
         return {
-            message: 'terjadi kesalahan server saat menambahkan data keterampilan bahasa',
+            message: 'Terjadi kesalahan server saat menambahkan dokumen',
             status: 500,
-            error: error.message
+            error: error
         }
     }
 }

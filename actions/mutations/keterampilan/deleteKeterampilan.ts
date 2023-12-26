@@ -2,37 +2,38 @@
 import prisma from "@/lib/utils/prisma"
 import { revalidatePath } from "next/cache";
 
+export async function deleteKeterampilan(id: string) {
 
-export async function deleteKeluarga(id: string) {
-    const existingData = await prisma.dataKeluarga.findUnique({
+    const existingData = await prisma.keterampilanUser.findUnique({
         where: {
             id: id
         }
     });
 
-    if (!existingData) {
+    if(!existingData) {
         return {
-            message: 'data tidak ditemukan',
+            message: "Data keterampilan tidak ditemukan",
             status: 404
         }
     }
 
     try {
-        await prisma.dataKeluarga.delete({
+        await prisma.keterampilanUser.delete({
             where: {
                 id: existingData.id
             }
         });
+
         revalidatePath('/dashboard/biodata', "page")
         return {
-            message: 'Berhasil menghapus data!',
+            message: "Berhasil menghapus data keterampilan",
             status: 200
         }
-    } catch (error: any) {
+    } catch (error) {
         return {
-            message: 'terjadi kesalahan saat menghapus data',
+            message: 'Terjadi kesalahan server saat menghapus data keterampilan',
             status: 500,
-            error: error.message
+            error: error
         }
     }
 }

@@ -1,7 +1,7 @@
 "use client"
 import { addTpaQuestion } from '@/actions/mutations/bank-soal/tpa/addTpaQuestion'
-import { TabFile } from '@/app/(dashboard)/dashboard/components/FileManager'
-import { TextEditor } from '@/app/(dashboard)/dashboard/components/TextEditor/editor'
+import { Filemanager } from '@/app/(dashboard)/dashboard/components/FileManager'
+import { TextEditor } from '@/app/(dashboard)/dashboard/components/TextEditor'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -60,7 +60,7 @@ const AddTpaQuestionPage = () => {
               </div>
             ) : (
               <div>
-                <TabFile onFileSelected={handleFileSelected} />
+                <Filemanager onFileSelected={handleFileSelected} />
                 <Input type='hidden' name='gambar' value={media?.toString() ? media?.toString() : "null"} readOnly />
               </div>
             )}

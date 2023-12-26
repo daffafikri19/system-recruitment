@@ -43,10 +43,6 @@ export const FormDialog = ({ username }: { username: string }) => {
                     <Button onClick={() => setOpenDialog(true)} className='flex items-center text-white' variant="default">Tambah Data <Plus className='w-4 h-4 ml-4' />
                     </Button>
                 </div>
-                <div className='my-4 w-full px-4 flex items-center justify-end space-x-3'>
-                    <Input className='w-full sm:w-[300px]' type='search' placeholder='' />
-                    <Button size="icon" className='text-white'><Search className='w-4 h-4' /></Button>
-                </div>
             </div>
             <AlertDialog open={openDialog} onOpenChange={setOpenDialog}>
                 <AlertDialogContent>

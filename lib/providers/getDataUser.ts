@@ -11,12 +11,12 @@ export async function getDataUser(id: string) {
                     aktifitas_sosial: true,
                     dataKeluarga: true,
                     kerabat: true,
-                    keterampilan_bahasa: true,
-                    keterampilan_komputer: true,
+                    keterampilan: true,
                     pendidikan: true,
-                    pendidikan_non_formal: true,
                     pengalamanKerja: true,
-                    sim: true
+                    sim: true,
+                    sertifikat: true,
+                    dokumen: true
                 }
             }
         }

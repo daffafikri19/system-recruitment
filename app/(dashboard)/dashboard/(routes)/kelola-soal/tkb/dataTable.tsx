@@ -21,29 +21,29 @@ import {
 } from "@/components/ui/dialog"
 import { CheckCircle2, Edit2Icon, EyeIcon, FileQuestionIcon, Plus, SearchIcon, Trash2Icon, XCircle } from "lucide-react"
 import { useRouter } from "next/navigation"
-import { SoalTPAProps } from "@/types"
+import { SoalTKBProps } from "@/types"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import Image from "next/image"
-import Link from "next/link"
 
 interface dataTableProps {
-    questionData: SoalTPAProps[]
+    questionData: SoalTKBProps[]
 }
 
 export const DataTable = ({ questionData }: dataTableProps) => {
 
     const [openPratinjau, setOpenPratinjau] = useState(false);
     const router = useRouter();
-    const questionStatus: boolean = true;
 
-    const [pratinjau, setPratinjau] = useState<SoalTPAProps>({
+    const [pratinjau, setPratinjau] = useState<SoalTKBProps>({
         id: 0,
         soal: "",
         a: "",
         b: "",
         c: "",
-        d: "",
+        point_a: "",
+        point_b: "",
+        point_c: "",
         kunci_jawaban: "",
         gambar: "",
         isAktif: "",
@@ -51,13 +51,13 @@ export const DataTable = ({ questionData }: dataTableProps) => {
         updatedAt: "",
     });
 
-    const handleOpenPratinjau = (data: SoalTPAProps) => {
+    const handleOpenPratinjau = (data: SoalTKBProps) => {
         setOpenPratinjau(true);
         setPratinjau(data)
     }
 
     const [searchQuery, setSearchQuery] = useState("");
-    const [filteredData, setFilteredData] = useState<SoalTPAProps[]>([]);
+    const [filteredData, setFilteredData] = useState<SoalTKBProps[]>([]);
 
     const handleSearch = () => {
         const searchData = questionData.filter(
@@ -69,9 +69,10 @@ export const DataTable = ({ questionData }: dataTableProps) => {
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const query = e.target.value;
+        console.log("value", e.target.value)
         setSearchQuery(query);
         if (query === "") {
-            setFilteredData(questionData);
+            setFilteredData([]);
         } else {
             handleSearch();
         }
@@ -80,20 +81,24 @@ export const DataTable = ({ questionData }: dataTableProps) => {
 
     return (
         <div className="w-full">
-            <div className="w-full flex items-center justify-between space-x-8">
-                <Button className="text-white" onClick={() => router.push('/dashboard/kelola-soal/tpa/add')}>Tambah Soal <Plus className="w-4 h-4 ml-2" /></Button>
-                <div className="w-full flex items-center space-x-1">
-                    <Input
-                        type="search"
-                        placeholder="search..."
-                        value={searchQuery}
-                        onChange={handleInputChange}
-                    />
-                    <Button className="text-white" size="icon" onClick={handleSearch}>
-                        <SearchIcon className="w-4 h-4" />
-                    </Button>
-                </div>
-            </div>
+            <Card>
+                <CardContent className="p-2">
+                    <div className="w-full flex items-center justify-between space-x-8">
+                        <Button className="text-white" onClick={() => router.push('/dashboard/kelola-soal/tkb/add')}>Tambah Soal <Plus className="w-4 h-4 ml-2" /></Button>
+                        <div className="w-full flex items-center space-x-1">
+                            <Input
+                                type="search"
+                                placeholder="search..."
+                                value={searchQuery}
+                                onChange={handleInputChange}
+                            />
+                            <Button className="text-white" size="icon" onClick={handleSearch}>
+                                <SearchIcon className="w-4 h-4" />
+                            </Button>
+                        </div>
+                    </div>
+                </CardContent>
+            </Card>
             <Card className="mt-5">
                 <CardContent className="p-0">
                     <Table>
@@ -142,14 +147,9 @@ export const DataTable = ({ questionData }: dataTableProps) => {
                                         <Button size="icon" variant="outline" onClick={() => handleOpenPratinjau(question)}>
                                             <EyeIcon className="w-4 h-4" /></Button>
                                     </TableCell>
-
                                     <TableCell className="text-center">
                                         <div className="flex justify-center space-x-2">
-                                            <Button size="icon" variant="outline" asChild>
-                                                <Link href={`/dashboard/kelola-soal/tpa/edit/${question.id}`}>
-                                                    <Edit2Icon className="w-4 h-4" />
-                                                </Link>
-                                            </Button>
+                                            <Button size="icon" variant="outline"><Edit2Icon className="w-4 h-4" /></Button>
                                             <Button size="icon" variant="destructive"><Trash2Icon className="w-4 h-4" /></Button>
                                         </div>
                                     </TableCell>
@@ -212,14 +212,7 @@ export const DataTable = ({ questionData }: dataTableProps) => {
                                 </Label>
                                 <Textarea value={pratinjau.c} />
                             </div>
-                            <div>
-                                <Label className="flex items-center">D
-                                    {pratinjau.kunci_jawaban === 'D' ? (
-                                        <CheckCircle2 className="w-3 h-3 ml-2 text-green-500" />
-                                    ) : ""}
-                                </Label>
-                                <Textarea value={pratinjau.d} />
-                            </div>
+
                         </div>
 
                         <div className="mt-2 w-full flex items-center justify-between">

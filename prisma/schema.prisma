@@ -2,7 +2,7 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
   binaryTargets = ["native"]
 }
 
@@ -60,7 +60,6 @@ model User {
   questions      question_banks[]
   accounts       Account[]
   sessions       Session[]
-  nilaiTPA       nilaiTPA[]
   disc_answer    disc_answer[]
   papi_answer    papi_answer[]
   nilai_tpa_user nilai_tpa_user[]
@@ -68,44 +67,44 @@ model User {
 }
 
 model biodataUser {
-  id                    String                     @id @unique @default(cuid())
-  id_user               String?                    @unique
-  user                  User?                      @relation(fields: [id_user], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  nama_lengkap          String                     @unique
-  jenis_kelamin         String
-  agama                 String
-  tanggal_lahir         String
-  negara_lahir          String
-  provinsi_lahir        String
-  kota_lahir            String
-  kewarganegaraan       String
-  negara_asal           String
-  nik                   String
-  no_paspor             String?
-  buta_warna            String
-  kebutuhan_khusus      String
-  negara                String
-  provinsi              String
-  kota                  String
-  kecamatan             String
-  alamat                String
-  kode_pos              String
-  no_telp_rumah         String
-  email                 String
-  no_ponsel             String
-  no_wa                 String
-  dataKeluarga          dataKeluarga[]
-  pendidikan            pendidikanUser[]
-  pengalamanKerja       pengalamanKerja[]
-  keterampilan   keterampilanUser[]
-  aktifitas_sosial      pengalamanOrganisasi[]
-  sim                   simUser[]
-  kerabat               kerabatUser[]
-  sertifikat            serfitikatUser[]
-  dokumen               dokumenUser[]
-  status_pernikahan     String
-  createdAt             String
-  updatedAt             String
+  id                String                 @id @unique @default(cuid())
+  id_user           String?                @unique
+  user              User?                  @relation(fields: [id_user], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  nama_lengkap      String                 @unique
+  jenis_kelamin     String
+  agama             String
+  tanggal_lahir     String
+  negara_lahir      String
+  provinsi_lahir    String
+  kota_lahir        String
+  kewarganegaraan   String
+  negara_asal       String
+  nik               String
+  no_paspor         String?
+  buta_warna        String
+  kebutuhan_khusus  String
+  negara            String
+  provinsi          String
+  kota              String
+  kecamatan         String
+  alamat            String
+  kode_pos          String
+  no_telp_rumah     String
+  email             String
+  no_ponsel         String
+  no_wa             String
+  dataKeluarga      dataKeluarga[]
+  pendidikan        pendidikanUser[]
+  pengalamanKerja   pengalamanKerja[]
+  keterampilan      keterampilanUser[]
+  aktifitas_sosial  pengalamanOrganisasi[]
+  sim               simUser[]
+  kerabat           kerabatUser[]
+  sertifikat        serfitikatUser[]
+  dokumen           dokumenUser[]
+  status_pernikahan String
+  createdAt         String
+  updatedAt         String
 }
 
 model kerabatUser {
@@ -149,13 +148,13 @@ model pendidikanUser {
 }
 
 model keterampilanUser {
-  id         String        @id @unique @default(cuid())
-  biodata    biodataUser[]
+  id                String        @id @unique @default(cuid())
+  biodata           biodataUser[]
   tipe_keterampilan String
   nama_keterampilan String
-  keterangan String
-  createdAt  String
-  updatedAt  String
+  keterangan        String
+  createdAt         String
+  updatedAt         String
 }
 
 model pengalamanOrganisasi {
@@ -215,14 +214,14 @@ model serfitikatUser {
 }
 
 model dokumenUser {
-  id String @id @unique @default(cuid())
-  biodata biodataUser[]
-  no_urut String
-  nama_dokumen String
+  id             String        @id @unique @default(cuid())
+  biodata        biodataUser[]
+  no_urut        String
+  nama_dokumen   String
   status_dokumen String?
-  file String @db.LongText
-  createdAt String
-  updatedAt String
+  file           String        @db.LongText
+  createdAt      String
+  updatedAt      String
 }
 
 enum options {
@@ -280,18 +279,6 @@ model soalTPA {
   isAktif   String @db.VarChar(5)
   createdAt String
   updatedAt String
-}
-
-model nilaiTPA {
-  id         Int    @id @unique @default(autoincrement())
-  user       User[]
-  benar      Int
-  salah      Int
-  nilai      Int
-  keterangan String
-  waktu      String
-  createdAt  String
-  updatedAt  String
 }
 
 model soalTKB {
@@ -432,4 +419,19 @@ model nilai_tkb_user {
   score      String
   keterangan String?
   createdAt  String
+}
+
+model tes_settings {
+  id Int @id @unique @default(autoincrement())
+  nama_tes String
+  nilai_minimum_tes_1 String @db.VarChar(3)
+  nilai_minimum_tes_2 String @db.VarChar(3)
+  waktu_pengerjaan_tes_1 String
+  waktu_pengerjaan_tes_2 String
+  waktu_pengerjaan_tes_3 String
+  waktu_pengerjaan_tes_4 String
+  peraturan String @db.LongText
+
+  createdAt String
+  updatedAt String
 }

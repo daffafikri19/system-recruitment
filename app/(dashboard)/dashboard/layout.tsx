@@ -1,9 +1,9 @@
 "use client"
-import { Metadata } from "next";
 import React, { useState } from "react";
 import Sidebar from "./components/Sidebar";
 import Header from "./components/Header";
 import { SessionProvider } from "next-auth/react";
+import LeavePageConfirmation from "@/lib/providers/LeavePageConfirmation";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -17,6 +17,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
           <div>
             <div className="mx-auto max-w-screen-2xl p-2 md:p-4 2xl:p-8">
+            <LeavePageConfirmation />
               {children}
             </div>
           </div>

@@ -1,5 +1,6 @@
 "use client"
 import { addTpaQuestion } from '@/actions/mutations/bank-soal/tpa/addTpaQuestion'
+import { getTPAQuestionByID } from '@/actions/services/getTPAQuestion'
 import { Filemanager } from '@/app/(dashboard)/dashboard/components/FileManager'
 import { TextEditor } from '@/app/(dashboard)/dashboard/components/TextEditor'
 import { Button } from '@/components/ui/button'
@@ -9,23 +10,56 @@ import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
 import { toast } from '@/components/ui/use-toast'
+import { SoalTKBProps } from '@/types'
 import { X } from 'lucide-react'
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
-import React, { useState } from 'react'
+import { useParams, useRouter, useSearchParams } from 'next/navigation'
+import React, { useEffect, useState } from 'react'
 
 const EditTpaQuestion = () => {
   const [media, setMedia] = useState<string | null>("");
   const [soal, setSoal] = useState("");
   const router = useRouter();
-  const handleFileSelected = (mediaUrl: string) => {
-    console.log(mediaUrl);
+  const params = useSearchParams();
+
+  const [question, setQuestion] = useState<SoalTKBProps>({
+    id: 0,
+    soal: "",
+    gambar: "",
+    a: "",
+    point_a: "",
+    b: "",
+    point_b: "",
+    c: "",
+    point_c: "",
+    isAktif: "",
+    kunci_jawaban: "",
+    createdAt: "",
+    updatedAt: ""
+  });
+
+  const id = params.get('id');
+
+  const getQuestionData = async () => {
+    const data = await getTPAQuestionByID(id!);
+    console.log(data)
+    return data 
+  }
+
+  useEffect(() => {
+    
+    getQuestionData();
+  }, [])
+
+  function handleFileSelected(mediaUrl: string) {
+    console.log(mediaUrl)
     setMedia(mediaUrl)
   }
 
   const handleTextEditorChange = (content: any, editor: any) => {
     setSoal(content)
   }
+  
 
   return (
     <div className='w-full'>

@@ -1,6 +1,6 @@
 import { Metadata } from "next";
-import { Toaster } from "@/components/ui/toaster";
 import "./globals.css";
+import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
   title: "Recruitment",

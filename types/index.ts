@@ -140,6 +140,22 @@ export interface SoalTPAProps {
     updatedAt: string;
 }
 
+export interface SoalTKBProps {
+    id: number,
+    soal: string,
+    a: string,
+    b: string,
+    c: string,
+    point_a: string,
+    point_b: string,
+    point_c: string,
+    kunci_jawaban: string,
+    isAktif: string,
+    gambar: string | null,
+    createdAt: string,
+    updatedAt: string
+}
+
 export interface DokumenProps {
     id: string,
     no_urut: string,

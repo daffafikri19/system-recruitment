@@ -17,11 +17,11 @@ export default function RootLayout({
     <html lang="en">
       <body suppressHydrationWarning={true}>
         <main className="w-full h-full">
-            <div className="h-full w-full">
-              {children}
-            </div>
-            <Toaster />
-          </main>
+          <div className="h-full w-full">
+            {children}
+          </div>
+          <Toaster />
+        </main>
       </body>
     </html>
   );

@@ -36,34 +36,297 @@ model Account {
   @@unique([provider, providerAccountId])
 }
 
-model Session {
-  id           String   @id @default(cuid())
-  sessionToken String   @unique
-  userId       String   @unique
-  expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
 model User {
-  id             String           @id @default(cuid())
-  name           String?          @unique
-  email          String?          @unique
+  id             String                @id @default(cuid())
+  name           String?               @unique
+  email          String?               @unique
   emailVerified  DateTime?
-  role           role             @default(peserta)
+  role           role                  @default(peserta)
   isNewUser      String?
   profession     String
   foto_profile   String?
   tgl_lahir      String?
   password       String
-  no_pendaftaran String?          @unique // format yyyy-mm-dd-xxx
+  no_pendaftaran String?               @unique // format yyyy-mm-dd-xxx
   biodata        biodataUser[]
-  questions      question_banks[]
   accounts       Account[]
-  sessions       Session[]
-  disc_answer    disc_answer[]
-  papi_answer    papi_answer[]
-  nilai_tpa_user nilai_tpa_user[]
-  nilai_tkb_user nilai_tkb_user[]
+  scorePsikotest scoreTotalPsikotest[]
+  scoreBIngrris  scoreBIngrris[]
+}
+
+model soalVerbal {
+  id            Int       @id @unique @default(autoincrement())
+  gambar        String?
+  soal          String    @db.LongText
+  A             String
+  B             String
+  C             String
+  D             String
+  E             String?
+  kunci_jawaban String
+  tipe_soal     tipe_soal @default(Bahasa_Indonesia)
+  aktif         Boolean?   @default(true)
+  createdAt     String
+  updatedAt     String
+}
+
+model soalAntonim {
+  id            Int       @id @unique @default(autoincrement())
+  gambar        String?
+  soal          String    @db.LongText
+  A             String
+  B             String
+  C             String
+  D             String
+  E             String?
+  kunci_jawaban String
+  tipe_soal     tipe_soal @default(Bahasa_Indonesia)
+  aktif         Boolean?   @default(true)
+  createdAt     String
+  updatedAt     String
+}
+
+model soalSinonim {
+  id            Int       @id @unique @default(autoincrement())
+  gambar        String?
+  soal          String    @db.LongText
+  A             String
+  B             String
+  C             String
+  D             String
+  E             String?
+  kunci_jawaban String
+  tipe_soal     tipe_soal @default(Bahasa_Indonesia)
+  aktif         Boolean?   @default(true)
+  createdAt     String
+  updatedAt     String
+}
+
+model soalAntonimSinonim {
+  id            Int       @id @unique @default(autoincrement())
+  gambar        String?
+  soal          String    @db.LongText
+  A             String
+  S             String
+  kunci_jawaban String
+  tipe_soal     tipe_soal @default(Bahasa_Indonesia)
+  aktif         Boolean?   @default(true)
+  createdAt     String
+  updatedAt     String
+}
+
+model soalDeret {
+  id            Int       @id @unique @default(autoincrement())
+  gambar        String?
+  soal          String    @db.LongText
+  A             String
+  B             String
+  C             String
+  D             String
+  E             String?
+  kunci_jawaban String
+  tipe_soal     tipe_soal @default(Bahasa_Indonesia)
+  aktif         Boolean?   @default(true)
+  createdAt     String
+  updatedAt     String
+}
+
+model soalhitungCepat {
+  id            Int       @id @unique @default(autoincrement())
+  gambar        String?
+  soal          String    @db.LongText
+  A             String
+  B             String
+  C             String
+  D             String
+  E             String?
+  kunci_jawaban String
+  tipe_soal     tipe_soal @default(Bahasa_Indonesia)
+  aktif         Boolean?   @default(true)
+  createdAt     String
+  updatedAt     String
+}
+
+model soalInformasiSingkat {
+  id            Int       @id @unique @default(autoincrement())
+  gambar        String?
+  soal          String    @db.LongText
+  hint          String
+  answer        String
+  kunci_jawaban String
+  tipe_soal     tipe_soal @default(Bahasa_Indonesia)
+  aktif         Boolean?   @default(true)
+  createdAt     String
+  updatedAt     String
+}
+
+model soalKalimatTakTeratur {
+  id            Int       @id @unique @default(autoincrement())
+  gambar        String?
+  soal          String    @db.LongText
+  B             String
+  S             String
+  kunci_jawaban String
+  tipe_soal     tipe_soal @default(Bahasa_Indonesia)
+  aktif         Boolean?   @default(true)
+  createdAt     String
+  updatedAt     String
+}
+
+model soalKemampuanTeknikal {
+  id            Int       @id @unique @default(autoincrement())
+  gambar        String?
+  soal          String    @db.LongText
+  A             String
+  B             String
+  C             String
+  D             String
+  E             String?
+  kunci_jawaban String
+  tipe_soal     tipe_soal @default(Bahasa_Indonesia)
+  aktif         Boolean?   @default(true)
+  createdAt     String
+  updatedAt     String
+}
+
+model soalKetelitian {
+  id            Int       @id @unique @default(autoincrement())
+  gambar        String?
+  soal          String    @db.LongText
+  S             String
+  T             String
+  kunci_jawaban String
+  tipe_soal     tipe_soal @default(Bahasa_Indonesia)
+  aktif         Boolean?   @default(true)
+  createdAt     String
+  updatedAt     String
+}
+
+model soalKuantitatifAnalisis {
+  id            Int       @id @unique @default(autoincrement())
+  gambar        String?
+  soal          String    @db.LongText
+  A             String
+  B             String
+  C             String
+  D             String
+  E             String?
+  kunci_jawaban String
+  tipe_soal     tipe_soal @default(Bahasa_Indonesia)
+  aktif         Boolean?   @default(true)
+  createdAt     String
+  updatedAt     String
+}
+
+model soalPenalaranAnalitik {
+  id            Int       @id @unique @default(autoincrement())
+  gambar        String?
+  soal          String    @db.LongText
+  A             String
+  B             String
+  C             String
+  D             String
+  E             String?
+  kunci_jawaban String
+  tipe_soal     tipe_soal @default(Bahasa_Indonesia)
+  aktif         Boolean?   @default(true)
+  createdAt     String
+  updatedAt     String
+}
+
+model soalPenalaranLogis {
+  id            Int       @id @unique @default(autoincrement())
+  gambar        String?
+  soal          String    @db.LongText
+  A             String
+  B             String
+  C             String
+  D             String
+  E             String?
+  kunci_jawaban String
+  tipe_soal     tipe_soal @default(Bahasa_Indonesia)
+  aktif         Boolean?   @default(true)
+  createdAt     String
+  updatedAt     String
+}
+
+model soalKepribadian {
+  id            Int       @id @unique @default(autoincrement())
+  gambar        String?
+  soal          String    @db.LongText
+  A             String
+  B             String
+  C             String
+  D             String
+  E             String?
+  kunci_jawaban String
+  tipe_soal     tipe_soal @default(Bahasa_Indonesia)
+  aktif         Boolean?   @default(true)
+  createdAt     String
+  updatedAt     String
+}
+
+model soalBahasaInggris {
+  id            Int     @id @unique @default(autoincrement())
+  gambar        String?
+  soal          String  @db.LongText
+  A             String
+  B             String
+  C             String
+  D             String
+  E             String?
+  kunci_jawaban String
+  aktif         Boolean @default(true)
+  createdAt     String
+  updatedAt     String
+}
+
+model scoreTotalPsikotest {
+  id         Int    @id @unique @default(autoincrement())
+  id_user    String @unique
+  user       User   @relation(fields: [id_user], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  score      Json
+  scoreTotal String
+  createdAt  String
+}
+
+model scoreBIngrris {
+  id        Int     @id @unique @default(autoincrement())
+  id_user   String  @unique
+  user      User    @relation(fields: [id_user], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  benar     String?
+  salah     String?
+  kosong    String?
+  score     String
+  createdAt String
+}
+
+model settinganSoal {
+  id                                  Int    @id @unique @default(autoincrement())
+  waktu_pengerjaan_psikotest          Int
+  waktu_pengerjaan_inggris            Int
+  max_soal_verbal                     Int    @default(50)
+  max_soal_anonim                     Int    @default(50)
+  max_soal_sinonim                    Int    @default(50)
+  max_soal_antonim_sinonim            Int    @default(50)
+  max_soal_deret_angka                Int    @default(50)
+  max_soal_hitung_cepat               Int    @default(50)
+  max_soal_informasi_singkat          Int    @default(50)
+  max_soal_kalimat_tak_teratur        Int    @default(50)
+  max_soal_kalimat_kemampuan_teknikal Int    @default(50)
+  max_soal_kalimat_ketelitian         Int    @default(50)
+  max_soal_kalimat_kuantitatif_analisis Int    @default(50)
+  max_soal_kalimat_penalaran_logis    Int    @default(50)
+  max_soal_kalimat_penalaran_analitik   Int    @default(50)
+  max_soal_kalimat_kepribadian        Int    @default(50)
+  max_soal_bInggris                   Int
+  schedule String
+  createdAt                           String
+}
+
+enum tipe_soal {
+  Bahasa_Inggris
+  Bahasa_Indonesia
 }
 
 model biodataUser {
@@ -244,194 +507,4 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
-}
-
-model question_banks {
-  id        String             @id @unique @default(cuid())
-  question  String             @db.LongText
-  type      question_type      @default(text)
-  category  questionCategory[]
-  required  Boolean
-  createdBy User[]
-  createdAt String
-  updatedAt String
-}
-
-model questionCategory {
-  id         String          @id @unique @default(cuid())
-  name       String          @unique
-  questionId String?         @unique
-  question   question_banks? @relation(fields: [questionId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  createdAt  String
-  updatedAt  String
-}
-
-model soalTPA {
-  id            Int     @id @unique @default(autoincrement())
-  soal          String  @db.LongText
-  a             String
-  b             String
-  c             String
-  d             String
-  kunci_jawaban String  @db.TinyText
-  gambar        String?
-
-  isAktif   String @db.VarChar(5)
-  createdAt String
-  updatedAt String
-}
-
-model soalTKB {
-  id            Int     @id @unique @default(autoincrement())
-  soal          String  @db.LongText
-  a             String
-  b             String
-  c             String
-  point_a       String
-  point_b       String
-  point_c       String
-  kunci_jawaban String  @db.TinyText
-  isAktif       String  @db.VarChar(5)
-  gambar        String?
-  createdAt     String
-  updatedAt     String
-}
-
-model soalBahasaInggris {
-  id            Int     @id @unique @default(autoincrement())
-  soal          String  @db.LongText
-  a             String
-  b             String
-  c             String
-  d             String
-  kunci_jawaban String  @db.TinyText
-  gambar        String?
-  isAktif       Boolean @default(true)
-  createdAt     String
-  updatedAt     String
-}
-
-model disc_pattern {
-  id          Int    @id @unique @default(autoincrement())
-  type        String @db.TinyText
-  pattern     String
-  behaviour   String @db.LongText
-  jobs        String @db.LongText
-  description String @db.LongText
-}
-
-model disc_personalities {
-  id    Int    @id @unique @default(autoincrement())
-  no    Int
-  term  String @db.Text
-  most  String @db.TinyText
-  least String @db.TinyText
-}
-
-model disc_result {
-  id    Int   @id @unique @default(autoincrement())
-  value Int
-  d     Float
-  i     Float
-  s     Float
-  c     Float
-  line  Int   @db.TinyInt
-}
-
-model disc_answer {
-  id      Int    @id @unique @default(autoincrement())
-  id_user String
-  user    User[]
-  type    String
-  val     String
-}
-
-model papi_answer {
-  id      Int    @id @unique @default(autoincrement())
-  id_user String
-  user    User[]
-  val     String
-}
-
-model papi_aspect {
-  id         Int          @id @unique @default(autoincrement())
-  aspect     String
-  papi_roles papi_roles[]
-}
-
-model papi_questions {
-  id        Int    @id @unique @default(autoincrement())
-  question1 String
-  value1    String @db.TinyText
-  question2 String
-  value2    String @db.TinyText
-}
-
-model papi_result {
-  id      Int          @id @unique @default(autoincrement())
-  id_user String
-  role_id String
-  role    papi_roles[]
-  value   String       @db.TinyText
-}
-
-model papi_roles {
-  id          Int           @id @unique @default(autoincrement())
-  aspect_id   String
-  aspect      papi_aspect[]
-  code        String        @db.TinyText
-  role        String
-  papi_result papi_result[]
-  rules       papi_rules[]
-}
-
-model papi_rules {
-  id              Int          @id @unique @default(autoincrement())
-  role_id         String
-  roles           papi_roles[]
-  low_value       Int          @db.TinyInt
-  high_value      Int          @db.TinyInt
-  interprestation String
-}
-
-model nilai_tpa_user {
-  id         Int     @id @unique @default(autoincrement())
-  id_user    String
-  user       User[]
-  benar      String
-  salah      String
-  kosong     String?
-  score      String
-  keterangan String?
-  wm1        Int
-  wm2        Int
-  wm3        Int
-  createdAt  String
-}
-
-model nilai_tkb_user {
-  id         Int     @id @unique @default(autoincrement())
-  id_user    String
-  user       User[]
-  benar      String
-  salah      String
-  kosong     String?
-  score      String
-  keterangan String?
-  createdAt  String
-}
-
-model tes_settings {
-  id Int @id @unique @default(autoincrement())
-  nama_tes String
-  nilai_minimum_tes_1 String @db.VarChar(3)
-  nilai_minimum_tes_2 String @db.VarChar(3)
-  waktu_pengerjaan_tes_1 String
-  waktu_pengerjaan_tes_2 String
-  waktu_pengerjaan_tes_3 String
-  waktu_pengerjaan_tes_4 String
-  peraturan String @db.LongText
-
-  createdAt String
-  updatedAt String
 }

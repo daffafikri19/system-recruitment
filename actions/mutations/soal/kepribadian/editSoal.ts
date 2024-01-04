@@ -80,7 +80,7 @@ export async function editSoal(formdata: FormData) {
             }
         });
 
-        revalidatePath('/dashboard/kelola-soal/kepribadian', "page");
+        revalidatePath('/dashboard/kelola-soal/kepribadian');
 
         return {
             message: "Soal berhasil diedit",

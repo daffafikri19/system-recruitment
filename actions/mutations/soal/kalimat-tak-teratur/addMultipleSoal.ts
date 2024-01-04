@@ -22,7 +22,7 @@ export async function addMultipleSoal(soalData: soalKalimatTakTeratur[]) {
     });
 
 
-    revalidatePath('/dashboard/kelola-soal/kalimat-tak-teratur', "page");
+    revalidatePath('/dashboard/kelola-soal/kalimat-tak-teratur');
 
     return {
       message: "Soal berhasil ditambahkan",

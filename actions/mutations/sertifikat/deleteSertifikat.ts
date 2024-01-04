@@ -24,7 +24,7 @@ export async function deleteSertifikat(id: string) {
             }
         });
 
-        revalidatePath('/dashboard/biodata', "page")
+        revalidatePath('/dashboard/biodata')
         return {
             message: 'Berhasil menghapus data',
             status: 200

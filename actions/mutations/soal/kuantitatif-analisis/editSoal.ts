@@ -80,7 +80,7 @@ export async function editSoal(formdata: FormData) {
             }
         });
 
-        revalidatePath('/dashboard/kelola-soal/kuantitatif-analisis', "page");
+        revalidatePath('/dashboard/kelola-soal/kuantitatif-analisis');
 
         return {
             message: "Soal berhasil diedit",

@@ -80,7 +80,7 @@ export async function editSoal(formdata: FormData) {
             }
         });
 
-        revalidatePath('/dashboard/kelola-soal/hitung-cepat', "page");
+        revalidatePath('/dashboard/kelola-soal/hitung-cepat');
 
         return {
             message: "Soal berhasil diedit",

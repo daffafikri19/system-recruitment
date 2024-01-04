@@ -11,7 +11,7 @@ export async function deleteSoal(id: number){
             }
         });
 
-        revalidatePath("/dashboard/kelola-soal/penalaran-logis", "page");
+        revalidatePath("/dashboard/kelola-soal/penalaran-logis");
 
         return {    
             message: 'Berhasil menghapus soal',

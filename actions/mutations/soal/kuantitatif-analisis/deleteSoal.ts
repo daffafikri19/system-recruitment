@@ -11,7 +11,7 @@ export async function deleteSoal(id: number){
             }
         });
 
-        revalidatePath("/dashboard/kelola-soal/kuantitatif-analisis", "page");
+        revalidatePath("/dashboard/kelola-soal/kuantitatif-analisis");
 
         return {    
             message: 'Berhasil menghapus soal',

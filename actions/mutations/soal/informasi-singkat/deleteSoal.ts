@@ -11,7 +11,7 @@ export async function deleteSoal(id: number){
             }
         });
 
-        revalidatePath("/dashboard/kelola-soal/informasi-singkat", "page");
+        revalidatePath("/dashboard/kelola-soal/informasi-singkat");
 
         return {    
             message: 'Berhasil menghapus soal',

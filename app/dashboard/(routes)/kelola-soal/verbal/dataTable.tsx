@@ -19,7 +19,7 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
-import { CheckCircle2, Download, Edit2Icon, EyeIcon, FileQuestionIcon, Plus, SearchIcon, Trash2Icon, UploadIcon, X, XCircle } from "lucide-react"
+import { CheckCircle2, Download, Edit2Icon, EyeIcon, FileQuestionIcon, Loader2, Plus, SearchIcon, Trash2Icon, UploadIcon, X, XCircle } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
@@ -31,13 +31,13 @@ import { addMultipleSoal } from "@/actions/mutations/soal/verbal/addMultipleSoal
 import { toast } from "@/components/ui/use-toast"
 import { deleteSoal } from "@/actions/mutations/soal/verbal/deleteSoalVerbal"
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog"
+import { useLoadingContext } from "@/app/dashboard/components/context"
 
 interface dataTableProps {
     questionData: soalVerbal[]
 }
 
 export const DataTable = ({ questionData }: dataTableProps) => {
-
     const [openPratinjau, setOpenPratinjau] = useState(false);
     const router = useRouter();
     const [openModalImport, setOpenModalImport] = useState(false);
@@ -59,6 +59,7 @@ export const DataTable = ({ questionData }: dataTableProps) => {
         createdAt: "",
         updatedAt: "",
     });
+    const {loading, setLoading} = useLoadingContext();
 
     const handleOpenPratinjau = (data: soalVerbal) => {
         setOpenPratinjau(true);
@@ -119,21 +120,25 @@ export const DataTable = ({ questionData }: dataTableProps) => {
     };
 
     const handleFileMultipleUpload = () => {
+        setLoading(true)
         addMultipleSoal(dataFile).then(response => {
             toast({
                 title: response.message,
                 variant: response.status === 200 ? "default" : "destructive"
             });
+            setLoading(false)
             setOpenModalImport(false)
         })
     }
 
     const handleDeleteSoal = (id: number) => {
+        setLoading(true)
         deleteSoal(id).then(response => {
             toast({
                 title: response.message,
                 variant: response.status === 200 ? "default" : "destructive"
-            })
+            });
+            setLoading(false)
         })
     }
 
@@ -172,8 +177,13 @@ export const DataTable = ({ questionData }: dataTableProps) => {
                             <CardContent>
                                 {onFile ? (
                                     <div className="relative space-y-3 p-4 rounded-lg border-2 border-dashed w-full flex items-center justify-center">
-                                        <Button className="flex items-center justify-center" variant="success" onClick={handleFileMultipleUpload}>Save Data</Button>
-                                        <X className="absolute text-red-500 -top-2 right-0 cursor-pointer" onClick={() => setOnFile(null)} />
+                                        <Button disabled={loading} className="flex items-center justify-center" variant="success" onClick={handleFileMultipleUpload}>
+                                            {loading ? (
+                                                <Loader2 className="w-5 h-5 mx-4 animate-spin" />
+                                            ): "Import"}
+                                        </Button>
+                                        <X className="absolute text-red-500 -top-2 right-0 cursor-pointer"
+                                         onClick={() => setOnFile(null)} />
                                     </div>
                                 ) : (
                                     <Input type="file" onChange={handleFileChange} />
@@ -254,8 +264,8 @@ export const DataTable = ({ questionData }: dataTableProps) => {
                                                         </AlertDialogTitle>
                                                     </AlertDialogHeader>
                                                     <AlertDialogFooter>
-                                                        <AlertDialogCancel>Batal</AlertDialogCancel>
-                                                        <AlertDialogAction onClick={() => handleDeleteSoal(question.id)}>Delete</AlertDialogAction>
+                                                        <AlertDialogCancel disabled={loading}>Batal</AlertDialogCancel>
+                                                        <AlertDialogAction disabled={loading} onClick={() => handleDeleteSoal(question.id)}>Delete</AlertDialogAction>
                                                     </AlertDialogFooter>
                                                 </AlertDialogContent>
                                             </AlertDialog>

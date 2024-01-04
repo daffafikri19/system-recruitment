@@ -68,7 +68,7 @@ export async function addSingleSoal(formdata: FormData) {
             }
         });
 
-        revalidatePath('/dashboard/kelola-soal/hitung-cepat', "page");
+        revalidatePath('/dashboard/kelola-soal/hitung-cepat');
 
         return {
             message: "Soal berhasil ditambahkan",

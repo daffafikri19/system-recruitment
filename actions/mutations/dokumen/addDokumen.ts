@@ -45,7 +45,7 @@ export async function addDokumen(formdata: FormData) {
         });
 
 
-        revalidatePath('/dashboard/biodata', "page")
+        revalidatePath('/dashboard/biodata')
         return {
             message: 'Berhasil menambahkan data dokumen',
             status: 200

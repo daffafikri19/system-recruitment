@@ -11,7 +11,7 @@ export async function deleteSoal(id: number){
             }
         });
 
-        revalidatePath("/dashboard/kelola-soal/kalimat-tak-teratur", "page");
+        revalidatePath("/dashboard/kelola-soal/kalimat-tak-teratur");
 
         return {    
             message: 'Berhasil menghapus soal',

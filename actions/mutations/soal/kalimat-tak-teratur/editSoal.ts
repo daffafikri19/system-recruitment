@@ -65,7 +65,7 @@ export async function editSoal(formdata: FormData) {
             }
         });
 
-        revalidatePath('/dashboard/kelola-soal/kalimat-tak-teratur', "page");
+        revalidatePath('/dashboard/kelola-soal/kalimat-tak-teratur');
 
         return {
             message: "Soal berhasil diedit",

@@ -52,7 +52,7 @@ export async function editSertifikat(formdata: FormData) {
             }
         });
 
-        revalidatePath('/dashboard/biodata', "page")
+        revalidatePath('/dashboard/biodata')
         return {
             message: 'Berhasil update data',
             status: 200

@@ -43,7 +43,7 @@ export async function editKeterampilan(formdata: FormData) {
             }
         }
 
-        revalidatePath("/dashboard/biodata", "page")
+        revalidatePath("/dashboard/biodata")
         return {
             message: 'Berhasil edit data keterampilan',
             status: 200

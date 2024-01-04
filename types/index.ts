@@ -64,7 +64,6 @@ export interface PendidikanUserProps {
     biodata: []
 }
 
-
 export interface PengalamanKerjaProps {
     id: string,
     nama_perusahaan: string,

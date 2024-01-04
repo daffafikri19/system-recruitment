@@ -80,7 +80,7 @@ export async function editSoal(formdata: FormData) {
             }
         });
 
-        revalidatePath('/dashboard/kelola-soal/sinonim', "page");
+        revalidatePath('/dashboard/kelola-soal/sinonim');
 
         return {
             message: "Soal berhasil diedit",

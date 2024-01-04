@@ -80,7 +80,7 @@ export async function editSoal(formdata: FormData) {
             }
         });
 
-        revalidatePath('/dashboard/kelola-soal/penalaran-logis', "page");
+        revalidatePath('/dashboard/kelola-soal/penalaran-logis');
 
         return {
             message: "Soal berhasil diedit",

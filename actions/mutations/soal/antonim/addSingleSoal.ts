@@ -68,7 +68,7 @@ export async function addSingleSoal(formdata: FormData) {
             }
         });
 
-        revalidatePath('/dashboard/kelola-soal/antonim', "page");
+        revalidatePath('/dashboard/kelola-soal/antonim');
 
         return {
             message: "Soal berhasil ditambahkan",

@@ -53,7 +53,7 @@ export async function addSingleSoal(formdata: FormData) {
             }
         });
 
-        revalidatePath('/dashboard/kelola-soal/ketelitian', "page");
+        revalidatePath('/dashboard/kelola-soal/ketelitian');
 
         return {
             message: "Soal berhasil ditambahkan",

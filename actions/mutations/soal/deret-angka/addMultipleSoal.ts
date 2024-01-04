@@ -22,7 +22,7 @@ export async function addMultipleSoal(soalData: soalDeret[]) {
     });
 
 
-    revalidatePath('/dashboard/kelola-soal/deret-angka', "page");
+    revalidatePath('/dashboard/kelola-soal/deret-angka');
 
     return {
       message: "Soal berhasil ditambahkan",

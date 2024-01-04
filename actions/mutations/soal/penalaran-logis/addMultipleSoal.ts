@@ -22,7 +22,7 @@ export async function addMultipleSoal(soalData: soalPenalaranLogis[]) {
     });
 
 
-    revalidatePath('/dashboard/kelola-soal/penalaran-logis', "page");
+    revalidatePath('/dashboard/kelola-soal/penalaran-logis');
 
     return {
       message: "Soal berhasil ditambahkan",

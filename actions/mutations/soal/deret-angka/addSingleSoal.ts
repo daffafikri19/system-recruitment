@@ -68,7 +68,7 @@ export async function addSingleSoal(formdata: FormData) {
             }
         });
 
-        revalidatePath('/dashboard/kelola-soal/deret-angka', "page");
+        revalidatePath('/dashboard/kelola-soal/deret-angka');
 
         return {
             message: "Soal berhasil ditambahkan",

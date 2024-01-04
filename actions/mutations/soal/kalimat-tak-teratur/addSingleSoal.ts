@@ -53,7 +53,7 @@ export async function addSingleSoal(formdata: FormData) {
             }
         });
 
-        revalidatePath('/dashboard/kelola-soal/kalimat-tak-teratur', "page");
+        revalidatePath('/dashboard/kelola-soal/kalimat-tak-teratur');
 
         return {
             message: "Soal berhasil ditambahkan",

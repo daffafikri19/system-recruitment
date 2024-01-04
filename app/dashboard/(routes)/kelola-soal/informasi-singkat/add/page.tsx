@@ -3,6 +3,7 @@
 import { addSingleSoal } from '@/actions/mutations/soal/informasi-singkat/addSingleSoal'
 import { Filemanager } from '@/app/dashboard/components/FileManager'
 import { TextEditor } from '@/app/dashboard/components/TextEditor'
+import { useLoadingContext } from '@/app/dashboard/components/context'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -10,7 +11,7 @@ import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
 import { toast } from '@/components/ui/use-toast'
-import { X } from 'lucide-react'
+import { Loader2, X } from 'lucide-react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
@@ -19,6 +20,7 @@ const AddSoalInformasiSingkatPage = () => {
     const [media, setMedia] = useState<string | null>("");
     const [soal, setSoal] = useState("");
     const router = useRouter();
+    const { loading, setLoading } = useLoadingContext();
 
     const handleFileSelected = (mediaUrl: string) => {
         console.log(mediaUrl);
@@ -34,19 +36,21 @@ const AddSoalInformasiSingkatPage = () => {
             <Card>
                 <CardContent className='py-4'>
                     <form action={async formdata => {
+                        setLoading(true)
                         const result = await addSingleSoal(formdata);
                         if (result.status === 200) {
                             toast({
                                 title: result.message,
                                 variant: "default"
                             });
+                            setLoading(false)
                             return router.push('/dashboard/kelola-soal/informasi-singkat')
                         } else {
                             toast({
                                 title: result.message,
                                 variant: "destructive"
                             });
-                            console.log(result.error)
+                            setLoading(false)
                         }
                     }}>
                         <div>
@@ -116,7 +120,11 @@ const AddSoalInformasiSingkatPage = () => {
 
                         <div className='mt-10 w-full flex items-center justify-end space-x-4'>
                             <Button type='button' variant="destructive" onClick={() => router.push('/dashboard/kelola-soal/informasi-singkat')}>Batal</Button>
-                            <Button className='text-white' type='submit' disabled={!soal}>Simpan</Button>
+                            <Button type="submit" aria-disabled={loading} disabled={loading}>
+                                {loading ? (
+                                    <Loader2 className='w-5 h-5 mx-4 animate-spin' />
+                                ) : "Simpan"}
+                            </Button>
                         </div>
                     </form>
                 </CardContent>

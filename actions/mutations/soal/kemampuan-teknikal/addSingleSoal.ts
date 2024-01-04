@@ -68,7 +68,7 @@ export async function addSingleSoal(formdata: FormData) {
             }
         });
 
-        revalidatePath('/dashboard/kelola-soal/kemampuan-teknikal', "page");
+        revalidatePath('/dashboard/kelola-soal/kemampuan-teknikal');
 
         return {
             message: "Soal berhasil ditambahkan",

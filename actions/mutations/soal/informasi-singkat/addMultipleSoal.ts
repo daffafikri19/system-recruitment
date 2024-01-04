@@ -22,7 +22,7 @@ export async function addMultipleSoal(soalData: soalInformasiSingkat[]) {
     });
 
 
-    revalidatePath('/dashboard/kelola-soal/informasi-singkat', "page");
+    revalidatePath('/dashboard/kelola-soal/informasi-singkat');
 
     return {
       message: "Soal berhasil ditambahkan",

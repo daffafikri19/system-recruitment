@@ -59,7 +59,7 @@ export async function addKeluarga(formdata: FormData) {
             }
         });
 
-        revalidatePath('/dashboard/biodata', 'page');
+        revalidatePath('/dashboard/biodata');
         return {
             message: 'berhasil menambahkan data keluarga!',
             status: 200

@@ -11,7 +11,7 @@ export async function deleteSoal(id: number){
             }
         });
 
-        revalidatePath("/dashboard/kelola-soal/antonim", "page");
+        revalidatePath("/dashboard/kelola-soal/antonim");
 
         return {    
             message: 'Berhasil menghapus soal',

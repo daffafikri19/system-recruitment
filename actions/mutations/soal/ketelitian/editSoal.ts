@@ -65,7 +65,7 @@ export async function editSoal(formdata: FormData) {
             }
         });
 
-        revalidatePath('/dashboard/kelola-soal/ketelitian', "page");
+        revalidatePath('/dashboard/kelola-soal/ketelitian');
 
         return {
             message: "Soal berhasil diedit",

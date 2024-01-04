@@ -22,7 +22,7 @@ export async function addMultipleSoal(soalData: soalSinonim[]) {
     });
 
 
-    revalidatePath('/dashboard/kelola-soal/sinonim', "page");
+    revalidatePath('/dashboard/kelola-soal/sinonim');
 
     return {
       message: "Soal berhasil ditambahkan",

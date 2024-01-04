@@ -69,7 +69,7 @@ export async function addPendidikan(formdata: FormData) {
                 biodata: true
             }
         });
-        revalidatePath('/dashboard/biodata', "page");
+        revalidatePath('/dashboard/biodata');
         return {
             message: "Berhasil menambahkan data pendidikan",
             status: 200

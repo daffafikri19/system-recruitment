@@ -11,7 +11,7 @@ export async function deleteSoal(id: number){
             }
         });
 
-        revalidatePath("/dashboard/kelola-soal/hitung-cepat", "page");
+        revalidatePath("/dashboard/kelola-soal/hitung-cepat");
 
         return {    
             message: 'Berhasil menghapus soal',

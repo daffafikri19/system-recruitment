@@ -24,7 +24,7 @@ export async function deleteKeterampilan(id: string) {
             }
         });
 
-        revalidatePath('/dashboard/biodata', "page")
+        revalidatePath('/dashboard/biodata')
         return {
             message: "Berhasil menghapus data keterampilan",
             status: 200

@@ -22,7 +22,7 @@ export async function addMultipleSoal(soalData: soalhitungCepat[]) {
     });
 
 
-    revalidatePath('/dashboard/kelola-soal/hitung-cepat', "page");
+    revalidatePath('/dashboard/kelola-soal/hitung-cepat');
 
     return {
       message: "Soal berhasil ditambahkan",

@@ -11,7 +11,7 @@ export async function deleteSoal(id: number){
             }
         });
 
-        revalidatePath("/dashboard/kelola-soal/kemampuan-teknikal", "page");
+        revalidatePath("/dashboard/kelola-soal/kemampuan-teknikal");
 
         return {    
             message: 'Berhasil menghapus soal',

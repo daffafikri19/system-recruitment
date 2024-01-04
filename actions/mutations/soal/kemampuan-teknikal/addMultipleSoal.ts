@@ -22,7 +22,7 @@ export async function addMultipleSoal(soalData: soalKemampuanTeknikal[]) {
     });
 
 
-    revalidatePath('/dashboard/kelola-soal/kemampuan-teknikal', "page");
+    revalidatePath('/dashboard/kelola-soal/kemampuan-teknikal');
 
     return {
       message: "Soal berhasil ditambahkan",

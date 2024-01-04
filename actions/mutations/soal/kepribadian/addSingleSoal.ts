@@ -68,7 +68,7 @@ export async function addSingleSoal(formdata: FormData) {
             }
         });
 
-        revalidatePath('/dashboard/kelola-soal/kepribadian', "page");
+        revalidatePath('/dashboard/kelola-soal/kepribadian');
 
         return {
             message: "Soal berhasil ditambahkan",

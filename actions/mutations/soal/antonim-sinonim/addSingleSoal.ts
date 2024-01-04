@@ -53,7 +53,7 @@ export async function addSingleSoal(formdata: FormData) {
             }
         });
 
-        revalidatePath('/dashboard/kelola-soal/antonim-sinonim', "page");
+        revalidatePath('/dashboard/kelola-soal/antonim-sinonim');
 
         return {
             message: "Soal berhasil ditambahkan",

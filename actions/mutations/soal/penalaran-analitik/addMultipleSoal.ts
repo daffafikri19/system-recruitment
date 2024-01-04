@@ -22,7 +22,7 @@ export async function addMultipleSoal(soalData: soalPenalaranAnalitik[]) {
     });
 
 
-    revalidatePath('/dashboard/kelola-soal/penalaran-analitik', "page");
+    revalidatePath('/dashboard/kelola-soal/penalaran-analitik');
 
     return {
       message: "Soal berhasil ditambahkan",

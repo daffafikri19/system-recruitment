@@ -80,7 +80,7 @@ export async function editSoal(formdata: FormData) {
             }
         });
 
-        revalidatePath('/dashboard/kelola-soal/deret-angka', "page");
+        revalidatePath('/dashboard/kelola-soal/deret-angka');
 
         return {
             message: "Soal berhasil diedit",

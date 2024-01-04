@@ -43,7 +43,7 @@ export const addKeterampilan = async (formdata : FormData) => {
         });
 
 
-        revalidatePath('/dashboard/biodata', "page")
+        revalidatePath('/dashboard/biodata')
         return {
             message: 'berhasil menambahkan data keterampilan',
             status: 200

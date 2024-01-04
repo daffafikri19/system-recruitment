@@ -11,7 +11,7 @@ export async function deleteSoal(id: number){
             }
         });
 
-        revalidatePath("/dashboard/kelola-soal/deret-angka", "page");
+        revalidatePath("/dashboard/kelola-soal/deret-angka");
 
         return {    
             message: 'Berhasil menghapus soal',

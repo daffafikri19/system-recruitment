@@ -56,7 +56,7 @@ export async function addSingleSoal(formdata: FormData) {
             }
         });
 
-        revalidatePath('/dashboard/kelola-soal/informasi-singkat', "page");
+        revalidatePath('/dashboard/kelola-soal/informasi-singkat');
 
         return {
             message: "Soal berhasil ditambahkan",

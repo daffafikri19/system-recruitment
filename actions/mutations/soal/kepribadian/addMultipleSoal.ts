@@ -22,7 +22,7 @@ export async function addMultipleSoal(soalData: soalKepribadian[]) {
     });
 
 
-    revalidatePath('/dashboard/kelola-soal/kepribadian', "page");
+    revalidatePath('/dashboard/kelola-soal/kepribadian');
 
     return {
       message: "Soal berhasil ditambahkan",

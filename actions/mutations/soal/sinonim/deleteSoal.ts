@@ -11,7 +11,7 @@ export async function deleteSoal(id: number){
             }
         });
 
-        revalidatePath("/dashboard/kelola-soal/sinonim", "page");
+        revalidatePath("/dashboard/kelola-soal/sinonim");
 
         return {    
             message: 'Berhasil menghapus soal',

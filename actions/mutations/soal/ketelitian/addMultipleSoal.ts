@@ -22,7 +22,7 @@ export async function addMultipleSoal(soalData: soalKetelitian[]) {
     });
 
 
-    revalidatePath('/dashboard/kelola-soal/ketelitian', "page");
+    revalidatePath('/dashboard/kelola-soal/ketelitian');
 
     return {
       message: "Soal berhasil ditambahkan",

@@ -59,7 +59,7 @@ export async function addPengalamanKerja(formdata: FormData) {
             }
         });
 
-        revalidatePath('/dashboard/biodata', "page");
+        revalidatePath('/dashboard/biodata');
         return {
             message: "Berhasil menambahkan data pengalaman kerja",
             status: 200

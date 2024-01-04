@@ -68,7 +68,7 @@ export async function addSingleSoal(formdata: FormData) {
             }
         });
 
-        revalidatePath('/dashboard/kelola-soal/kuantitatif-analisis', "page");
+        revalidatePath('/dashboard/kelola-soal/kuantitatif-analisis');
 
         return {
             message: "Soal berhasil ditambahkan",

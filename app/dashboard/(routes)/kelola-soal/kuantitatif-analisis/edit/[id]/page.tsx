@@ -79,7 +79,7 @@ const EditSoalKuantitatifAnalisisPage = () => {
     }
 
     getData();
-  }, [])
+  }, [id])
 
   function handleFileSelected(mediaUrl: string) {
     console.log(mediaUrl)

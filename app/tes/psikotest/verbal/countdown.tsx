@@ -29,7 +29,7 @@ export const CountDown = ({ waktu_pengerjaan }: CountdownProps) => {
                 setCountdown(waktu_pengerjaan!);
             }
         }
-    }, []);
+    }, [waktu_pengerjaan]);
 
     useEffect(() => {
         if (countdown <= 0 && startCountdown) {
@@ -51,7 +51,7 @@ export const CountDown = ({ waktu_pengerjaan }: CountdownProps) => {
         return () => {
             clearInterval(countdownInterval);
         };
-    }, [startCountdown]);
+    }, [startCountdown, waktu_pengerjaan]);
 
     const formatTimeCountdown = (time: any) => {
         const hours = Math.floor(time / 3600);

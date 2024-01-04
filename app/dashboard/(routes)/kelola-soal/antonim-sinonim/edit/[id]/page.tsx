@@ -73,7 +73,7 @@ const EditSoalAntonimSinonimPage = () => {
     }
 
     getData();
-  }, [])
+  }, [id])
 
   function handleFileSelected(mediaUrl: string) {
     console.log(mediaUrl)

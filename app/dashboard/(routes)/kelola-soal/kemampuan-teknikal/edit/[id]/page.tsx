@@ -79,7 +79,7 @@ const EditSoalKemampuanTeknikalPage = () => {
     }
 
     getData();
-  }, [])
+  }, [id])
 
   function handleFileSelected(mediaUrl: string) {
     console.log(mediaUrl)

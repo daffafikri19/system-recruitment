@@ -79,7 +79,7 @@ const EditSoalPenalaranLogisPage = () => {
     }
 
     getData();
-  }, [])
+  }, [id])
 
   function handleFileSelected(mediaUrl: string) {
     console.log(mediaUrl)

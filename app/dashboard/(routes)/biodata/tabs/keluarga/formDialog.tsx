@@ -50,7 +50,7 @@ export const FormDialog = ({ username }: { username: string }) => {
 
     useEffect(() => {
         getBiodata();
-    }, []);
+    }, [getBiodata]);
 
     const handleSelectedDate = (date: any) => {
         console.log("selected Date", date);

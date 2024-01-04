@@ -53,7 +53,7 @@ export const ButtonControl = ({ data } : ButtonControlProps) => {
         <Card>
             <CardContent className="p-2 grid grid-cols-10 gap-1">
                 {Array.from({ length: data.length }, (_, index: number) => (
-                    <ButtonItem number={index + 1}
+                    <ButtonItem number={index + 1} key={index + 1}
                         variant={currentPage === String(index + 1) ? "default" : "outline"} />
                 ))}
             </CardContent>

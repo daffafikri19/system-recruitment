@@ -92,7 +92,7 @@ export const DataDiriTab = ({ sessionUserId, username, email }: dataDiriTabProps
         getListCountry();
         getProvincesList();
         getCurrentUser();
-    }, []);
+    }, [biodata.no_ponsel, biodata.no_wa, getCurrentUser, getListCountry, getProvincesList, isSameNumber]);
 
     const handlePhoneChange = (event: ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;

@@ -79,7 +79,7 @@ const EditSoalHitungCepatPage = () => {
     }
 
     getData();
-  }, [])
+  }, [id])
 
   function handleFileSelected(mediaUrl: string) {
     console.log(mediaUrl)

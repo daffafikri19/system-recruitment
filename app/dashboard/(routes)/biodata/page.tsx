@@ -18,7 +18,7 @@ import { redirect } from 'next/navigation'
 const BiodataPage = async () => {
     const session = await getServerSession(authOptions);
     if (session && session?.user) {
-        console.log("user session", session)
+        
         return (
             <div className="w-full h-full">
                 <Tabs defaultValue="data-diri" className="w-full md:flex md:items-start md:gap-2">

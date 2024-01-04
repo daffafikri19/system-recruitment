@@ -80,7 +80,7 @@ export async function editSoal(formdata: FormData) {
             }
         });
 
-        revalidatePath('/dashboard/kelola-soal/verbal', "page");
+        revalidatePath('/dashboard/kelola-soal/verbal');
 
         return {
             message: "Soal berhasil diedit",

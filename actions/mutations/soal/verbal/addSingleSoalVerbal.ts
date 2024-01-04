@@ -68,7 +68,7 @@ export async function addSingleSoal(formdata: FormData) {
             }
         });
 
-        revalidatePath('/dashboard/kelola-soal/verbal', "page");
+        revalidatePath('/dashboard/kelola-soal/verbal');
 
         return {
             message: "Soal verbal berhasil ditambahkan",

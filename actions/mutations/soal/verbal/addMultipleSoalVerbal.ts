@@ -22,7 +22,7 @@ export async function addMultipleSoal(soalData: soalVerbal[]) {
     });
 
 
-    revalidatePath('/dashboard/kelola-soal/verbal', "page");
+    revalidatePath('/dashboard/kelola-soal/verbal');
 
     return {
       message: "Soal verbal berhasil ditambahkan",

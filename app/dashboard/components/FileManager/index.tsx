@@ -57,7 +57,7 @@ export const Filemanager: React.FC<FileManagerProps> = ({ onFileSelected }) => {
         <div className="w-full h-full">
             {typeof window !== "undefined" && (
                 <div
-                    className="text-white w-full h-full text-center px-4 py-4 flex items-center justify-center cursor-pointer"
+                    className="w-full h-full text-center px-4 py-4 flex items-center justify-center cursor-pointer"
                     onClick={openFileManager}>
                     <Button type="button" variant="outline" className="text-black dark:text-white font-bold">
                         Buka File Manager

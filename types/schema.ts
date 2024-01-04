@@ -245,4 +245,17 @@ export const TkbQuestionSchema = z.object({
   isAktif: z.string().min(3, {
     message: 'minimal 3 karakter'
   })
-})
+});
+
+export const SoalVerbalSchema = z.object({
+  gambar: z.string().min(1).optional().nullable(),
+  soal: z.string().min(3),
+  A: z.string().min(1),
+  B: z.string().min(1),
+  C: z.string().min(1),
+  D: z.string().min(1),
+  E: z.string().min(1).optional().nullable(),
+  kunci_jawaban: z.string().min(1),
+  tipe_soal: z.string().min(1).optional().nullable(),
+  aktif: z.string().nullable().optional()
+});

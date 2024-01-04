@@ -3,7 +3,9 @@ import React from 'react'
 
 const Loading = () => {
   return (
-    <Loader />
+    <div className='w-full h-full dark:bg-boxdark-2'>
+      <Loader />
+    </div>
   )
 }
 

@@ -106,8 +106,6 @@ model soalAntonimSinonim {
   id            Int       @id @unique @default(autoincrement())
   gambar        String?
   soal          String    @db.LongText
-  A             String
-  S             String
   kunci_jawaban String
   tipe_soal     tipe_soal @default(Bahasa_Indonesia)
   aktif         Boolean?   @default(true)
@@ -152,7 +150,6 @@ model soalInformasiSingkat {
   gambar        String?
   soal          String    @db.LongText
   hint          String
-  answer        String
   kunci_jawaban String
   tipe_soal     tipe_soal @default(Bahasa_Indonesia)
   aktif         Boolean?   @default(true)
@@ -164,9 +161,7 @@ model soalKalimatTakTeratur {
   id            Int       @id @unique @default(autoincrement())
   gambar        String?
   soal          String    @db.LongText
-  B             String
-  S             String
-  kunci_jawaban String
+  kunci_jawaban String    
   tipe_soal     tipe_soal @default(Bahasa_Indonesia)
   aktif         Boolean?   @default(true)
   createdAt     String
@@ -193,8 +188,6 @@ model soalKetelitian {
   id            Int       @id @unique @default(autoincrement())
   gambar        String?
   soal          String    @db.LongText
-  S             String
-  T             String
   kunci_jawaban String
   tipe_soal     tipe_soal @default(Bahasa_Indonesia)
   aktif         Boolean?   @default(true)

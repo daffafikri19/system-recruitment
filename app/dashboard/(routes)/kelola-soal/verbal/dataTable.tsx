@@ -1,5 +1,5 @@
 "use client"
-import { ChangeEvent, EventHandler, useState } from "react"
+import { ChangeEvent, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -40,11 +40,9 @@ export const DataTable = ({ questionData }: dataTableProps) => {
 
     const [openPratinjau, setOpenPratinjau] = useState(false);
     const router = useRouter();
-    const questionStatus: boolean = true;
     const [openModalImport, setOpenModalImport] = useState(false);
     const [dataFile, setDataFile] = useState<any[]>([]);
     const [onFile, setOnFile] = useState<boolean | null>(false);
-    const [openDialogDelete, setOpenDialogDelete] = useState(false);
 
     const [pratinjau, setPratinjau] = useState<soalVerbal>({
         id: 0,
@@ -142,7 +140,7 @@ export const DataTable = ({ questionData }: dataTableProps) => {
     return (
         <div className="w-full">
             <div className="w-full flex items-center justify-between space-x-8">
-                <Button onClick={() => router.push('/dashboard/kelola-soal/tpa/add')}>Tambah Soal <Plus className="w-4 h-4 ml-2" /></Button>
+                <Button onClick={() => router.push('/dashboard/kelola-soal/verbal/add')}>Tambah Soal <Plus className="w-4 h-4 ml-2" /></Button>
                 <Button onClick={() => setOpenModalImport(true)}>Import Soal <UploadIcon className="w-4 h-4 ml-2" /></Button>
                 <div className="w-full flex items-center space-x-1">
                     <Input
@@ -238,7 +236,7 @@ export const DataTable = ({ questionData }: dataTableProps) => {
                                     <TableCell className="text-center">
                                         <div className="flex justify-center space-x-2">
                                             <Button size="icon" variant="outline" asChild>
-                                                <Link href={`/dashboard/kelola-soal/verbal/edit/${question.id}`}>
+                                                <Link href={`/dashboard/kelola-soal/verbal/edit/${question.id}/?id=${question.id}`}>
                                                     <Edit2Icon className="w-4 h-4" />
                                                 </Link>
                                             </Button>

@@ -12,7 +12,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { toast } from '@/components/ui/use-toast'
 import { X } from 'lucide-react'
 import Image from 'next/image'
-import { redirect, useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 
 const AddSoalVerbalPage = () => {
@@ -141,7 +141,7 @@ const AddSoalVerbalPage = () => {
                         </div>
 
                         <div className='mt-10 w-full flex items-center justify-end space-x-4'>
-                            <Button type='button' variant="destructive" onClick={() => router.push('/dashboard/kelola-soal/tpa')}>Batal</Button>
+                            <Button type='button' variant="destructive" onClick={() => router.push('/dashboard/kelola-soal/verbal')}>Batal</Button>
                             <Button className='text-white' type='submit' disabled={!soal}>Simpan</Button>
                         </div>
                     </form>

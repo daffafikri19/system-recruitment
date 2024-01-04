@@ -1,6 +1,6 @@
 "use client"
+
 import { editSoal } from '@/actions/mutations/soal/verbal/editSoalVerbal'
-import { getSoalById } from '@/actions/mutations/soal/verbal/getSoalVerbal'
 import { Filemanager } from '@/app/dashboard/components/FileManager'
 import { TextEditor } from '@/app/dashboard/components/TextEditor'
 import { Button } from '@/components/ui/button'
@@ -10,19 +10,33 @@ import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
 import { toast } from '@/components/ui/use-toast'
-import { soalVerbal } from '@prisma/client'
+import axios from 'axios'
 import { X } from 'lucide-react'
 import Image from 'next/image'
 import { useRouter, useSearchParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 
+interface SoalVerbalProps {
+  id: number;
+  gambar: string | null;
+  soal: string;
+  A: string;
+  B: string;
+  C: string;
+  D: string;
+  E: string | null;
+  kunci_jawaban: string;
+  tipe_soal: any;
+  aktif: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 const EditSoalVerbalPage = () => {
   const [media, setMedia] = useState<string | null>("");
   const [soal, setSoal] = useState("");
   const router = useRouter();
-  const params = useSearchParams();
-
-  const [question, setQuestion] = useState<soalVerbal>({
+  const [question, setQuestion] = useState<SoalVerbalProps>({
     id: 0,
     gambar: "",
     soal: "",
@@ -33,21 +47,38 @@ const EditSoalVerbalPage = () => {
     E: "",
     kunci_jawaban: "",
     tipe_soal: "Bahasa_Indonesia",
-    aktif: true,
+    aktif: "true",
     createdAt: "",
     updatedAt: "",
   });
 
+  const params = useSearchParams();
   const id = params.get('id');
 
-  const getQuestionData = async () => {
-    const data = await getSoalById(parseInt(id!));
-    return data
-  }
-
   useEffect(() => {
+    const getData = async () => {
+      try {
+        const response = await axios.post('/api/question-tes/verbal', {
+          id: parseInt(id!)
+        }, {
+          headers: {
+            "Content-Type": 'application/json'
+          }
+        });
 
-    getQuestionData();
+        setQuestion(response.data)
+        setSoal(response.data.soal)
+        setMedia(response.data.gambar)
+        console.log(response.data)
+      } catch (error) {
+        toast({
+          title: 'Terjadi kesalahan server saat edit soal',
+          variant: 'destructive'
+        })
+      }
+    }
+
+    getData();
   }, [])
 
   function handleFileSelected(mediaUrl: string) {
@@ -58,8 +89,6 @@ const EditSoalVerbalPage = () => {
   const handleTextEditorChange = (content: any, editor: any) => {
     setSoal(content)
   }
-
-
 
   return (
     <div className='w-full'>
@@ -72,7 +101,7 @@ const EditSoalVerbalPage = () => {
                 title: result.message,
                 variant: "default"
               });
-              return router.push('/dashboard/kelola-soal/tpa')
+              return router.push('/dashboard/kelola-soal/verbal')
             } else {
               toast({
                 title: result.message,
@@ -103,37 +132,70 @@ const EditSoalVerbalPage = () => {
 
             <div className='mt-5 w-full'>
               <Label>Soal / Pertanyaan</Label>
-              <TextEditor handleEditorChange={handleTextEditorChange} />
+              <TextEditor handleEditorChange={handleTextEditorChange} initialValue={soal} />
               <Input type='hidden' name='soal' value={soal} readOnly />
             </div>
 
             <div className='mt-5 w-full grid grid-cols-1 md:grid-cols-2 gap-2'>
               <div>
                 <Label>Jawaban A</Label>
-                <Textarea required name='A' />
+                <Textarea required name='A' value={question.A} onChange={(e) => {
+                  setQuestion((prev) => ({
+                    ...prev,
+                    A: e.target.value
+                  }))
+                }} />
               </div>
               <div>
                 <Label>Jawaban B</Label>
-                <Textarea required name='B' />
+                <Textarea required name='B' value={question.B} onChange={(e) => {
+                  setQuestion((prev) => ({
+                    ...prev,
+                    B: e.target.value
+                  }))
+                }} />
               </div>
               <div>
                 <Label>Jawaban C</Label>
-                <Textarea required name='C' />
+                <Textarea required name='C' value={question.C} onChange={(e) => {
+                  setQuestion((prev) => ({
+                    ...prev,
+                    C: e.target.value
+                  }))
+                }} />
               </div>
               <div>
                 <Label>Jawaban D</Label>
-                <Textarea required name='D' />
+                <Textarea required name='D' value={question.D} onChange={(e) => {
+                  setQuestion((prev) => ({
+                    ...prev,
+                    D: e.target.value
+                  }))
+                }} />
               </div>
-              <div>
-                <Label>Jawaban E</Label>
-                <Textarea name='E' />
-              </div>
+              {question.E ? (
+                <div>
+                  <Label>Jawaban E</Label>
+                  <Textarea name='E' value={question.E} onChange={(e) => {
+                  setQuestion((prev) => ({
+                    ...prev,
+                    E: e.target.value
+                  }))
+                }} />
+                </div>
+              ) : null}
+
             </div>
             <div className='mt-5'>
               <div className='grid grid-cols-1 md:grid-cols-2 gap-2'>
                 <div>
                   <Label>Kunci Jawaban</Label>
-                  <Select required name='kunci_jawaban'>
+                  <Select required name='kunci_jawaban' value={question.kunci_jawaban} onValueChange={(e) => {
+                    setQuestion((prev) => ({
+                      ...prev,
+                      kunci_jawaban: e
+                    }))
+                  }}>
                     <SelectTrigger className="w-full">
                       <SelectValue placeholder="pilih" />
                     </SelectTrigger>
@@ -142,27 +204,49 @@ const EditSoalVerbalPage = () => {
                       <SelectItem value="B">B</SelectItem>
                       <SelectItem value="C">C</SelectItem>
                       <SelectItem value="D">D</SelectItem>
+                      <SelectItem value="E">E</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div>
+                  <Label>Bahasa</Label>
+                  <Select required defaultValue='Bahasa_Indonesia' name='tipe_soal' value={question.tipe_soal} onValueChange={(e) => {
+                    setQuestion((prev) => ({
+                      ...prev,
+                      tipe_soal: e
+                    }))
+                  }}>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="pilih" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Bahasa_Indonesia">Bahasa Indonesia</SelectItem>
+                      <SelectItem value="Bahasa_Inggris">Bahasa Inggris</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
                 <div>
                   <Label>Status Soal</Label>
-                  <Select required defaultValue='True' name='isAktif'>
+                  <Select required defaultValue='true' name='aktif' value={question.aktif} onValueChange={(e) => {
+                    setQuestion((prev) => ({
+                      ...prev,
+                      aktif: e
+                    }))
+                  }}>
                     <SelectTrigger className="w-full">
                       <SelectValue placeholder="pilih" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="True">Aktif</SelectItem>
-                      <SelectItem value="False">Tidak Aktif</SelectItem>
+                      <SelectItem value="true">Aktif</SelectItem>
+                      <SelectItem value="false">Tidak Aktif</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
               </div>
             </div>
-            <Input type='hidden' value={id!} readOnly /> 
-
+              <input type="hidden" name='id' value={id!} readOnly />
             <div className='mt-10 w-full flex items-center justify-end space-x-4'>
-              <Button type='button' variant="destructive" onClick={() => router.push('/dashboard/kelola-soal/tpa')}>Batal</Button>
+              <Button type='button' variant="destructive" onClick={() => router.push('/dashboard/kelola-soal/verbal')}>Batal</Button>
               <Button className='text-white' type='submit' disabled={!soal}>Simpan</Button>
             </div>
           </form>

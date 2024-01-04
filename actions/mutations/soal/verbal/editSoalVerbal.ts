@@ -4,7 +4,8 @@ import prisma from "@/lib/utils/prisma";
 import { revalidatePath } from "next/cache";
 import * as z from "zod";
 
-export async function editSoal(formdata: FormData){
+export async function editSoal(formdata: FormData) {
+
     const schema = z.object({
         gambar: z.string().min(1).optional().nullable(),
         soal: z.string().min(3),
@@ -12,10 +13,10 @@ export async function editSoal(formdata: FormData){
         B: z.string().min(1),
         C: z.string().min(1),
         D: z.string().min(1),
-        E: z.string().min(1).optional().nullable(),
+        E: z.string().optional().nullable(),
         kunci_jawaban: z.string().min(1),
         tipe_soal: z.string().min(1).optional().nullable(),
-        aktif: z.boolean().nullable().optional()
+        aktif: z.string().nullable().optional()
     });
 
     const parse = schema.safeParse({
@@ -35,7 +36,7 @@ export async function editSoal(formdata: FormData){
         let errorMessage = "";
 
         parse.error.issues.forEach((error) => {
-            errorMessage = errorMessage + error.path[0] + error.message
+            errorMessage = errorMessage + error.path[0] + " : " + error.message
         })
 
         return {
@@ -45,13 +46,24 @@ export async function editSoal(formdata: FormData){
 
 
     const data = parse.data;
+    const id = formdata.get('id') as string
+    const existingData = await prisma.soalVerbal.findUnique({
+        where: {
+            id: parseInt(id)
+        }
+    });
 
-   try {
-        const updatedAt = new Date(Date.now()).toLocaleString();
+    if(!existingData) {
+        return {
+            message: 'soal tidak ditemukan',
+            status: 404
+        }
+    }
 
+    try {
         await prisma.soalVerbal.update({
             where: {
-                id: parseInt(formdata.get('id') as string)
+                id: parseInt(id)
             },
             data: {
                 gambar: data.gambar,
@@ -64,19 +76,19 @@ export async function editSoal(formdata: FormData){
                 tipe_soal: data.tipe_soal as any,
                 kunci_jawaban: data.kunci_jawaban,
                 aktif: Boolean(data.aktif),
-                updatedAt
+                updatedAt: new Date(Date.now()).toLocaleString()
             }
         });
 
         revalidatePath('/dashboard/kelola-soal/verbal', "page");
 
         return {
-            message: "Berhasil edit soal",
+            message: "Soal berhasil diedit",
             status: 200,
         };
     } catch (error) {
         return {
-            message: "Terjadi kesalahan server saat edit soal verbal",
+            message: "Terjadi kesalahan server saat mengedit soal",
             status: 500,
             error: error,
         };

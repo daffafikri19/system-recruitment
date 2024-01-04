@@ -21,8 +21,8 @@ export const KelolaSoalRoute = [
   },
   {
     index: 2,
-    name: "Anonim",
-    link: "/dashboard/kelola-soal/anonim",
+    name: "Antonim",
+    link: "/dashboard/kelola-soal/antonim",
   },
   {
     index: 3,
@@ -132,7 +132,6 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
     }
   }, [sidebarExpanded]);
 
-  console.log(pathname)
 
   return (
     <aside

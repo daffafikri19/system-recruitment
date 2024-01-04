@@ -1,11 +1,14 @@
 import prisma from "@/lib/utils/prisma";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(){
+export async function POST(req: NextRequest){
+
+    const { id } = await req.json();
+
     try {
-        const result = await prisma.soalVerbal.findMany({
+        const result = await prisma.soalVerbal.findUnique({
             where: {
-                aktif: true
+                id: id
             }
         });
 

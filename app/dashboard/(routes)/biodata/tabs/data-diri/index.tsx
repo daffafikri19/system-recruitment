@@ -75,8 +75,9 @@ export const DataDiriTab = ({ sessionUserId, username, email }: dataDiriTabProps
                     "Content-Type": 'application/json'
                 }
             });
-            console.log(user.data)
+            console.log("biodata", user.data)
             setBiodata(user.data)
+            return user.data
         } catch (error: any) {
             toast({
                 title: error.message,
@@ -86,13 +87,15 @@ export const DataDiriTab = ({ sessionUserId, username, email }: dataDiriTabProps
     }
 
     useEffect(() => {
+        getCurrentUser();
+        
+        getListCountry();
+        getProvincesList();
+
         if (biodata.no_ponsel === biodata.no_wa) {
             setIsSameNumber(!isSameNumber)
         };
-        getListCountry();
-        getProvincesList();
-        getCurrentUser();
-    }, [biodata.no_ponsel, biodata.no_wa, getCurrentUser, getListCountry, getProvincesList, isSameNumber]);
+    }, [biodata]);
 
     const handlePhoneChange = (event: ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;

@@ -1,5 +1,4 @@
 "use server"
-
 import prisma from "@/lib/utils/prisma";
 import { soalVerbal } from "@prisma/client";
 import { revalidatePath } from "next/cache";

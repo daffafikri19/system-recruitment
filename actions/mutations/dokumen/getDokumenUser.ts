@@ -16,14 +16,9 @@ export async function getDokumenUser({ sessionUserId } : { sessionUserId: string
     try {
         const result = await prisma.dokumenUser.findMany({
             where: {
-                biodata: {
-                    every: {
-                        nama_lengkap: biodata.nama_lengkap
-                    }
-                }
+                user_id: biodata.id
             }
         });
-
         return result
     } catch (error) {
         return {

@@ -10,6 +10,8 @@ import { EditForm } from "./editForm"
 import { deleteKeluarga } from "@/actions/mutations/keluarga/deleteKeluarga"
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog"
 import { toast } from "@/components/ui/use-toast"
+import { Button } from "@/components/ui/button"
+import { ActionsButton } from "../../_components/actions-button"
 
 interface DataTableProps {
     contentData: DataKeluargaProps[]
@@ -53,18 +55,18 @@ export const DataTable = ({ contentData }: DataTableProps) => {
     }
 
     const [openEditDialog, setOpenEditDialog] = useState(false);
-    
+
     const handleEditData = (data: DataKeluargaProps) => {
         setOpenEditDialog(true);
         setEditData(data)
     }
 
     const [openValidation, setOpenValidation] = useState(false);
-    
+
     return (
         <>
             <Table>
-                <TableHeader className='bg-primary w-full '>
+                <TableHeader className='bg-primary w-full'>
                     <TableRow className='!text-white truncate'>
                         <TableHead className='!text-white'>No</TableHead>
                         <TableHead className='!text-white'>Nama</TableHead>
@@ -83,37 +85,29 @@ export const DataTable = ({ contentData }: DataTableProps) => {
                             <TableCell>{data.pendidikan}</TableCell>
                             <TableCell>{data.pekerjaan}</TableCell>
                             <TableCell className="text-center">
-                                <div className='flex items-center justify-center space-x-2'>
-                                    <Eye size="icon" className='w-4 h-4 cursor-pointer' onClick={() => getDetailContent(data)} />
-                                    <Edit2Icon size="icon" className='w-4 h-4 cursor-pointer' onClick={() => handleEditData(data)} />
-                                    <AlertDialog open={openValidation} onOpenChange={setOpenValidation}>
-                                        <AlertDialogTrigger>
-                                            <Trash2Icon className='w-4 h-4 cursor-pointer' />
-                                        </AlertDialogTrigger>
-                                        <AlertDialogContent>
-                                            <AlertDialogHeader>
-                                                <AlertDialogTitle>Apakah anda yakin menghapus data ini ?</AlertDialogTitle>
-                                            </AlertDialogHeader>
-                                            <div className="grid grid-cols-2 gap-2">
-                                                <AlertDialogCancel>Batal</AlertDialogCancel>
-                                                <AlertDialogAction className="text-white" onClick={() => {
-                                                    deleteKeluarga(data.id).then(response => {
-                                                        toast({
-                                                            title: response.message,
-                                                            variant: response.status === 200 ? "default" : "destructive"
-                                                        })
-                                                    })
-                                                }}>Hapus</AlertDialogAction>
-                                            </div>
-                                        </AlertDialogContent>
-                                    </AlertDialog>
-                                </div>
+                                <ActionsButton 
+                                    onPreview={() => getDetailContent(data)}
+                                    onEdit={() => handleEditData(data)}
+                                    openDialog={openValidation}
+                                    onOpenDialog={setOpenValidation}
+                                    alertTitle="Apakah Anda Yakin Mengapus Data Ini ?"
+                                    alertLabelCancel="Batal"
+                                    alertLabelAction="Hapus"
+                                    onDelete={() => {
+                                        deleteKeluarga(data.id).then(response => {
+                                            toast({
+                                                title: response.message,
+                                                variant: response.status === 200 ? "default" : "destructive"
+                                            })
+                                        })
+                                    }}
+                                />
                             </TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
             </Table>
-            
+
             <EditForm selectedData={editData} openDialog={openEditDialog} setOpenDialog={setOpenEditDialog} />
 
             <Dialog open={openDetail} onOpenChange={setOpenDetail}>

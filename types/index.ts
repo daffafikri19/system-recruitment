@@ -39,10 +39,10 @@ export interface sessionProps {
     email: string,
     image: string | null,
     id: string,
-    role: string,
-    profession: string,
-    foto_profile: string,
-    isNewUser: string
+    role?: string,
+    profession?: string,
+    foto_profile?: string,
+    isNewUser?: string
 }
 
 export interface PendidikanUserProps {

@@ -1,15 +1,14 @@
 "use client"
 
 import { addSingleSoal } from '@/actions/mutations/soal/antonim-sinonim/addSingleSoal'
-import { Filemanager } from '@/app/dashboard/components/FileManager'
+import { FileManagerOpener } from '@/app/dashboard/components/FileManager/open'
 import { TextEditor } from '@/app/dashboard/components/TextEditor'
-import { useLoadingContext } from '@/app/dashboard/components/context'
+import { useLoadingContext } from '@/lib/providers/loadingStateProvider'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Textarea } from '@/components/ui/textarea'
 import { toast } from '@/components/ui/use-toast'
 import { Loader2, X } from 'lucide-react'
 import Image from 'next/image'
@@ -66,7 +65,7 @@ const AddSoalAntonimSinonimPage = () => {
                                     </div>
                                 ) : (
                                     <div>
-                                        <Filemanager onFileSelected={handleFileSelected} />
+                                        <FileManagerOpener onFileSelected={handleFileSelected} />
                                         <Input type='hidden' name='gambar' value={media?.toString() ? media?.toString() : "null"} readOnly />
                                     </div>
                                 )}

@@ -31,7 +31,7 @@ import { addMultipleSoal } from "@/actions/mutations/soal/verbal/addMultipleSoal
 import { toast } from "@/components/ui/use-toast"
 import { deleteSoal } from "@/actions/mutations/soal/verbal/deleteSoalVerbal"
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog"
-import { useLoadingContext } from "@/app/dashboard/components/context"
+import { useLoadingContext } from "@/lib/providers/loadingStateProvider"
 
 interface dataTableProps {
     questionData: soalSinonim[]

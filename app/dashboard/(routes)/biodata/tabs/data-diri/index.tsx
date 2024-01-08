@@ -1,7 +1,7 @@
 "use client"
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { Input } from '@/components/ui/input';
 import {
     Select,
@@ -15,8 +15,7 @@ import { biodataProps } from '@/types';
 import { Button } from '@/components/ui/button';
 import axios from 'axios';
 import { toast } from '@/components/ui/use-toast';
-import { CircleDashedIcon, Edit2Icon } from 'lucide-react';
-import { useTransition } from 'react';
+import { Edit2Icon } from 'lucide-react';
 import { useCountries, useProvinces, useCities, useDistrict } from '@/hooks/useDataLocation';
 import { DatePicker } from '@/app/dashboard/components/DatePicker';
 
@@ -55,7 +54,6 @@ export const DataDiriTab = ({ sessionUserId, username, email }: dataDiriTabProps
         no_ponsel: "",
         no_wa: ""
     });
-    const [isPending, startTransition] = useTransition();
     const [isSameNumber, setIsSameNumber] = useState(false);
     const { countries, getListCountry } = useCountries();
     const { provinces, getProvincesList } = useProvinces();
@@ -66,7 +64,7 @@ export const DataDiriTab = ({ sessionUserId, username, email }: dataDiriTabProps
     const [isInvalidNik, setIsInvalidNik] = useState(false);
     const [modeEdit, setModeEdit] = useState(true);
 
-    const getCurrentUser = async () => {
+    const getCurrentUser =  useCallback(async () => {
         try {
             const user = await axios.post('/api/biodata/get', {
                 username: username
@@ -75,7 +73,6 @@ export const DataDiriTab = ({ sessionUserId, username, email }: dataDiriTabProps
                     "Content-Type": 'application/json'
                 }
             });
-            console.log("biodata", user.data)
             setBiodata(user.data)
             return user.data
         } catch (error: any) {
@@ -84,18 +81,18 @@ export const DataDiriTab = ({ sessionUserId, username, email }: dataDiriTabProps
                 variant: 'destructive'
             })
         }
-    }
+    }, [username])
 
     useEffect(() => {
         getCurrentUser();
-        
+
         getListCountry();
         getProvincesList();
 
         if (biodata.no_ponsel === biodata.no_wa) {
             setIsSameNumber(!isSameNumber)
         };
-    }, [biodata]);
+    }, [getCurrentUser, getListCountry, getProvincesList, biodata.no_ponsel, biodata.no_wa, isSameNumber]);
 
     const handlePhoneChange = (event: ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
@@ -339,7 +336,7 @@ export const DataDiriTab = ({ sessionUserId, username, email }: dataDiriTabProps
                                                     <SelectItem key={index} value={city.name}>{city.name}</SelectItem>
                                                 ))}
                                             </SelectContent>
-                                        </Select> 
+                                        </Select>
                                     </div>
                                 </>
                             ) : (
@@ -731,10 +728,8 @@ export const DataDiriTab = ({ sessionUserId, username, email }: dataDiriTabProps
                 ) : (
                     <div className='mt-5 w-full flex items-center justify-end space-x-4'>
                         <Button variant="destructive" onClick={() => setModeEdit(!modeEdit)}>Batal</Button>
-                        <Button disabled={isPending} className='text-white' type='submit'>
-                            {isPending ? (
-                                <CircleDashedIcon className='animate-spin text-white' />
-                            ) : "Simpan Perubahan"}
+                        <Button className='text-white' type='submit'>
+                            Simpan Perubahan
                         </Button>
                     </div>
                 )}

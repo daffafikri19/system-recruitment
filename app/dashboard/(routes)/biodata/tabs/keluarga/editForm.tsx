@@ -9,6 +9,8 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { DataKeluargaProps } from '@/types';
 import { DatePicker } from '@/app/dashboard/components/DatePicker';
 import { editKeluarga } from '@/actions/mutations/keluarga/editKeluarga';
+import { useLoadingContext } from '@/lib/providers/loadingStateProvider';
+import { Loader2 } from 'lucide-react';
 
 interface EditFormProps {
     selectedData: DataKeluargaProps,
@@ -19,6 +21,8 @@ interface EditFormProps {
 export const EditForm = ({ selectedData, openDialog, setOpenDialog } : EditFormProps) => {
     const [keluarga, setKeluarga] = useState<DataKeluargaProps>(selectedData);
     const [selectedDate, setSelectedDate] = useState("");
+    const { loading, setLoading } = useLoadingContext();
+
     useEffect(() => {   
         setKeluarga(selectedData);
     }, [selectedData]);
@@ -36,7 +40,9 @@ export const EditForm = ({ selectedData, openDialog, setOpenDialog } : EditFormP
                         <AlertDialogTitle>Edit Data Keluarga</AlertDialogTitle>
                     </AlertDialogHeader>
                     <form action={async (formdata) => {
+                        setLoading(true)
                         const result = await editKeluarga(formdata);
+                        setLoading(false)
                         setOpenDialog(false)
                         toast({
                             title: result?.message,
@@ -101,48 +107,7 @@ export const EditForm = ({ selectedData, openDialog, setOpenDialog } : EditFormP
                                         </SelectContent>
                                     </Select>
                                 </div>
-                                <div>
-                                    <Label>Tempat Lahir</Label>
-                                    <Input name='tempat_lahir' type='text' required
-                                         value={keluarga.tempat_lahir}
-                                         onChange={(e) => {
-                                             setKeluarga((prev) => ({
-                                                 ...prev,
-                                                 tempat_lahir: e.target.value
-                                             }))
-                                         }}
-                                    />
-                                </div>
-                                <div>
-                                    <Label>Tanggal Lahir</Label>
-                                    <DatePicker disabled={false} selectedDate={handleSelectedDate} />
-                                    <Input type='hidden' name='tanggal_lahir' value={selectedDate} readOnly />
-                                </div>
-                               
-                                <div>
-                                    <Label>No. Kartu Keluarga</Label>
-                                    <Input name='no_kk' type='number' required 
-                                     value={keluarga.no_kk}
-                                     onChange={(e) => {
-                                         setKeluarga((prev) => ({
-                                             ...prev,
-                                             no_kk: e.target.value
-                                         }))
-                                     }}
-                                    />
-                                </div>
-                                <div>
-                                    <Label>No. NIK</Label>
-                                    <Input name='no_nik' type='number' required 
-                                     value={keluarga.no_nik}
-                                     onChange={(e) => {
-                                         setKeluarga((prev) => ({
-                                             ...prev,
-                                             no_nik: e.target.value
-                                         }))
-                                     }}
-                                    />
-                                </div>
+
                                 <div>
                                     <Label>Pekerjaan</Label>
                                     <Input name='pekerjaan' type='text' required 
@@ -167,12 +132,60 @@ export const EditForm = ({ selectedData, openDialog, setOpenDialog } : EditFormP
                                         }}
                                     />
                                 </div>
+                                <div>
+                                    <Label>Tempat Lahir</Label>
+                                    <Input name='tempat_lahir' type='text' required
+                                         value={keluarga.tempat_lahir}
+                                         onChange={(e) => {
+                                             setKeluarga((prev) => ({
+                                                 ...prev,
+                                                 tempat_lahir: e.target.value
+                                             }))
+                                         }}
+                                    />
+                                </div>
+                                
+                                <div>
+                                    <Label>No. NIK</Label>
+                                    <Input name='no_nik' type='number' required 
+                                     value={keluarga.no_nik}
+                                     onChange={(e) => {
+                                         setKeluarga((prev) => ({
+                                             ...prev,
+                                             no_nik: e.target.value
+                                         }))
+                                     }}
+                                    />
+                                </div>
+                                
+                                <div>
+                                    <Label>Tanggal Lahir</Label>
+                                    <DatePicker disabled={false} selectedDate={handleSelectedDate} />
+                                    <Input type='hidden' name='tanggal_lahir' value={selectedDate} readOnly />
+                                </div>
+                               
+                                <div>
+                                    <Label>No. Kartu Keluarga</Label>
+                                    <Input name='no_kk' type='number' required 
+                                     value={keluarga.no_kk}
+                                     onChange={(e) => {
+                                         setKeluarga((prev) => ({
+                                             ...prev,
+                                             no_kk: e.target.value
+                                         }))
+                                     }}
+                                    />
+                                </div>
                             </div>
                         </div>
-                        <Input type='hidden' name='id' value={keluarga.id} />
+                        <input type='hidden' name='id' value={keluarga.id} />
                         <AlertDialogFooter className='mt-5'>
-                            <AlertDialogCancel>Batal</AlertDialogCancel>
-                            <AlertDialogAction type='submit' className='text-white'>Simpan</AlertDialogAction>
+                            <AlertDialogCancel disabled={loading}>Batal</AlertDialogCancel>
+                            <AlertDialogAction disabled={loading} type='submit'>
+                                { loading ? (
+                                    <Loader2 className='w-5 h-5 mx-4 animate-spin' />
+                                ) : "Simpan" }
+                            </AlertDialogAction>
                         </AlertDialogFooter>
                     </form>
                 </AlertDialogContent>

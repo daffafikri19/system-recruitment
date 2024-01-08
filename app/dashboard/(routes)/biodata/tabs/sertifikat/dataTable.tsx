@@ -12,6 +12,7 @@ import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Dialog, DialogContent } from "@/components/ui/dialog"
+import { Button } from "@/components/ui/button"
 
 
 interface tableDataProps {
@@ -60,10 +61,16 @@ export const TableData = ({ contentData }: tableDataProps) => {
                             <TableCell>{data.nama_org}</TableCell>
                             <TableCell className="text-center">
                                 <div className='flex items-center justify-center space-x-2'>
-                                    <Eye className="w-4 h-4 cursor-pointer" 
-                                    onClick={() => getDetailContent(data)} />
-                                    <Edit2Icon className='w-4 h-4 cursor-pointer' />
-                                    <Trash2Icon className='w-4 h-4 cursor-pointer' />
+                                    <Button className="w-7 h-7" variant="outline">
+                                        <Eye className="w-4 h-4 cursor-pointer"
+                                            onClick={() => getDetailContent(data)} />
+                                    </Button>
+                                    <Button className="w-7 h-7" variant="outline">
+                                        <Edit2Icon className='w-4 h-4 cursor-pointer' />
+                                    </Button>
+                                    <Button className="w-7 h-7" variant="outline">
+                                        <Trash2Icon className='w-4 h-4 cursor-pointer' />
+                                    </Button>
                                 </div>
                             </TableCell>
                         </TableRow>
@@ -77,36 +84,36 @@ export const TableData = ({ contentData }: tableDataProps) => {
                         <div className="space-y-2">
                             <h4 className="font-medium leading-none">Detail</h4>
                         </div>
-                            <div className="grid gap-2">
-                                <div className="grid grid-cols-3 items-center gap-4">
-                                    <Label htmlFor="nama_sertifikat">Nama Sertifikat</Label>
-                                    <Input value={detailContent.nama_sertifikat} className="col-span-2 h-8" readOnly />
-                                </div>
-                                <div className="grid grid-cols-3 items-center gap-4">
-                                    <Label htmlFor="jenis_sertifikat">Jenis Sertifikat</Label>
-                                    <Input value={detailContent.jenis_sertifikat} className="col-span-2 h-8" readOnly />
-                                </div>
-                                <div className="grid grid-cols-3 items-center gap-4">
-                                    <Label htmlFor="nama_org">Nama Instansi / Lembaga</Label>
-                                    <Input value={detailContent.nama_org} className="col-span-2 h-8" readOnly />
-                                </div>
-                                <div className="grid grid-cols-3 items-center gap-4">
-                                    <Label htmlFor="no_sertifikat">No. Sertifikat</Label>
-                                    <Input value={detailContent.no_sertifikat} className="col-span-2 h-8" readOnly />
-                                </div>
-                                <div className="grid grid-cols-3 items-center gap-4">
-                                    <Label htmlFor="negara_terbit">Negara Penerbit</Label>
-                                    <Input value={detailContent.negara_terbit} className="col-span-2 h-8" readOnly />
-                                </div>
-                                <div className="grid grid-cols-3 items-center gap-4">
-                                    <Label htmlFor="tanggal_terbit">Tanggal Terbit</Label>
-                                    <Input value={detailContent.tanggal_terbit} className="col-span-2 h-8" readOnly />
-                                </div>
-                                <div className="grid grid-cols-3 items-center gap-4">
-                                    <Label htmlFor="tanggal_exp">Tanggal Expired</Label>
-                                    <Input value={detailContent.tanggal_exp} className="col-span-2 h-8" readOnly />
-                                </div>
+                        <div className="grid gap-2">
+                            <div className="grid grid-cols-3 items-center gap-4">
+                                <Label htmlFor="nama_sertifikat">Nama Sertifikat</Label>
+                                <Input value={detailContent.nama_sertifikat} className="col-span-2 h-8" readOnly />
                             </div>
+                            <div className="grid grid-cols-3 items-center gap-4">
+                                <Label htmlFor="jenis_sertifikat">Jenis Sertifikat</Label>
+                                <Input value={detailContent.jenis_sertifikat} className="col-span-2 h-8" readOnly />
+                            </div>
+                            <div className="grid grid-cols-3 items-center gap-4">
+                                <Label htmlFor="nama_org">Nama Instansi / Lembaga</Label>
+                                <Input value={detailContent.nama_org} className="col-span-2 h-8" readOnly />
+                            </div>
+                            <div className="grid grid-cols-3 items-center gap-4">
+                                <Label htmlFor="no_sertifikat">No. Sertifikat</Label>
+                                <Input value={detailContent.no_sertifikat} className="col-span-2 h-8" readOnly />
+                            </div>
+                            <div className="grid grid-cols-3 items-center gap-4">
+                                <Label htmlFor="negara_terbit">Negara Penerbit</Label>
+                                <Input value={detailContent.negara_terbit} className="col-span-2 h-8" readOnly />
+                            </div>
+                            <div className="grid grid-cols-3 items-center gap-4">
+                                <Label htmlFor="tanggal_terbit">Tanggal Terbit</Label>
+                                <Input value={detailContent.tanggal_terbit} className="col-span-2 h-8" readOnly />
+                            </div>
+                            <div className="grid grid-cols-3 items-center gap-4">
+                                <Label htmlFor="tanggal_exp">Tanggal Expired</Label>
+                                <Input value={detailContent.tanggal_exp} className="col-span-2 h-8" readOnly />
+                            </div>
+                        </div>
                     </div>
                 </DialogContent>
             </Dialog>

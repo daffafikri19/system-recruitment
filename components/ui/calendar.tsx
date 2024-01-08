@@ -27,13 +27,13 @@ function Calendar({
       disabled={disabled}
       className={cn("p-3", className)}
       classNames={{
-        months: "flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0",
-        month: "space-y-4 focus:text-white ",
+        months: "flex flex-col sm:flex-row space-y-2 sm:space-x-4 sm:space-y-0",
+        month: "space-y-2 focus:text-white ",
         caption: "w-full flex justify-center pt-1 relative items-center ",
         caption_label: "hidden text-sm font-medium",
         dropdown_month: 'flex justify-between',
         dropdown_year: 'flex justify-between',
-        dropdown: 'dark:text-white dark:bg-boxdark-2',
+        dropdown: 'dark:text-white dark:bg-boxdark-2 text-end flex items-center justify-end',
         nav: "space-x-1 flex items-center",
         nav_button: cn(
           buttonVariants({ variant: "outline" }),

@@ -31,7 +31,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { soalAntonimSinonim } from "@prisma/client"
 import { addMultipleSoal } from "@/actions/mutations/soal/antonim-sinonim/addMultipleSoal"
 import { deleteSoal } from "@/actions/mutations/soal/antonim-sinonim/deleteSoal"
-import { useLoadingContext } from "@/app/dashboard/components/context"
+import { useLoadingContext } from "@/lib/providers/loadingStateProvider"
 
 interface dataTableProps {
     questionData: soalAntonimSinonim[]

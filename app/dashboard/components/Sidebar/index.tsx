@@ -331,6 +331,16 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                 </li>
                 <li>
                   <Link
+                    href="/dashboard/daftar-admin"
+                    className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${pathname.endsWith("daftar-admin") && "bg-graydark dark:bg-meta-4"
+                      }`}
+                  >
+                    <Users2Icon className="w-4 h-4" />
+                    Daftar Admin
+                  </Link>
+                </li>
+                <li>
+                  <Link
                     href="/settings"
                     className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${pathname.includes("settings") &&
                       "bg-graydark dark:bg-meta-4"

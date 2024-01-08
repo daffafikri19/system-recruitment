@@ -30,7 +30,7 @@ import { toast } from "@/components/ui/use-toast"
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog"
 import { addMultipleSoal } from "@/actions/mutations/soal/ketelitian/addMultipleSoal"
 import { deleteSoal } from "@/actions/mutations/soal/ketelitian/deleteSoal"
-import { useLoadingContext } from "@/app/dashboard/components/context"
+import { useLoadingContext } from "@/lib/providers/loadingStateProvider"
 
 interface dataTableProps {
     questionData: soalKetelitian[]

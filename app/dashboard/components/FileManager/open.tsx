@@ -7,7 +7,7 @@ interface FileManagerProps {
     onFileSelected: (image: string) => void;
 }
 
-export const Filemanager: React.FC<FileManagerProps> = ({ onFileSelected }) => {
+export const FileManagerOpener: React.FC<FileManagerProps> = ({ onFileSelected }) => {
     useEffect(() => {
         try {
             if (typeof window !== "undefined") {

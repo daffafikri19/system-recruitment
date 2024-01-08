@@ -1,9 +1,9 @@
 "use client"
 
 import { editSoal } from '@/actions/mutations/soal/hitung-cepat/editSoal'
-import { Filemanager } from '@/app/dashboard/components/FileManager'
+import { FileManagerOpener } from '@/app/dashboard/components/FileManager/open'
 import { TextEditor } from '@/app/dashboard/components/TextEditor'
-import { useLoadingContext } from '@/app/dashboard/components/context'
+import { useLoadingContext } from '@/lib/providers/loadingStateProvider'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -128,7 +128,7 @@ const EditSoalHitungCepatPage = () => {
                   </div>
                 ) : (
                   <div>
-                    <Filemanager onFileSelected={handleFileSelected} />
+                    <FileManagerOpener onFileSelected={handleFileSelected} />
                     <Input type='hidden' name='gambar' value={media?.toString() ? media?.toString() : "null"} readOnly />
                   </div>
                 )}

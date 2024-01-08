@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import Sidebar from "./components/Sidebar";
 import Header from "./components/Header";
-import { SessionProvider, useSession } from "next-auth/react";
+import { SessionProvider } from "next-auth/react";
 import LeavePageConfirmation from "@/lib/providers/LeavePageConfirmation";
 import { Toaster } from "@/components/ui/toaster";
 import Loading from "@/app/loading";

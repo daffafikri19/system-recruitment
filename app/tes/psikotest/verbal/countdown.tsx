@@ -39,7 +39,7 @@ export const CountDown = ({ waktu_pengerjaan }: CountdownProps) => {
         } else {
             typeof window !== 'undefined' && localStorage.setItem('w-verbal', countdown.toString());
         }
-    }, [countdown, startCountdown]);
+    }, [countdown, startCountdown, waktu_pengerjaan]);
 
     useEffect(() => {
         if (startCountdown) {

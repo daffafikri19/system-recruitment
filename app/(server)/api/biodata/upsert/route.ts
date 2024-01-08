@@ -110,14 +110,17 @@ export async function POST(req: NextRequest) {
         });
 
         return NextResponse.json({
-            message: "Berhasil Menyimpan Biodata!"
-        }, { status: 200 })
+            message: 'Berhasil menambahkan data biodata',
+        }, {
+            status: 200,
+            statusText: "ok"
+        })
     } catch (error) {
         return NextResponse.json({
-            message: "terjadi kesalahan server saat membuat biodata",
-            error: error
+            message: "Terjadi kesalahan server saat menambahkan biodata"
         }, {
-            status: 500
+            status: 500,
+            statusText: "error"
         })
     }
 }

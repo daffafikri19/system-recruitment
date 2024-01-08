@@ -43,7 +43,7 @@ model User {
   emailVerified  DateTime?
   role           role                  @default(peserta)
   isNewUser      String?
-  profession     String
+  profession     String?
   foto_profile   String?
   tgl_lahir      String?
   password       String
@@ -65,7 +65,7 @@ model soalVerbal {
   E             String?
   kunci_jawaban String
   tipe_soal     tipe_soal @default(Bahasa_Indonesia)
-  aktif         Boolean?   @default(true)
+  aktif         Boolean?  @default(true)
   createdAt     String
   updatedAt     String
 }
@@ -81,7 +81,7 @@ model soalAntonim {
   E             String?
   kunci_jawaban String
   tipe_soal     tipe_soal @default(Bahasa_Indonesia)
-  aktif         Boolean?   @default(true)
+  aktif         Boolean?  @default(true)
   createdAt     String
   updatedAt     String
 }
@@ -97,7 +97,7 @@ model soalSinonim {
   E             String?
   kunci_jawaban String
   tipe_soal     tipe_soal @default(Bahasa_Indonesia)
-  aktif         Boolean?   @default(true)
+  aktif         Boolean?  @default(true)
   createdAt     String
   updatedAt     String
 }
@@ -108,7 +108,7 @@ model soalAntonimSinonim {
   soal          String    @db.LongText
   kunci_jawaban String
   tipe_soal     tipe_soal @default(Bahasa_Indonesia)
-  aktif         Boolean?   @default(true)
+  aktif         Boolean?  @default(true)
   createdAt     String
   updatedAt     String
 }
@@ -124,7 +124,7 @@ model soalDeret {
   E             String?
   kunci_jawaban String
   tipe_soal     tipe_soal @default(Bahasa_Indonesia)
-  aktif         Boolean?   @default(true)
+  aktif         Boolean?  @default(true)
   createdAt     String
   updatedAt     String
 }
@@ -140,7 +140,7 @@ model soalhitungCepat {
   E             String?
   kunci_jawaban String
   tipe_soal     tipe_soal @default(Bahasa_Indonesia)
-  aktif         Boolean?   @default(true)
+  aktif         Boolean?  @default(true)
   createdAt     String
   updatedAt     String
 }
@@ -152,7 +152,7 @@ model soalInformasiSingkat {
   hint          String
   kunci_jawaban String
   tipe_soal     tipe_soal @default(Bahasa_Indonesia)
-  aktif         Boolean?   @default(true)
+  aktif         Boolean?  @default(true)
   createdAt     String
   updatedAt     String
 }
@@ -161,9 +161,9 @@ model soalKalimatTakTeratur {
   id            Int       @id @unique @default(autoincrement())
   gambar        String?
   soal          String    @db.LongText
-  kunci_jawaban String    
+  kunci_jawaban String
   tipe_soal     tipe_soal @default(Bahasa_Indonesia)
-  aktif         Boolean?   @default(true)
+  aktif         Boolean?  @default(true)
   createdAt     String
   updatedAt     String
 }
@@ -179,7 +179,7 @@ model soalKemampuanTeknikal {
   E             String?
   kunci_jawaban String
   tipe_soal     tipe_soal @default(Bahasa_Indonesia)
-  aktif         Boolean?   @default(true)
+  aktif         Boolean?  @default(true)
   createdAt     String
   updatedAt     String
 }
@@ -190,7 +190,7 @@ model soalKetelitian {
   soal          String    @db.LongText
   kunci_jawaban String
   tipe_soal     tipe_soal @default(Bahasa_Indonesia)
-  aktif         Boolean?   @default(true)
+  aktif         Boolean?  @default(true)
   createdAt     String
   updatedAt     String
 }
@@ -206,7 +206,7 @@ model soalKuantitatifAnalisis {
   E             String?
   kunci_jawaban String
   tipe_soal     tipe_soal @default(Bahasa_Indonesia)
-  aktif         Boolean?   @default(true)
+  aktif         Boolean?  @default(true)
   createdAt     String
   updatedAt     String
 }
@@ -222,7 +222,7 @@ model soalPenalaranAnalitik {
   E             String?
   kunci_jawaban String
   tipe_soal     tipe_soal @default(Bahasa_Indonesia)
-  aktif         Boolean?   @default(true)
+  aktif         Boolean?  @default(true)
   createdAt     String
   updatedAt     String
 }
@@ -238,7 +238,7 @@ model soalPenalaranLogis {
   E             String?
   kunci_jawaban String
   tipe_soal     tipe_soal @default(Bahasa_Indonesia)
-  aktif         Boolean?   @default(true)
+  aktif         Boolean?  @default(true)
   createdAt     String
   updatedAt     String
 }
@@ -254,7 +254,7 @@ model soalKepribadian {
   E             String?
   kunci_jawaban String
   tipe_soal     tipe_soal @default(Bahasa_Indonesia)
-  aktif         Boolean?   @default(true)
+  aktif         Boolean?  @default(true)
   createdAt     String
   updatedAt     String
 }
@@ -295,26 +295,26 @@ model scoreBIngrris {
 }
 
 model settinganSoal {
-  id                                  Int    @id @unique @default(autoincrement())
-  waktu_pengerjaan_psikotest          Int
-  waktu_pengerjaan_inggris            Int
-  max_soal_verbal                     Int    @default(50)
-  max_soal_anonim                     Int    @default(50)
-  max_soal_sinonim                    Int    @default(50)
-  max_soal_antonim_sinonim            Int    @default(50)
-  max_soal_deret_angka                Int    @default(50)
-  max_soal_hitung_cepat               Int    @default(50)
-  max_soal_informasi_singkat          Int    @default(50)
-  max_soal_kalimat_tak_teratur        Int    @default(50)
-  max_soal_kalimat_kemampuan_teknikal Int    @default(50)
-  max_soal_kalimat_ketelitian         Int    @default(50)
+  id                                    Int    @id @unique @default(autoincrement())
+  waktu_pengerjaan_psikotest            Int
+  waktu_pengerjaan_inggris              Int
+  max_soal_verbal                       Int    @default(50)
+  max_soal_anonim                       Int    @default(50)
+  max_soal_sinonim                      Int    @default(50)
+  max_soal_antonim_sinonim              Int    @default(50)
+  max_soal_deret_angka                  Int    @default(50)
+  max_soal_hitung_cepat                 Int    @default(50)
+  max_soal_informasi_singkat            Int    @default(50)
+  max_soal_kalimat_tak_teratur          Int    @default(50)
+  max_soal_kalimat_kemampuan_teknikal   Int    @default(50)
+  max_soal_kalimat_ketelitian           Int    @default(50)
   max_soal_kalimat_kuantitatif_analisis Int    @default(50)
-  max_soal_kalimat_penalaran_logis    Int    @default(50)
+  max_soal_kalimat_penalaran_logis      Int    @default(50)
   max_soal_kalimat_penalaran_analitik   Int    @default(50)
-  max_soal_kalimat_kepribadian        Int    @default(50)
-  max_soal_bInggris                   Int
-  schedule String
-  createdAt                           String
+  max_soal_kalimat_kepribadian          Int    @default(50)
+  max_soal_bInggris                     Int
+  schedule                              String
+  createdAt                             String
 }
 
 enum tipe_soal {
@@ -470,14 +470,26 @@ model serfitikatUser {
 }
 
 model dokumenUser {
-  id             String        @id @unique @default(cuid())
-  biodata        biodataUser[]
-  no_urut        String
-  nama_dokumen   String
-  status_dokumen String?
-  file           String        @db.LongText
-  createdAt      String
-  updatedAt      String
+  id                     String        @id @unique @default(cuid())
+  user_id                String        @unique
+  biodata                biodataUser[]
+  ktp                    String?
+  npwp                   String?
+  sim                    String?
+  ijazah                 String?
+  transkrip_nilai        String?
+  kartu_keluarga         String?
+  skck                   String?
+  kartu_kuning           String?
+  surat_pengalaman_kerja String?
+  akta_kelahiran         String?
+  cv                     String?
+  pas_foto               String?
+  sertifikat_keahlian    String?
+  sertifikat_bahasa      String?
+  buku_nikah             String?
+  createdAt              String
+  updatedAt              String
 }
 
 enum options {

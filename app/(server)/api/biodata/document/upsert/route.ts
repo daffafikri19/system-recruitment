@@ -9,18 +9,12 @@ export async function POST(req: NextRequest) {
         }
     });
 
-    if(!existingBiodata) return NextResponse.json({
+    if (!existingBiodata) return NextResponse.json({
         message: 'Maaf sesi telah habis, harap login kembali'
     }, {
         status: 401
     });
 
-    const existingDocument = await prisma.dokumenUser.findUnique({
-        where: {
-            user_id: existingBiodata.id_user!,
-        },
-    });
-    
     try {
         let fileData = {};
         switch (field) {
@@ -70,54 +64,39 @@ export async function POST(req: NextRequest) {
                 fileData = { buku_nikah: file };
                 break;
             default:
-                return {
-                    message: "Invalid file",
-                    status: 400,
-            };
-        }
-        
-        if (existingDocument) {
-            // Update existing document
-            await prisma.dokumenUser.update({
-                where: {
-                    user_id: existingBiodata.id_user!
-                },
-                data: { 
-                    ...fileData, 
-                    user_id: existingBiodata.id_user!,
-                    updatedAt: new Date(Date.now()).toLocaleString(),
-                    createdAt: new Date(Date.now()).toLocaleString(),
-                },
-            });
-        } else {
-            // Create a new document
-            await prisma.dokumenUser.create({
-                data: { 
-                    ...fileData, 
-                    user_id: existingBiodata.id_user!,
-                    updatedAt: new Date(Date.now()).toLocaleString(),
-                    createdAt: new Date(Date.now()).toLocaleString(),
-                    biodata: {
-                        connect: {
-                            nama_lengkap: existingBiodata.nama_lengkap
-                        }
-                    }
-                },
-            });
+                return NextResponse.json("Invalid file", {
+                    status: 400
+                })
         }
 
-        
-        return NextResponse.json({
-            message: "Berhasil menyimpan berkas"
-        }, {
-            status: 200
+        await prisma.dokumenUser.upsert({
+            where: {
+                user_id: existingBiodata.id_user!,
+            },
+            update: {
+                ...fileData,
+                user_id: existingBiodata.id_user!,
+                updatedAt: new Date(Date.now()).toLocaleString(),
+                createdAt: new Date(Date.now()).toLocaleString(),
+            },
+            create: {
+                ...fileData,
+                user_id: existingBiodata.id_user!,
+                updatedAt: new Date(Date.now()).toLocaleString(),
+                createdAt: new Date(Date.now()).toLocaleString(),
+                biodata: {
+                    connect: {
+                        nama_lengkap: existingBiodata.nama_lengkap
+                    }
+                }
+            },
         });
 
-    } catch (error : any) {
-        return NextResponse.json({
-            message: "Terjadi kesalahan server saat menyimpan berkas",
-            error: error
-        }, {
+        return NextResponse.json("Berhasil menyimpan berkas", {
+            status: 200
+        })
+    } catch (error) {
+        return NextResponse.json("Terjadi kesalahan server saat menyimpan berkas", {
             status: 500
         })
     }

@@ -50,7 +50,7 @@ export const DataTable = ({ questionData }: dataTableProps) => {
         id: 0,
         gambar: "",
         soal: "",
-        kunci_jawaban: "",
+        kunci_jawaban: 0,
         tipe_soal: "Bahasa_Indonesia",
         aktif: true,
         createdAt: "",

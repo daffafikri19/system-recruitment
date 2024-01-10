@@ -82,7 +82,7 @@ const AddSoalHitungCepatPage = () => {
                             <div className='grid grid-cols-1 md:grid-cols-2 gap-2'>
                                 <div>
                                     <Label>Kunci Jawaban</Label>
-                                    <Input required name='kunci_jawaban' type='text' />
+                                    <Input required name='kunci_jawaban' type='number' />
                                 </div>
                                 <div>
                                     <Label>Bahasa</Label>

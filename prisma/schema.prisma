@@ -133,7 +133,7 @@ model soalhitungCepat {
   id            Int       @id @unique @default(autoincrement())
   gambar        String?
   soal          String    @db.LongText
-  kunci_jawaban String
+  kunci_jawaban Int    
   tipe_soal     tipe_soal @default(Bahasa_Indonesia)
   aktif         Boolean?  @default(true)
   createdAt     String

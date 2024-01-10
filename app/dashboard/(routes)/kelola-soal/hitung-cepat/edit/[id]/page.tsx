@@ -21,7 +21,7 @@ interface SoalHitungCepatProps {
   id: number;
   gambar: string | null;
   soal: string;
-  kunci_jawaban: string;
+  kunci_jawaban: number;
   tipe_soal: any;
   aktif: string;
   createdAt: string;
@@ -38,7 +38,7 @@ const EditSoalHitungCepatPage = () => {
     id: 0,
     gambar: "",
     soal: "",
-    kunci_jawaban: "",
+    kunci_jawaban: 0,
     tipe_soal: "Bahasa_Indonesia",
     aktif: "true",
     createdAt: "",
@@ -135,10 +135,10 @@ const EditSoalHitungCepatPage = () => {
               <div className='grid grid-cols-1 md:grid-cols-2 gap-2'>
                 <div>
                   <Label>Kunci Jawaban</Label>
-                  <Input name='kunci_jawaban' value={question.kunci_jawaban} onChange={(e) => {
+                  <Input name='kunci_jawaban' type='number' value={question.kunci_jawaban} onChange={(e) => {
                     setQuestion((prev) => ({
                       ...prev,
-                      kunci_jawaban: e.target.value
+                      kunci_jawaban: parseInt(e.target.value)
                     }))
                   }} /> 
                 </div>

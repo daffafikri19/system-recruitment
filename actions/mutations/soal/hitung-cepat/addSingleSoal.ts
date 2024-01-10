@@ -9,7 +9,7 @@ export async function addSingleSoal(formdata: FormData) {
     const schema = z.object({
         gambar: z.string().min(1).optional().nullable(),
         soal: z.string().min(3),
-        kunci_jawaban: z.string().min(1),
+        kunci_jawaban: z.number().min(1),
         tipe_soal: z.string().min(1).optional().nullable(),
         aktif: z.string().nullable().optional()
     });

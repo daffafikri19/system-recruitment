@@ -21,11 +21,6 @@ interface SoalHitungCepatProps {
   id: number;
   gambar: string | null;
   soal: string;
-  A: string;
-  B: string;
-  C: string;
-  D: string;
-  E: string | null;
   kunci_jawaban: string;
   tipe_soal: any;
   aktif: string;
@@ -43,11 +38,6 @@ const EditSoalHitungCepatPage = () => {
     id: 0,
     gambar: "",
     soal: "",
-    A: "",
-    B: "",
-    C: "",
-    D: "",
-    E: "",
     kunci_jawaban: "",
     tipe_soal: "Bahasa_Indonesia",
     aktif: "true",
@@ -141,77 +131,16 @@ const EditSoalHitungCepatPage = () => {
               <Input type='hidden' name='soal' value={soal} readOnly />
             </div>
 
-            <div className='mt-5 w-full grid grid-cols-1 md:grid-cols-2 gap-2'>
-              <div>
-                <Label>Jawaban A</Label>
-                <Textarea required name='A' value={question.A} onChange={(e) => {
-                  setQuestion((prev) => ({
-                    ...prev,
-                    A: e.target.value
-                  }))
-                }} />
-              </div>
-              <div>
-                <Label>Jawaban B</Label>
-                <Textarea required name='B' value={question.B} onChange={(e) => {
-                  setQuestion((prev) => ({
-                    ...prev,
-                    B: e.target.value
-                  }))
-                }} />
-              </div>
-              <div>
-                <Label>Jawaban C</Label>
-                <Textarea required name='C' value={question.C} onChange={(e) => {
-                  setQuestion((prev) => ({
-                    ...prev,
-                    C: e.target.value
-                  }))
-                }} />
-              </div>
-              <div>
-                <Label>Jawaban D</Label>
-                <Textarea required name='D' value={question.D} onChange={(e) => {
-                  setQuestion((prev) => ({
-                    ...prev,
-                    D: e.target.value
-                  }))
-                }} />
-              </div>
-              {question.E ? (
-                <div>
-                  <Label>Jawaban E</Label>
-                  <Textarea name='E' value={question.E} onChange={(e) => {
-                    setQuestion((prev) => ({
-                      ...prev,
-                      E: e.target.value
-                    }))
-                  }} />
-                </div>
-              ) : null}
-
-            </div>
             <div className='mt-5'>
               <div className='grid grid-cols-1 md:grid-cols-2 gap-2'>
                 <div>
                   <Label>Kunci Jawaban</Label>
-                  <Select required name='kunci_jawaban' value={question.kunci_jawaban} onValueChange={(e) => {
+                  <Input name='kunci_jawaban' value={question.kunci_jawaban} onChange={(e) => {
                     setQuestion((prev) => ({
                       ...prev,
-                      kunci_jawaban: e
+                      kunci_jawaban: e.target.value
                     }))
-                  }}>
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="pilih" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="A">A</SelectItem>
-                      <SelectItem value="B">B</SelectItem>
-                      <SelectItem value="C">C</SelectItem>
-                      <SelectItem value="D">D</SelectItem>
-                      <SelectItem value="E">E</SelectItem>
-                    </SelectContent>
-                  </Select>
+                  }} /> 
                 </div>
                 <div>
                   <Label>Bahasa</Label>

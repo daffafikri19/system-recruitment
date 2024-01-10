@@ -27,9 +27,9 @@ import Image from "next/image"
 import Link from "next/link"
 import { soalSinonim } from "@prisma/client"
 import * as XLSX from 'xlsx';
-import { addMultipleSoal } from "@/actions/mutations/soal/verbal/addMultipleSoalVerbal"
+import { addMultipleSoal } from "@/actions/mutations/soal/sinonim/addMultipleSoal"
 import { toast } from "@/components/ui/use-toast"
-import { deleteSoal } from "@/actions/mutations/soal/verbal/deleteSoalVerbal"
+import { deleteSoal } from "@/actions/mutations/soal/sinonim/deleteSoal"
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog"
 import { useLoadingContext } from "@/lib/providers/loadingStateProvider"
 

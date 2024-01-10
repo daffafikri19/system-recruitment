@@ -78,45 +78,11 @@ const AddSoalHitungCepatPage = () => {
                             <TextEditor handleEditorChange={handleTextEditorChange} />
                             <Input type='hidden' name='soal' value={soal} readOnly />
                         </div>
-
-                        <div className='mt-5 w-full grid grid-cols-1 md:grid-cols-2 gap-2'>
-                            <div>
-                                <Label>Jawaban A</Label>
-                                <Textarea required name='A' />
-                            </div>
-                            <div>
-                                <Label>Jawaban B</Label>
-                                <Textarea required name='B' />
-                            </div>
-                            <div>
-                                <Label>Jawaban C</Label>
-                                <Textarea required name='C' />
-                            </div>
-                            <div>
-                                <Label>Jawaban D</Label>
-                                <Textarea required name='D' />
-                            </div>
-                            <div>
-                                <Label>Jawaban E</Label>
-                                <Textarea name='E' />
-                            </div>
-                        </div>
                         <div className='mt-5'>
                             <div className='grid grid-cols-1 md:grid-cols-2 gap-2'>
                                 <div>
                                     <Label>Kunci Jawaban</Label>
-                                    <Select required name='kunci_jawaban'>
-                                        <SelectTrigger className="w-full">
-                                            <SelectValue placeholder="pilih" />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            <SelectItem value="A">A</SelectItem>
-                                            <SelectItem value="B">B</SelectItem>
-                                            <SelectItem value="C">C</SelectItem>
-                                            <SelectItem value="D">D</SelectItem>
-                                            <SelectItem value="E">E</SelectItem>
-                                        </SelectContent>
-                                    </Select>
+                                    <Input required name='kunci_jawaban' type='text' />
                                 </div>
                                 <div>
                                     <Label>Bahasa</Label>

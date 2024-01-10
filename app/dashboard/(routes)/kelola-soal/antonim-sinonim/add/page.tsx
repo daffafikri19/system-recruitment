@@ -77,7 +77,6 @@ const AddSoalAntonimSinonimPage = () => {
                             <TextEditor handleEditorChange={handleTextEditorChange} />
                             <Input type='hidden' name='soal' value={soal} readOnly />
                         </div>
-
                         <div className='mt-5'>
                             <div className='grid grid-cols-1 md:grid-cols-2 gap-2'>
                                 <div>

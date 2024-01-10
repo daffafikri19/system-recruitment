@@ -50,11 +50,6 @@ export const DataTable = ({ questionData }: dataTableProps) => {
         id: 0,
         gambar: "",
         soal: "",
-        A: "",
-        B: "",
-        C: "",
-        D: "",
-        E: "",
         kunci_jawaban: "",
         tipe_soal: "Bahasa_Indonesia",
         aktif: true,
@@ -306,49 +301,6 @@ export const DataTable = ({ questionData }: dataTableProps) => {
                         <div className="flex w-full rounded-md border border-input bg-background dark:!bg-boxdark-2 px-3 py-2 text-sm" dangerouslySetInnerHTML={{ __html: pratinjau.soal }} />
                     </div>
                     <div className="mt-2 w-full">
-                        <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-2">
-                            <div>
-                                <Label className="flex items-center">A
-                                    {pratinjau.kunci_jawaban === 'A' ? (
-                                        <CheckCircle2 className="w-3 h-3 ml-2 text-green-500" />
-                                    ) : ""}
-                                </Label>
-                                <Textarea value={pratinjau.A} />
-                            </div>
-                            <div>
-                                <Label className="flex items-center">B
-                                    {pratinjau.kunci_jawaban === 'B' ? (
-                                        <CheckCircle2 className="w-3 h-3 ml-2 text-green-500" />
-                                    ) : ""}
-                                </Label>
-                                <Textarea value={pratinjau.B} />
-                            </div>
-                            <div>
-                                <Label className="flex items-center">C
-                                    {pratinjau.kunci_jawaban === 'C' ? (
-                                        <CheckCircle2 className="w-3 h-3 ml-2 text-green-500" />
-                                    ) : ""}
-                                </Label>
-                                <Textarea value={pratinjau.C} />
-                            </div>
-                            <div>
-                                <Label className="flex items-center">D
-                                    {pratinjau.kunci_jawaban === 'D' ? (
-                                        <CheckCircle2 className="w-3 h-3 ml-2 text-green-500" />
-                                    ) : ""}
-                                </Label>
-                                <Textarea value={pratinjau.D} />
-                            </div>
-                            <div>
-                                <Label className="flex items-center">E
-                                    {pratinjau.kunci_jawaban === 'E' ? (
-                                        <CheckCircle2 className="w-3 h-3 ml-2 text-green-500" />
-                                    ) : ""}
-                                </Label>
-                                <Textarea value={pratinjau.E!} />
-                            </div>
-                        </div>
-
                         <div className="mt-2 w-full flex items-center justify-between">
                             <div>
                                 <Label>Kunci Jawaban : {pratinjau.kunci_jawaban}</Label>

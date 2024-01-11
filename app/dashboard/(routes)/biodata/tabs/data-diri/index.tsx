@@ -64,7 +64,7 @@ export const DataDiriTab = ({ sessionUserId, username, email }: dataDiriTabProps
     const [isInvalidNik, setIsInvalidNik] = useState(false);
     const [modeEdit, setModeEdit] = useState(true);
 
-    const getCurrentUser =  useCallback(async () => {
+    const getCurrentUser = async () => {
         try {
             const user = await axios.post('/api/biodata/get', {
                 username: username
@@ -81,18 +81,18 @@ export const DataDiriTab = ({ sessionUserId, username, email }: dataDiriTabProps
                 variant: 'destructive'
             })
         }
-    }, [username])
+    }
 
     useEffect(() => {
         getCurrentUser();
 
         getListCountry();
-        getProvincesList();
+        // getProvincesList();
 
         if (biodata.no_ponsel === biodata.no_wa) {
             setIsSameNumber(!isSameNumber)
         };
-    }, [getCurrentUser, getListCountry, getProvincesList, biodata.no_ponsel, biodata.no_wa, isSameNumber]);
+    }, []);
 
     const handlePhoneChange = (event: ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;

@@ -3,6 +3,7 @@ import React from 'react'
 import { DataTable } from './dataTable'
 import { AddForm } from './addForm'
 import prisma from '@/lib/utils/prisma'
+import Breadcrumb from '../../components/Breadcrumbs'
 
 const DaftarAdminPage = async () => {
 
@@ -24,6 +25,7 @@ const DaftarAdminPage = async () => {
 
     return (
         <div className='w-full h-full'>
+            <Breadcrumb pageName='Daftar Admin' />
             <div className='my-5'>
                 <AddForm />
             </div>

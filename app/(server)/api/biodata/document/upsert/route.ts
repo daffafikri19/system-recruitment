@@ -96,7 +96,7 @@ export async function POST(req: NextRequest) {
             status: 200
         })
     } catch (error) {
-        return NextResponse.json("Terjadi kesalahan server saat menyimpan berkas", {
+        return NextResponse.json("test", {
             status: 500
         })
     }

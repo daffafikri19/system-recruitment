@@ -51,7 +51,6 @@ model User {
   biodata        biodataUser[]
   accounts       Account[]
   scorePsikotest scoreTotalPsikotest[]
-  scoreBIngrris  scoreBIngrris[]
 }
 
 model soalVerbal {
@@ -133,7 +132,7 @@ model soalhitungCepat {
   id            Int       @id @unique @default(autoincrement())
   gambar        String?
   soal          String    @db.LongText
-  kunci_jawaban Int    
+  kunci_jawaban Int
   tipe_soal     tipe_soal @default(Bahasa_Indonesia)
   aktif         Boolean?  @default(true)
   createdAt     String
@@ -269,47 +268,205 @@ model soalBahasaInggris {
   updatedAt     String
 }
 
-model scoreTotalPsikotest {
-  id         Int    @id @unique @default(autoincrement())
-  id_user    String @unique
-  user       User   @relation(fields: [id_user], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  score      Json
-  scoreTotal String
-  createdAt  String
-}
-
-model scoreBIngrris {
-  id        Int     @id @unique @default(autoincrement())
-  id_user   String  @unique
-  user      User    @relation(fields: [id_user], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  benar     String?
-  salah     String?
-  kosong    String?
-  score     String
-  createdAt String
-}
-
 model settinganSoal {
   id                                    Int    @id @unique @default(autoincrement())
-  waktu_pengerjaan_psikotest            Int
+  waktu_pengerjaan_verbal               Int
+  waktu_pengerjaan_antonim              Int
+  waktu_pengerjaan_sinonim              Int
+  waktu_pengerjaan_antonim_sinonim      Int
+  waktu_pengerjaan_deret_angka          Int
+  waktu_pengerjaan_hitung_cepat         Int
+  waktu_pengerjaan_informasi_singkat    Int
+  waktu_pengerjaan_kalimat_tak_teratur  Int
+  waktu_pengerjaan_kemampuan_teknikal   Int
+  waktu_pengerjaan_ketelitian           Int
+  waktu_pengerjaan_kuantitatif_analisis Int
+  waktu_pengerjaan_penalaran_logis      Int
+  waktu_pengerjaan_penalaran_analitik   Int
+  waktu_pengerjaan_kepribadian          Int
   waktu_pengerjaan_inggris              Int
   max_soal_verbal                       Int    @default(50)
-  max_soal_anonim                       Int    @default(50)
+  max_soal_antonim                       Int    @default(50)
   max_soal_sinonim                      Int    @default(50)
   max_soal_antonim_sinonim              Int    @default(50)
   max_soal_deret_angka                  Int    @default(50)
   max_soal_hitung_cepat                 Int    @default(50)
   max_soal_informasi_singkat            Int    @default(50)
   max_soal_kalimat_tak_teratur          Int    @default(50)
-  max_soal_kalimat_kemampuan_teknikal   Int    @default(50)
-  max_soal_kalimat_ketelitian           Int    @default(50)
-  max_soal_kalimat_kuantitatif_analisis Int    @default(50)
-  max_soal_kalimat_penalaran_logis      Int    @default(50)
-  max_soal_kalimat_penalaran_analitik   Int    @default(50)
-  max_soal_kalimat_kepribadian          Int    @default(50)
-  max_soal_bInggris                     Int
+  max_soal_kemampuan_teknikal           Int    @default(50)
+  max_soal_ketelitian                   Int    @default(50)
+  max_soal_kuantitatif_analisis         Int    @default(50)
+  max_soal_penalaran_logis              Int    @default(50)
+  max_soal_penalaran_analitik           Int    @default(50)
+  max_soal_kepribadian                  Int    @default(50)
+  max_soal_bInggris                     Int    @default(50)
   schedule                              String
   createdAt                             String
+}
+
+model scoreVerbal {
+  id      Int    @id @unique @default(autoincrement())
+  benar Int
+  salah Int
+  score Int
+  scoreId Int @unique
+  scoreTotal scoreTotalPsikotest? @relation(fields: [scoreId], references: [id])
+} 
+
+model scoreAntonim {
+  id      Int    @id @unique @default(autoincrement())
+  benar Int
+  salah Int
+  score Int
+  scoreId Int @unique
+  scoreTotal scoreTotalPsikotest? @relation(fields: [scoreId], references: [id])
+} 
+
+model scoreSinonim {
+  id      Int    @id @unique @default(autoincrement())
+  benar Int
+  salah Int
+  score Int
+  scoreId Int @unique
+  scoreTotal scoreTotalPsikotest? @relation(fields: [scoreId], references: [id])
+} 
+
+model scoreAntonimSinonim {
+  id      Int    @id @unique @default(autoincrement())
+  benar Int
+  salah Int
+  score Int
+  scoreId Int @unique
+  scoreTotal scoreTotalPsikotest? @relation(fields: [scoreId], references: [id])
+} 
+
+model scoreDeretAngka {
+  id      Int    @id @unique @default(autoincrement())
+  benar Int
+  salah Int
+  score Int
+  scoreId Int @unique
+  scoreTotal scoreTotalPsikotest? @relation(fields: [scoreId], references: [id])
+} 
+
+model scoreHitungCepat {
+  id      Int    @id @unique @default(autoincrement())
+  benar Int
+  salah Int
+  score Int
+  scoreId Int @unique
+  scoreTotal scoreTotalPsikotest? @relation(fields: [scoreId], references: [id])
+} 
+
+model scoreInformasiSingkat {
+  id      Int    @id @unique @default(autoincrement())
+  benar Int
+  salah Int
+  score Int
+  scoreId Int @unique
+  scoreTotal scoreTotalPsikotest? @relation(fields: [scoreId], references: [id])
+} 
+
+model scoreKalimatTakTeratur {
+  id      Int    @id @unique @default(autoincrement())
+  benar Int
+  salah Int
+  score Int
+  scoreId Int @unique
+  scoreTotal scoreTotalPsikotest? @relation(fields: [scoreId], references: [id])
+} 
+
+model scoreKemampuanTeknikal {
+  id      Int    @id @unique @default(autoincrement())
+  benar Int
+  salah Int
+  score Int
+  scoreId Int @unique
+  scoreTotal scoreTotalPsikotest? @relation(fields: [scoreId], references: [id])
+} 
+
+model scoreKetelitian {
+  id      Int    @id @unique @default(autoincrement())
+  benar Int
+  salah Int
+  score Int
+  scoreId Int @unique
+  scoreTotal scoreTotalPsikotest? @relation(fields: [scoreId], references: [id])
+} 
+
+model scoreKuantitatifAnalisis {
+  id      Int    @id @unique @default(autoincrement())
+  benar Int
+  salah Int
+  score Int
+  scoreId Int @unique
+  scoreTotal scoreTotalPsikotest? @relation(fields: [scoreId], references: [id])
+} 
+
+model scorePenalaranLogis {
+  id      Int    @id @unique @default(autoincrement())
+  benar Int
+  salah Int
+  score Int
+  scoreId Int @unique
+  scoreTotal scoreTotalPsikotest? @relation(fields: [scoreId], references: [id])
+} 
+
+model scorePenalaranAnalitik {
+  id      Int    @id @unique @default(autoincrement())
+  benar Int
+  salah Int
+  score Int
+  scoreId Int @unique
+  scoreTotal scoreTotalPsikotest? @relation(fields: [scoreId], references: [id])
+}
+
+model scoreKepribadian {
+  id      Int    @id @unique @default(autoincrement())
+  benar Int
+  salah Int
+  score Int
+  scoreId Int @unique
+  scoreTotal scoreTotalPsikotest? @relation(fields: [scoreId], references: [id])
+}
+
+model scoreInggris {
+  id      Int    @id @unique @default(autoincrement())
+  benar Int
+  salah Int
+  score Int
+  scoreId Int @unique
+  scoreTotal scoreTotalPsikotest? @relation(fields: [scoreId], references: [id])
+}
+
+model scoreTotalPsikotest {
+  id         Int    @id @unique @default(autoincrement())
+  id_user    String @unique
+  user       User   @relation(fields: [id_user], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  average    Int
+  scoreVerbal scoreVerbal?
+  scoreAntonim scoreAntonim?
+  scoreSinonim scoreSinonim?
+  scoreAntonimSinonim scoreAntonimSinonim?
+  scoreDeretAngka scoreDeretAngka?
+  scoreHitungCepat scoreHitungCepat?
+  scoreInformasiSingkat scoreInformasiSingkat?
+  scoreKalimatTakTeratur scoreKalimatTakTeratur?
+  scoreKemampuanTeknikal scoreKemampuanTeknikal?
+  scoreKetelitian scoreKetelitian?
+  scoreKuantitatifAnalisis scoreKuantitatifAnalisis?
+  scorePenalaranLogis scorePenalaranLogis?
+  scorePenalaranAnalitik scorePenalaranAnalitik?
+  scoreKepribadian scoreKepribadian?
+  scoreInggris scoreInggris?
+  scoreTotal Int
+  createdAt  String
+}
+
+model settinganApi {
+  id        Int    @id @unique @default(autoincrement())
+  createdAt String
+  updatedAt String
 }
 
 enum tipe_soal {

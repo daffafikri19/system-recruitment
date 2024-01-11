@@ -2,6 +2,7 @@ import React from 'react'
 import prisma from '@/lib/utils/prisma'
 import { DataTable } from './dataTable';
 import { revalidatePath } from 'next/cache';
+import Breadcrumb from '@/app/dashboard/components/Breadcrumbs';
 
 const SoalSinonimPage = async () => {
     const questionList = await prisma.soalSinonim.findMany();
@@ -9,6 +10,7 @@ const SoalSinonimPage = async () => {
 
     return (
         <div>
+            <Breadcrumb pageName='Sinonim' />
             <DataTable questionData={questionList} />
         </div>
     )

@@ -4,6 +4,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import Link from "next/link"
 import { useTestPageStore } from "./context-wrapper"
+import { settinganSoal } from "@prisma/client"
+
+interface dataProps {
+    settings: settinganSoal
+}
 
 export const InformasiTesCard = () => {
 
@@ -23,7 +28,9 @@ export const InformasiTesCard = () => {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-
+                        <TableRow>
+                            <TableCell></TableCell>
+                        </TableRow>
                     </TableBody>
                     <TableFooter>
                         <TableRow>

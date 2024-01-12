@@ -7,7 +7,7 @@ import { create } from "zustand"
 import { CheckCircle2, EditIcon, UploadIcon } from "lucide-react";
 
 interface FileManagerProps {
-    onFileSelected: (file: any) => void;
+    onFileSelected: (file: any, filename: string) => void;
     username: string
     filename: string
     onClick?: () => void
@@ -49,7 +49,7 @@ export const FileManagerUploader = ({ onFileSelected, username, filename }: File
                                     const doc = file[0]?.url || "";
                                     if (doc) {
                                         const docUrl = new URL(doc).pathname;
-                                        onFileSelected(docUrl);
+                                        onFileSelected(docUrl, filename);
                                     }
                                 },
                             })

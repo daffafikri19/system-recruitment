@@ -2,7 +2,7 @@ import prisma from "@/lib/utils/prisma";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
-    const { field, file, username } = await req.json();
+    const { filename, file, username } = await req.json();
     const existingBiodata = await prisma.biodataUser.findUnique({
         where: {
             nama_lengkap: username
@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
 
     try {
         let fileData = {};
-        switch (field) {
+        switch (filename) {
             case "cv":
                 fileData = { cv: file };
                 break;

@@ -1,6 +1,6 @@
 "use client"
 
-import { editSoal } from '@/actions/mutations/soal/verbal/editSoalVerbal'
+import { editSoal } from '@/actions/mutations/soal/verbal/editSoal'
 import { FileManagerOpener } from '@/app/dashboard/components/FileManager/open'
 import { TextEditor } from '@/app/dashboard/components/TextEditor'
 import { useLoadingContext } from '@/lib/providers/loadingStateProvider'

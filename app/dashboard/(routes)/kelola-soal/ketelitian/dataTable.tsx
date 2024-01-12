@@ -1,5 +1,5 @@
 "use client"
-import { ChangeEvent, useState } from "react"
+import { ChangeEvent, useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -17,11 +17,11 @@ import {
     DialogDescription,
     DialogHeader,
     DialogTitle,
-    DialogTrigger,
 } from "@/components/ui/dialog"
-import { CheckCircle2, Download, Edit2Icon, EyeIcon, FileQuestionIcon, Loader2, Plus, SearchIcon, Trash2Icon, UploadIcon, X, XCircle } from "lucide-react"
+import { CheckCircle2, Download, Edit2Icon, EyeIcon, Loader2, Plus, SearchIcon, Trash2Icon, UploadIcon, X, XCircle } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { Label } from "@/components/ui/label"
+import { Textarea } from "@/components/ui/textarea"
 import Image from "next/image"
 import Link from "next/link"
 import { soalKetelitian } from "@prisma/client"
@@ -31,38 +31,28 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { addMultipleSoal } from "@/actions/mutations/soal/ketelitian/addMultipleSoal"
 import { deleteSoal } from "@/actions/mutations/soal/ketelitian/deleteSoal"
 import { useLoadingContext } from "@/lib/providers/loadingStateProvider"
+import { Badge } from "@/components/ui/badge"
 
 interface dataTableProps {
     questionData: soalKetelitian[]
 }
 
 export const DataTable = ({ questionData }: dataTableProps) => {
-
-    const [openPratinjau, setOpenPratinjau] = useState(false);
     const router = useRouter();
     const [openModalImport, setOpenModalImport] = useState(false);
     const [dataFile, setDataFile] = useState<any[]>([]);
     const [onFile, setOnFile] = useState<boolean | null>(false);
     const { loading, setLoading } = useLoadingContext();
-
-    const [pratinjau, setPratinjau] = useState<soalKetelitian>({
-        id: 0,
-        gambar: "",
-        soal: "",
-        kunci_jawaban: "",
-        tipe_soal: "Bahasa_Indonesia",
-        aktif: true,
-        createdAt: "",
-        updatedAt: "",
-    });
-
-    const handleOpenPratinjau = (data: soalKetelitian) => {
-        setOpenPratinjau(true);
-        setPratinjau(data)
-    }
-
     const [searchQuery, setSearchQuery] = useState("");
     const [filteredData, setFilteredData] = useState<soalKetelitian[]>([]);
+
+    useEffect(() => {
+        // Filter data berdasarkan searchQuery saat questionData berubah
+        const searchData = questionData.filter((question) =>
+            question.soal.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+        setFilteredData(searchData);
+    }, [questionData, searchQuery]);
 
     const handleSearch = () => {
         const searchData = questionData.filter((question) => question.soal.toLowerCase().includes(searchQuery.toLowerCase())
@@ -101,8 +91,6 @@ export const DataTable = ({ questionData }: dataTableProps) => {
                     });
                     return obj;
                 });
-
-                // Render data ke komponen atau lakukan operasi lainnya
                 if (result) {
                     console.log(result);
                     setOnFile(true)
@@ -113,6 +101,10 @@ export const DataTable = ({ questionData }: dataTableProps) => {
             reader.readAsArrayBuffer(file);
         }
     };
+
+    useEffect(() => {
+
+    }, [questionData])
 
     const handleFileMultipleUpload = () => {
         setLoading(true)
@@ -136,6 +128,11 @@ export const DataTable = ({ questionData }: dataTableProps) => {
             setLoading(false)
         })
     }
+
+    const handleDownloadTemplate = () => {
+        const templateURL = "/file/template-soal-ketelitian.xlsx";
+        window.location.href = templateURL;
+    };
 
     return (
         <div className="w-full">
@@ -164,7 +161,7 @@ export const DataTable = ({ questionData }: dataTableProps) => {
                             <CardHeader>
                                 <CardTitle className="text-center">sesuaikan template import data soal</CardTitle>
                                 <DialogDescription className="w-full flex items-center justify-center">
-                                    <Button>
+                                    <Button onClick={handleDownloadTemplate}>
                                         download template <Download className="w-4 h-4 ml-2" />
                                     </Button>
                                 </DialogDescription>
@@ -173,9 +170,9 @@ export const DataTable = ({ questionData }: dataTableProps) => {
                                 {onFile ? (
                                     <div className="relative space-y-3 p-4 rounded-lg border-2 border-dashed w-full flex items-center justify-center">
                                         <Button className="flex items-center justify-center" variant="success" onClick={handleFileMultipleUpload} disabled={loading}>
-                                            { loading ? (
-                                                <Loader2 className="w-5 h-5 mx-4 animate-spin" />
-                                            ) : "Import" }
+                                            {loading ? (
+                                                <Loader2 className="w-5 h-5 animate-spin mx-4" />
+                                            ) : "Import"}
                                         </Button>
                                         <X className="absolute text-red-500 -top-2 right-0 cursor-pointer" onClick={() => setOnFile(null)} />
                                     </div>
@@ -195,46 +192,30 @@ export const DataTable = ({ questionData }: dataTableProps) => {
                             <TableRow>
                                 <TableHead className="text-center">No</TableHead>
                                 <TableHead>Pertanyaan</TableHead>
-                                <TableHead className="text-center">Gambar</TableHead>
+                                <TableHead className="text-center">Kunci Jawaban</TableHead>
                                 <TableHead className="text-center">Status</TableHead>
-                                <TableHead className="text-center">Pratinjau</TableHead>
                                 <TableHead className="text-center">Actions</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {(filteredData.length > 0 ? filteredData : questionData).map((question, index: number) => (
+
+                            {(filteredData.length > 0 ? filteredData : []).map((question, index: number) => (
                                 <TableRow key={question.id}>
                                     <TableCell className="text-center">{index + 1}</TableCell>
                                     <TableCell>
                                         <div dangerouslySetInnerHTML={{ __html: question.soal }} />
                                     </TableCell>
-                                    <TableCell className="text-center">
-                                        {question.gambar === "null" || question.gambar === null ? (
-                                            <span className="text-[10px] text-muted-foreground">
-                                                no image
-                                            </span>
-                                        ) : (
-                                            <Dialog>
-                                                <DialogTrigger>
-                                                    <Image src={`https://filemanager-e-recruitment.teinsolutions.com${question.gambar}`} alt='gambar soal' width={50} height={50} />
-
-                                                </DialogTrigger>
-                                                <DialogContent className="w-full flex items-center justify-center">
-                                                    <Image src={`https://filemanager-e-recruitment.teinsolutions.com${question.gambar}`} alt='gambar soal' width={250} height={250} />
-                                                </DialogContent>
-                                            </Dialog>
+                                    <TableCell className="text-center font-bold">
+                                        {question.kunci_jawaban === "T" && (
+                                            " Tidak Sama"
                                         )}
-                                    </TableCell>
+                                        {question.kunci_jawaban === "S" && (" Sama")}                                    </TableCell>
                                     <TableCell className="text-center">
                                         {question.aktif == true ? (
-                                            <Button className="text-white" variant="status">Aktif <CheckCircle2 className="w-4 h-4 ml-2" /></Button>
+                                            <Badge className="text-white" variant="success">Aktif <CheckCircle2 className="w-4 h-4 ml-2" /></Badge>
                                         ) : (
-                                            <Button className="text-white" variant="destructive">Non-aktif <XCircle className="w-4 h-4 ml-2" /></Button>
+                                            <Badge className="text-white" variant="destructive">Non-aktif <XCircle className="w-4 h-4 ml-2" /></Badge>
                                         )}
-                                    </TableCell>
-                                    <TableCell className="text-center">
-                                        <Button size="icon" variant="outline" onClick={() => handleOpenPratinjau(question)}>
-                                            <EyeIcon className="w-4 h-4" /></Button>
                                     </TableCell>
 
                                     <TableCell className="text-center">
@@ -259,11 +240,10 @@ export const DataTable = ({ questionData }: dataTableProps) => {
                                                     </AlertDialogHeader>
                                                     <AlertDialogFooter>
                                                         <AlertDialogCancel disabled={loading}>Batal</AlertDialogCancel>
-                                                        <AlertDialogAction onClick={() => handleDeleteSoal(question.id)} disabled={loading}>Delete</AlertDialogAction>
+                                                        <AlertDialogAction disabled={loading} onClick={() => handleDeleteSoal(question.id)}>Delete</AlertDialogAction>
                                                     </AlertDialogFooter>
                                                 </AlertDialogContent>
                                             </AlertDialog>
-
                                         </div>
                                     </TableCell>
                                 </TableRow>
@@ -272,47 +252,6 @@ export const DataTable = ({ questionData }: dataTableProps) => {
                     </Table>
                 </CardContent>
             </Card>
-
-            <Dialog open={openPratinjau} onOpenChange={setOpenPratinjau}>
-                <DialogContent className="max-h-full overflow-y-scroll">
-                    <DialogHeader>
-                        <DialogTitle>Pratinjau</DialogTitle>
-                    </DialogHeader>
-                    <div>
-                        <Label>Gambar</Label>
-                        <div className="flex min-h-[75px] w-full rounded-md border border-input bg-background dark:!bg-boxdark-2 px-3 py-2 text-sm">
-                            {pratinjau.gambar === 'null' ? (
-                                <div className="w-full flex items-center justify-center">
-                                    <p className="flex items-center text-muted-foreground">
-                                        <FileQuestionIcon className="w-3 h-3 text-muted-foreground mr-2" />
-                                        soal tidak memiliki gambar
-                                    </p>
-                                </div>
-                            ) : (
-                                <div className="w-full flex items-center justify-center">
-                                    <p className="text-muted-foreground">gambar soal</p>
-                                </div>
-                            )}
-                        </div>
-                    </div>
-                    <div>
-                        <Label>Soal</Label>
-                        <div className="flex w-full rounded-md border border-input bg-background dark:!bg-boxdark-2 px-3 py-2 text-sm" dangerouslySetInnerHTML={{ __html: pratinjau.soal }} />
-                    </div>
-                    <div className="mt-2 w-full">
-                        <div className="mt-2 w-full flex items-center justify-between">
-                            <div>
-                                <Label>Kunci Jawaban : {pratinjau.kunci_jawaban}</Label>
-                            </div>
-                            <div>
-                                <Label>Status : {pratinjau.aktif === true ? "Aktif" : "Tidak Aktif"}</Label>
-                            </div>
-                        </div>
-                    </div>
-
-                </DialogContent>
-            </Dialog>
-
         </div>
     )
 }

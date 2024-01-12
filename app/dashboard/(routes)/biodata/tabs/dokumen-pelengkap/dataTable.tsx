@@ -25,85 +25,69 @@ interface tableDataProps {
 
 interface documenArrayProps {
     nama_berkas: string,
-    filename: string,
-    field: keyof dokumenUser
+    filename: keyof dokumenUser,
 }
 
-export const DocumentArray: documenArrayProps[] = [
+export const DocumentArray: documenArrayProps[] | [] = [
     {
         nama_berkas: "Curiculum Vitae",
-        filename: "CV",
-        field: "cv"
+        filename: "cv",
     },
     {
         nama_berkas: "Pas Foto",
         filename: "pas_foto",
-        field: "pas_foto"
     },
     {
         nama_berkas: "Kartu Tanda Penduduk",
-        filename: "KTP",
-        field: "ktp"
+        filename: "ktp",
     },
     {
         nama_berkas: "npwp",
-        filename: "NPWP",
-        field: "npwp"
+        filename: "npwp",
     },
     {
         nama_berkas: "Surat Izin Mengemudi",
-        filename: "SIM",
-        field: "sim"
+        filename: "sim",
     },
     {
         nama_berkas: "Ijazah Terakhir",
         filename: "ijazah",
-        field: "ijazah"
     },
     {
         nama_berkas: "Transkrip Nilai",
         filename: "transkrip_nilai",
-        field: "transkrip_nilai"
     },
     {
         nama_berkas: "Kartu Keluarga",
         filename: "kartu_keluarga",
-        field: "kartu_keluarga"
     },
     {
         nama_berkas: "SKCK",
-        filename: "SKCK",
-        field: "skck"
+        filename: "skck",
     },
     {
         nama_berkas: "Kartu Kuning",
         filename: "kartu_kuning",
-        field: "kartu_kuning"
     },
     {
         nama_berkas: "Surat Pengalaman Kerja",
         filename: "surat_pengalaman_kerja",
-        field: "surat_pengalaman_kerja"
     },
     {
         nama_berkas: "Akta Kelahiran",
         filename: "akta_kelahiran",
-        field: "akta_kelahiran"
     },
     {
         nama_berkas: "Sertifikat Keahlian",
         filename: "sertifikat_keahlian",
-        field: "sertifikat_keahlian"
     },
     {
         nama_berkas: "Sertifikat Bahasa",
         filename: "sertifikat_bahasa",
-        field: "sertifikat_bahasa"
     },
     {
         nama_berkas: "Buku Nikah",
         filename: "buku_nikah",
-        field: "buku_nikah"
     },
 ]
 
@@ -154,12 +138,6 @@ export const TableData = ({ username, id }: tableDataProps) => {
         updatedAt: ""
     });
 
-    const [selectedData, setSelectedData] = useState<documenArrayProps>({
-        filename: "",
-        nama_berkas: "",
-        field: "cv"
-    });
-
     useEffect(() => {
         const getData = async () => {
             try {
@@ -177,21 +155,16 @@ export const TableData = ({ username, id }: tableDataProps) => {
             }
         }
         getData();
-    }, [id]);
+    }, [id, contentData]);
 
-    useEffect(() => {
-        console.log("selected data", selectedData)
-    }, [selectedData])
-
-
-    const handleFileUploaded = async (file: any) => {
+    const handleFileUploaded = async (file: any, filename: string) => {
         console.log("file uploaded", file);
-        console.log("field", selectedData?.field);
+        console.log("filename", filename);
 
         try {
             setLoading(true)
             const response = await axios.post('/api/biodata/document/upsert', {
-                field: selectedData.field,
+                filename: filename,
                 file: file,
                 username: username
             });
@@ -214,15 +187,6 @@ export const TableData = ({ username, id }: tableDataProps) => {
         }
     }
 
-
-    const handleSelectedData = (data: documenArrayProps) => {
-        setSelectedData({
-            nama_berkas: data.nama_berkas,
-            field: data.field,
-            filename: data.filename
-        })
-    }
-
     const handleFileSelected = (file: any) => {
         console.log("file")
     }
@@ -243,28 +207,42 @@ export const TableData = ({ username, id }: tableDataProps) => {
                 </TableHeader>
                 <TableBody>
                     {DocumentArray.map((document, index: number) => (
-                        <TableRow key={index + 1}>
+                        <TableRow key={document.filename}>
                             <TableCell>{index + 1}</TableCell>
                             <TableCell>{document.nama_berkas}</TableCell>
                             <TableCell>
-                                {contentData[document.field] !== null ? (
-                                    <div className="w-full flex items-center justify-center">
-                                        <Button variant="success">Sudah Upload <CheckCircle2Icon className="w-5 h-5 ml-2" /></Button>
-                                    </div>
+                                {contentData !== null ? (
+                                    contentData[document.filename] as keyof dokumenUser ? (
+                                        <div className="w-full flex items-center justify-center">
+                                            <Button variant="success">Sudah Upload <CheckCircle2Icon className="w-5 h-5 ml-2" /></Button>
+                                        </div>
+                                    ) : (
+                                        <>
+                                            {loading ? (
+                                                <Skeleton className="w-full h-10 animate-pulse" />
+                                            ) : (
+                                                <FileManagerUploader
+                                                    filename={document?.filename || ""}
+                                                    username={username}
+                                                    onFileSelected={handleFileUploaded}
+                                                />
+                                            )}
+                                        </>
+                                    )
                                 ) : (
                                     <>
-                                        {loading ? (
-                                            <Skeleton className="w-full h-10 animate-pulse" />
-                                        ) : (
-                                            <div onClick={() => handleSelectedData(document)}>
-                                                <FileManagerUploader
-                                                    filename={document.filename}
-                                                    username={username} onFileSelected={handleFileUploaded}
-                                                />
-                                            </div>
-                                        )}
-                                    </>
+                                    {loading ? (
+                                        <Skeleton className="w-full h-10 animate-pulse" />
+                                    ) : (
+                                        <FileManagerUploader
+                                            filename={document?.filename || ""}
+                                            username={username}
+                                            onFileSelected={handleFileUploaded}
+                                        />
+                                    )}
+                                </>
                                 )}
+
                             </TableCell>
                             <TableCell className="text-right">
                                 <ActionsButton

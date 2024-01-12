@@ -1,65 +1,41 @@
-import React, { useState } from 'react';
+"use client"
 
-interface PaginationProps {
-  data: Array<any>;
-  itemsPerPage: number;
-  onPageChange: (page: number) => void;
-}
+import ReactPaginate from 'react-paginate';
+import React, { useEffect, useState } from 'react';
 
-const Pagination: React.FC<PaginationProps> = ({ data, itemsPerPage, onPageChange }) => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = Math.ceil(data.length / itemsPerPage);
+export function PaginatedItems({ itemsPerPage, data } : { itemsPerPage: number, data: any[] }) {
+  // Here we use item offsets; we could also use page offsets
+  // following the API or data you're working with.
+  const [itemOffset, setItemOffset] = useState(0);
 
-  const handleClick = (page: number) => {
-    setCurrentPage(page);
-    onPageChange(page);
-  };
+  // Simulate fetching items from another resources.
+  // (This could be items from props; or items loaded in a local state
+  // from an API endpoint with useEffect and useState)
+  const endOffset = itemOffset + itemsPerPage;
+  console.log(`Loading items from ${itemOffset} to ${endOffset}`);
+  const currentItems = data.slice(itemOffset, endOffset);
+  const pageCount = Math.ceil(data.length / itemsPerPage);
 
-  const renderPaginationButtons = () => {
-    const buttons = [];
-    for (let i = 1; i <= totalPages; i++) {
-      buttons.push(
-        <button
-          key={i}
-          onClick={() => handleClick(i)}
-          className={currentPage === i ? 'active' : ''}
-        >
-          {i}
-        </button>
-      );
-    }
-    return buttons;
-  };
-
-  const renderData = () => {
-    const start = (currentPage - 1) * itemsPerPage;
-    const end = start + itemsPerPage;
-    return data.slice(start, end).map((item) => (
-      // Render your data item here
-      <div key={item.id}>{/* Render your data item content */}</div>
-    ));
+  // Invoke when user click to request another page.
+  const handlePageClick = (event : any) => {
+    const newOffset = (event.selected * itemsPerPage) % data.length;
+    console.log(
+      `User requested page number ${event.selected}, which is offset ${newOffset}`
+    );
+    setItemOffset(newOffset);
   };
 
   return (
-    <div>
-      <div className="pagination-buttons">
-        <button
-          onClick={() => handleClick(currentPage - 1)}
-          disabled={currentPage === 1}
-        >
-          Previous
-        </button>
-        {renderPaginationButtons()}
-        <button
-          onClick={() => handleClick(currentPage + 1)}
-          disabled={currentPage === totalPages}
-        >
-          Next
-        </button>
-      </div>
-      <div className="data-container">{renderData()}</div>
-    </div>
+    <>
+      <ReactPaginate
+        breakLabel="..."
+        nextLabel="next >"
+        onPageChange={handlePageClick}
+        pageRangeDisplayed={5}
+        pageCount={pageCount}
+        previousLabel="< previous"
+        renderOnZeroPageCount={null}
+      />
+    </>
   );
-};
-
-export default Pagination;
+}

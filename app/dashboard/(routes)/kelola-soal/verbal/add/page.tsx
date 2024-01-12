@@ -1,6 +1,6 @@
 "use client"
 
-import { addSingleSoal } from '@/actions/mutations/soal/verbal/addSingleSoalVerbal'
+import { addSingleSoal } from '@/actions/mutations/soal/verbal/addSingleSoal'
 import { FileManagerOpener } from '@/app/dashboard/components/FileManager/open'
 import { TextEditor } from '@/app/dashboard/components/TextEditor'
 import { useLoadingContext } from '@/lib/providers/loadingStateProvider'

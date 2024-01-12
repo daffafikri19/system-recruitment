@@ -17,7 +17,7 @@ export async function addSingleSoal(formdata: FormData) {
     const parse = schema.safeParse({
         gambar: formdata.get('gambar'),
         soal: formdata.get('soal'),
-        kunci_jawaban: formdata.get('kunci_jawaban'),
+        kunci_jawaban: parseInt(formdata.get('kunci_jawaban') as string),
         tipe_soal: formdata.get('tipe_soal'),
         aktif: formdata.get('aktif')
     });

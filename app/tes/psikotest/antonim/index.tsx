@@ -6,7 +6,7 @@ import { toast } from "@/components/ui/use-toast"
 import axios from "axios"
 import { settinganSoal } from "@prisma/client"
 
-export const VerbalTes = () => {
+export const AntonimTes = () => {
     const [settings, setSettings] = useState<settinganSoal>();
 
     useEffect(() => {
@@ -28,7 +28,7 @@ export const VerbalTes = () => {
     return (
         <Card>
             <CardContent>
-                <ItemSoal id_user={"clq4bdbrv0001etghj6ye600w"} max_soal={settings?.max_soal_verbal} title="Tes Analogi Verbal" waktu_pengerjaan={settings?.waktu_pengerjaan_verbal} />
+                <ItemSoal id_user={"clq4bdbrv0001etghj6ye600w"} max_soal={settings?.max_soal_antonim} title="Tes Antonim (Lawan Kata)" waktu_pengerjaan={settings?.waktu_pengerjaan_antonim} />
             </CardContent>
         </Card>
     )

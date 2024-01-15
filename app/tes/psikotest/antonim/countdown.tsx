@@ -15,7 +15,7 @@ export const CountDown = ({
     onCountdownZero
 }: CountdownProps) => {
     const [countdown, setCountdown] = useState(() => {
-        return typeof localStorage !== 'undefined' ? parseInt(localStorage.getItem('w-verbal') || "") : 0;
+        return typeof localStorage !== 'undefined' ? parseInt(localStorage.getItem('w-antonim') || "") : 0;
     });
 
     const [startCountdown, setStartCountdown] = useState(false);
@@ -40,10 +40,10 @@ export const CountDown = ({
         }
         if (countdown <= 0 && startCountdown) {
             clearInterval(countdownInterval);
-            localStorage.setItem('w-verbal', waktu_pengerjaan!.toString());
+            localStorage.setItem('w-antonim', waktu_pengerjaan!.toString());
             onCountdownZero();
         } else {
-            typeof window !== 'undefined' && localStorage.setItem('w-verbal', countdown.toString());
+            typeof window !== 'undefined' && localStorage.setItem('w-antonim', countdown.toString());
         }
     }, [countdown, startCountdown, waktu_pengerjaan]);
 

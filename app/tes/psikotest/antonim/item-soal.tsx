@@ -10,12 +10,12 @@ import Image from "next/image"
 import { CountDown } from "./countdown"
 import axios from "axios"
 import { Button } from "@/components/ui/button"
-import { soalVerbal } from "@prisma/client"
+import { soalAntonim } from "@prisma/client"
 import { ButtonControl } from "./button-control"
 import { useRouter, useSearchParams } from "next/navigation"
 import { ArrowLeftFromLineIcon, ArrowRightFromLineIcon, CheckCircle2 } from "lucide-react"
 import { useTestPageStore } from "../context-wrapper"
-import { submitScore } from "@/actions/mutations/score/verbal/submitScore"
+import { submitScore } from "@/actions/mutations/score/antonim/submitScore"
 
 interface Answer {
     numberSoal: number,
@@ -32,8 +32,8 @@ interface ItemSoalProps {
 
 const fetchAndRandomizeQuestions = async (max_soal: number) => {
     try {
-        const response = await axios.post('/api/question-tes/verbal', {
-            tipe_soal: "mudah"
+        const response = await axios.post('/api/question-tes/antonim', {
+            tipe_soal: "sulit"
         });
         let dataQuestion = response.data;
 
@@ -52,7 +52,7 @@ const fetchAndRandomizeQuestions = async (max_soal: number) => {
 };
 
 export const ItemSoal = ({ title, waktu_pengerjaan, max_soal, id_user }: ItemSoalProps) => {
-    const [listQuestion, setListQuestion] = useState<soalVerbal[]>([]);
+    const [listQuestion, setListQuestion] = useState<soalAntonim[]>([]);
     const [loading, setLoading] = useState(false);
     const [answers, setAnswers] = useState<Answer[]>([]);
     const params = useSearchParams();
@@ -78,7 +78,7 @@ export const ItemSoal = ({ title, waktu_pengerjaan, max_soal, id_user }: ItemSoa
     };
 
     useEffect(() => {
-        const savedAnswers = localStorage.getItem('j-verbal');
+        const savedAnswers = localStorage.getItem('j-antonim');
         if (savedAnswers) {
             setAnswers(JSON.parse(savedAnswers));
         }
@@ -105,7 +105,7 @@ export const ItemSoal = ({ title, waktu_pengerjaan, max_soal, id_user }: ItemSoa
 
     const saveAnswers = () => {
         const updatedAnswers = [...answers];
-        localStorage.setItem('j-verbal', JSON.stringify(updatedAnswers));
+        localStorage.setItem('j-antonim', JSON.stringify(updatedAnswers));
     };
 
     const handlePrevious = () => {

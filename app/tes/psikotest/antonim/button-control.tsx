@@ -29,7 +29,7 @@ export const ButtonControl = ({ data }: ButtonControlProps) => {
 
     useEffect(() => {
         if (typeof localStorage !== "undefined") {
-            const savedAnswer = localStorage.getItem('j-verbal');
+            const savedAnswer = localStorage.getItem('j-antonim');
             if (savedAnswer) {
                 setSavedAnswers(JSON.parse(savedAnswer));
             }

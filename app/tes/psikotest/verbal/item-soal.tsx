@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
@@ -15,7 +15,6 @@ import { ButtonControl } from "./button-control"
 import { useRouter, useSearchParams } from "next/navigation"
 import { ArrowLeftFromLineIcon, ArrowRightFromLineIcon, CheckCircle2 } from "lucide-react"
 import { useTestPageStore } from "../context-wrapper"
-import { submitScore } from "@/actions/mutations/score/verbal/submitScore"
 
 interface Answer {
     numberSoal: number,
@@ -41,11 +40,17 @@ const fetchAndRandomizeQuestions = async (max_soal: number) => {
             const j = Math.floor(Math.random() * (i + 1));
             [dataQuestion[i], dataQuestion[j]] = [dataQuestion[j], dataQuestion[i]];
         }
-        const slicedQuestions = dataQuestion.slice(0, max_soal);
-        
-        console.log("Sliced questions:", slicedQuestions.length);
+        if (typeof localStorage !== "undefined") {
+            const slicedQuestions = dataQuestion.slice(0, max_soal);
+            const psikotestData = JSON.parse(localStorage.getItem('s-psikotest') || "{}") || {};
+            psikotestData['soal-verbal'] = slicedQuestions;
+            localStorage.setItem('s-psikotest', JSON.stringify(psikotestData));
 
-        return slicedQuestions;
+            const psikotestAnswers = JSON.parse(localStorage.getItem('j-psikotest') || "{}") || {};
+            psikotestAnswers['j-verbal'] = [];
+            localStorage.setItem('j-psikotest', JSON.stringify(psikotestAnswers));
+            return slicedQuestions;
+        }
     } catch (error) {
         throw new Error("Error fetching and randomizing questions");
     }
@@ -53,60 +58,92 @@ const fetchAndRandomizeQuestions = async (max_soal: number) => {
 
 export const ItemSoal = ({ title, waktu_pengerjaan, max_soal, id_user }: ItemSoalProps) => {
     const [listQuestion, setListQuestion] = useState<soalVerbal[]>([]);
+    const [backupListQuestion, setBackupListQuestion] = useState<soalVerbal[]>([]);
     const [loading, setLoading] = useState(false);
     const [answers, setAnswers] = useState<Answer[]>([]);
     const params = useSearchParams();
     const router = useRouter();
     const { setCurrentPage } = useTestPageStore();
 
-    const fetchData = async () => {
-        setLoading(true);
-        try {
-            if(max_soal) {
-                const dataQuestion = await fetchAndRandomizeQuestions(max_soal!);
-                setListQuestion(dataQuestion);
-                console.log(dataQuestion);
-            }
-        } catch (error) {
-            toast({
-                title: "Terjadi kesalahan server saat mendapatkan data pertanyaan",
-                variant: 'destructive'
-            });
-        } finally {
-            setLoading(false);
-        }
-    };
-
     useEffect(() => {
-        const savedAnswers = localStorage.getItem('j-verbal');
-        if (savedAnswers) {
-            setAnswers(JSON.parse(savedAnswers));
+        const fetchData = async () => {
+          setLoading(true);
+          try {
+            if (max_soal) {
+              if (backupListQuestion.length === 0) {
+                // Mendapatkan data dari local storage saat pertama kali komponen di-mount
+                const storedData = JSON.parse(localStorage.getItem('s-psikotest') || "{}") || {};
+                const verbalQuestions = storedData['soal-verbal'] || [];
+      
+                if (verbalQuestions.length === 0) {
+                  const dataQuestion = await fetchAndRandomizeQuestions(max_soal!);
+                  setListQuestion(dataQuestion);
+                  setBackupListQuestion(dataQuestion);
+                } else {
+                  setListQuestion(verbalQuestions);
+                }
+              }
+            }
+          } catch (error) {
+            toast({
+              title: "Terjadi kesalahan server saat mendapatkan data pertanyaan",
+              variant: 'destructive'
+            });
+          } finally {
+            setLoading(false);
+          }
+        }; 
+      
+        const savedAnswers = JSON.parse(localStorage.getItem('j-psikotest') || "{}") || {};
+        const Answers = savedAnswers['j-verbal'] || [];
+      
+        if (Answers.length > 0) {
+          setAnswers(Answers);
         }
-
+      
         fetchData();
-    }, [max_soal]);
+      }, [backupListQuestion, max_soal]);
+      
+      
+
 
     const currentIndex: number = parseInt(params.get('p') || "");
     const currentQuestion = listQuestion[currentIndex];
 
-    const handleAnswerChange = (numberSoal: number, questionId: number, selectedAnswer: string) => {
-        const updatedAnswers = [...answers];
-
-        const index = updatedAnswers.findIndex((answer) => answer.questionId === questionId);
-        if (index !== -1) {
-            // Jawaban sudah ada, update jawaban
-            updatedAnswers[index].selectedAnswer = selectedAnswer;
-        } else {
-            // Jawaban belum ada, tambahkan jawaban baru
-            updatedAnswers.push({ numberSoal, questionId, selectedAnswer });
-        }
-        setAnswers(updatedAnswers);
-    };
+    const handleAnswerChange = useCallback(
+        (numberSoal: number, questionId: number, selectedAnswer: string) => {
+          setAnswers((prevAnswers) => {
+            const updatedAnswers = [...prevAnswers];
+            const index = updatedAnswers.findIndex((answer) => answer.questionId === questionId);
+      
+            if (index !== -1) {
+              // Jawaban sudah ada, update jawaban
+              updatedAnswers[index].selectedAnswer = selectedAnswer;
+            } else {
+              // Jawaban belum ada, tambahkan jawaban baru
+              updatedAnswers.push({ numberSoal, questionId, selectedAnswer });
+            }
+      
+            // Save to localStorage
+            const psikotestData = JSON.parse(localStorage.getItem('j-psikotest') || "{}") || {};
+            psikotestData['j-verbal'] = updatedAnswers;
+            localStorage.setItem('j-psikotest', JSON.stringify(psikotestData));
+            // localStorage.setItem('j-psikotest', JSON.stringify({ 'j-verbal': updatedAnswers }));
+      
+            return updatedAnswers;
+          });
+        },
+        []
+      );
+      
 
     const saveAnswers = () => {
         const updatedAnswers = [...answers];
-        localStorage.setItem('j-verbal', JSON.stringify(updatedAnswers));
-    };
+        const savedAnswers = JSON.parse(localStorage.getItem('j-psikotest') || "{}") || {};
+        savedAnswers['j-verbal'] = updatedAnswers;
+        localStorage.setItem('j-psikotest', JSON.stringify(savedAnswers));
+      };
+      
 
     const handlePrevious = () => {
         if (currentIndex >= 1) {
@@ -115,43 +152,37 @@ export const ItemSoal = ({ title, waktu_pengerjaan, max_soal, id_user }: ItemSoa
     };
 
     const handleNext = () => {
-        saveAnswers();
         router.push(`/tes/psikotest?p=${currentIndex + 1}`);
+        saveAnswers();
     };
 
     const handleSubmit = async () => {
-        let correctAnswer = 0;
-        let emptyAnswer = 0;
-        const totalQuestions = listQuestion.length;
-        const maxScore = 100;
-
-        for (const question of listQuestion) {
-            const answer = answers.find((item) => item.questionId === question.id);
-            if (answer) {
-                if (answer && answer.selectedAnswer === question.kunci_jawaban) {
-                    correctAnswer++;
-                }
-            } else {
-                emptyAnswer++;
-            }
+        const selectedAnswers = answers.map(({ questionId, selectedAnswer }) => ({
+            questionId,
+            selectedAnswer,
+        }));
+        try {
+            const response = await axios.post('/api/score/verbal', {
+                selectedAnswers,
+                id_user: id_user,
+            });
+            saveAnswers();
+    
+            toast({
+                title: 'Berhasil menyimpan jawaban tes verbal anda',
+                variant: "default",
+            });
+            console.log(response.data)
+            setCurrentPage("antonim");
+            router.push('/tes/psikotest?p=1');
+        } catch (error) {
+            console.log('error verbal', error);
+    
+            toast({
+                title: 'Terjadi kesalahan server',
+                variant: "destructive",
+            });
         }
-
-        const score = (correctAnswer / totalQuestions) * maxScore;
-        const wrongAnswer = totalQuestions - correctAnswer - emptyAnswer;
-
-        
-        console.log("jumlah jawaban yang benar", correctAnswer)
-        console.log("jumlah jawaban yang salah", wrongAnswer)
-        console.log("Jumlah jawaban yang kosong:", emptyAnswer)
-        console.log("nilai", score);
-        const result = await submitScore(correctAnswer, wrongAnswer, score, id_user);
-        toast({
-            title: result.message,
-            variant: result.status === 200 ? "default" : "destructive"
-        }) 
-        console.log(result.error)
-        setCurrentPage("antonim");
-        router.push('/tes/psikotest')
     };
 
     return (

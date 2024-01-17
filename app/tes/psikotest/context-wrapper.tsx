@@ -1,10 +1,12 @@
 "use client";
 import React, { useEffect, useState } from 'react';
 import { create } from "zustand";
-import { VerbalTes } from './verbal';
-import { AntonimTes } from './antonim';
 import { InformasiTesCard } from './informasi-tes';
 import { SessionProvider } from 'next-auth/react';
+import { VerbalTes } from './verbal';
+import { AntonimTes } from './antonim';
+import { SinonimTes } from './sinonim';
+import { AntonimSinonimTes } from './antonim-sinonim';
 
 type TestPageStore = {
     currentPage: string
@@ -30,7 +32,6 @@ const ContextPsikotest = ({ children } : { children: React.ReactNode }) => {
         currentPage === 'antonim' || 
         currentPage === 'sinonim' || 
         currentPage === 'antonim-sinonim' ||
-        currentPage === 'bahasa-inggris' ||
         currentPage === 'deret' ||
         currentPage === 'hitung-cepat' ||
         currentPage === 'informasi-singkat' ||
@@ -40,7 +41,8 @@ const ContextPsikotest = ({ children } : { children: React.ReactNode }) => {
         currentPage === 'ketelitian' ||
         currentPage === 'kuantitatif-analisis' ||
         currentPage === 'penalaran-analitik' ||
-        currentPage === 'penalaran-logis'
+        currentPage === 'penalaran-logis' ||
+        currentPage === 'bahasa-inggris'
         ) {
         setCurrentPage(currentPage);
     } else {
@@ -63,6 +65,19 @@ const ContextPsikotest = ({ children } : { children: React.ReactNode }) => {
             {currentPage === 'landing' && <InformasiTesCard />}
             {currentPage === 'verbal' && <VerbalTes />}
             {currentPage === 'antonim' && <AntonimTes />}
+            {currentPage === 'sinonim' && <SinonimTes />}
+            {currentPage === 'antonim-sinonim' && <AntonimSinonimTes />}
+            {/* {currentPage === 'deret' && < />} */}
+            {/* {currentPage === 'hitung-cepat' && < />} */}
+            {/* {currentPage === 'informasi-singkat' && < />} */}
+            {/* {currentPage === 'kalimat-tak-teratur' && < />} */}
+            {/* {currentPage === 'kemampuan-teknikal' && < />} */}
+            {/* {currentPage === 'kepribadian' && < />} */}
+            {/* {currentPage === 'ketelitian' && < />} */}
+            {/* {currentPage === 'kuantitatif-analisis' && < />} */}
+            {/* {currentPage === 'penalaran-analitik' && < />} */}
+            {/* {currentPage === 'penalaran-logis' && < />} */}
+            {/* {currentPage === 'bahasa-inggris' && < />} */}
         </SessionProvider>
     )
 }

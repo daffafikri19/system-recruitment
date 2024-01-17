@@ -165,7 +165,7 @@ model soalKalimatTakTeratur {
 model soalKemampuanTeknikal {
   id            Int       @id @unique @default(autoincrement())
   gambar        String?
-  soal          String    @db.LongText
+  soal          String    @db.VarChar(1000)
   A             String
   B             String
   C             String
@@ -309,6 +309,8 @@ model scoreVerbal {
   benar Int
   salah Int
   score Float
+  kosong Int
+  maxScore Int
   scoreTotal scoreTotalPsikotest?
 } 
 
@@ -317,6 +319,8 @@ model scoreAntonim {
   benar Int
   salah Int
   score Float
+  kosong Int
+  maxScore Int
   scoreTotal scoreTotalPsikotest?
 } 
 
@@ -325,6 +329,8 @@ model scoreSinonim {
   benar Int
   salah Int
   score Float
+  kosong Int
+  maxScore Int
   scoreTotal scoreTotalPsikotest?
 } 
 
@@ -333,6 +339,8 @@ model scoreAntonimSinonim {
   benar Int
   salah Int
   score Float
+  kosong Int
+  maxScore Int
   scoreTotal scoreTotalPsikotest?
 } 
 
@@ -341,6 +349,8 @@ model scoreDeretAngka {
   benar Int
   salah Int
   score Float
+  kosong Int
+  maxScore Int
   scoreTotal scoreTotalPsikotest?
 } 
 
@@ -349,6 +359,8 @@ model scoreHitungCepat {
   benar Int
   salah Int
   score Float
+  kosong Int
+  maxScore Int
   scoreTotal scoreTotalPsikotest?
 } 
 
@@ -357,6 +369,8 @@ model scoreInformasiSingkat {
   benar Int
   salah Int
   score Float
+  kosong Int
+  maxScore Int
   scoreTotal scoreTotalPsikotest?
 } 
 
@@ -365,6 +379,8 @@ model scoreKalimatTakTeratur {
   benar Int
   salah Int
   score Float
+  kosong Int
+  maxScore Int
   scoreTotal scoreTotalPsikotest?
 } 
 
@@ -373,6 +389,8 @@ model scoreKemampuanTeknikal {
   benar Int
   salah Int
   score Float
+  kosong Int
+  maxScore Int
   scoreTotal scoreTotalPsikotest?
 } 
 
@@ -381,6 +399,8 @@ model scoreKetelitian {
   benar Int
   salah Int
   score Float
+  kosong Int
+  maxScore Int
   scoreTotal scoreTotalPsikotest?
 } 
 
@@ -389,6 +409,8 @@ model scoreKuantitatifAnalisis {
   benar Int
   salah Int
   score Float
+  kosong Int
+  maxScore Int
   scoreTotal scoreTotalPsikotest?
 } 
 
@@ -397,6 +419,8 @@ model scorePenalaranLogis {
   benar Int
   salah Int
   score Float
+  kosong Int
+  maxScore Int
   scoreTotal scoreTotalPsikotest? 
 } 
 
@@ -405,6 +429,8 @@ model scorePenalaranAnalitik {
   benar Int
   salah Int
   score Float
+  kosong Int
+  maxScore Int
   scoreTotal scoreTotalPsikotest?
 }
 
@@ -413,6 +439,8 @@ model scoreKepribadian {
   benar Int
   salah Int
   score Float
+  kosong Int
+  maxScore Int
   scoreTotal scoreTotalPsikotest?
 }
 
@@ -421,6 +449,8 @@ model scoreInggris {
   benar Int
   salah Int
   score Float
+  kosong Int
+  maxScore Int
   scoreTotal scoreTotalPsikotest?
 }
 

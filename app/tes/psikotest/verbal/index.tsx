@@ -5,10 +5,11 @@ import { ItemSoal } from "./item-soal"
 import { toast } from "@/components/ui/use-toast"
 import axios from "axios"
 import { settinganSoal } from "@prisma/client"
+import { useSession } from "next-auth/react"
 
 export const VerbalTes = () => {
     const [settings, setSettings] = useState<settinganSoal>();
-
+    const { data: session, status } = useSession();
     useEffect(() => {
         const getSettinganSoal = async () => {
             try {
@@ -28,7 +29,7 @@ export const VerbalTes = () => {
     return (
         <Card>
             <CardContent>
-                <ItemSoal id_user={"clq4bdbrv0001etghj6ye600w"} max_soal={settings?.max_soal_verbal} title="Tes Analogi Verbal" waktu_pengerjaan={settings?.waktu_pengerjaan_verbal} />
+                <ItemSoal id_user={session?.user.id} max_soal={settings?.max_soal_verbal} title="Tes Analogi Verbal" waktu_pengerjaan={settings?.waktu_pengerjaan_verbal} />
             </CardContent>
         </Card>
     )

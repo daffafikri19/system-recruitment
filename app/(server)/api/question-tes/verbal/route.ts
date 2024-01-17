@@ -10,7 +10,11 @@ export async function POST(req: NextRequest) {
     try {
         if (tipe_soal === 'sulit') {
             const result = await prisma.soalVerbal.findMany({
+                where: {
+                    aktif: true
+                },
                 select: {
+                    id: true,
                     soal: true,
                     A: true,
                     B: true,
@@ -26,9 +30,11 @@ export async function POST(req: NextRequest) {
         } else if (tipe_soal === 'mudah') {
             const result = await prisma.soalVerbal.findMany({
                 where: {
-                    E: undefined || null
+                    E: undefined || null,
+                    aktif: true
                 },
                 select: {
+                    id: true,
                     soal: true,
                     A: true,
                     B: true,

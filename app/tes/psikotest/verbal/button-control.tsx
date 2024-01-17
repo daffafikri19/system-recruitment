@@ -2,7 +2,6 @@
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { cn } from "@/lib/utils/utils"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react"
 
@@ -29,15 +28,11 @@ export const ButtonControl = ({ data }: ButtonControlProps) => {
 
     useEffect(() => {
         if (typeof localStorage !== "undefined") {
-            const savedAnswer = localStorage.getItem('j-verbal');
-            if (savedAnswer) {
-                setSavedAnswers(JSON.parse(savedAnswer));
-            }
+            const storedData = JSON.parse(localStorage.getItem('j-psikotest') || "{}") || {};
+            const savedAnswer = storedData['j-verbal'] || [];
+            setSavedAnswers(savedAnswer);
         }
     }, [currentPage]);
-
-    // output :
-    // [{"numberSoal":1,"questionId":1,"selectedAnswer":"A"},{"numberSoal":2,"questionId":7,"selectedAnswer":"C"}]
 
     const ButtonItem = ({ variant, number }: buttonItemProps) => {
         const isAnswered = savedAnswers.some(answer => answer.numberSoal === number);

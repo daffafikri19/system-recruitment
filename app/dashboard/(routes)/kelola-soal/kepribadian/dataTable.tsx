@@ -111,7 +111,7 @@ export const DataTable = ({ questionData }: dataTableProps) => {
                 const result = jsonData.slice(1).map((row: any) => {
                     const obj: { [key: string]: any } = {};
                     headers.forEach((header: any, index: number) => {
-                        obj[header] = row[index];
+                        obj[header] = header === "E" && row[index] === undefined ? undefined : String(row[index]);
                     });
                     return obj;
                 });
@@ -125,7 +125,6 @@ export const DataTable = ({ questionData }: dataTableProps) => {
             reader.readAsArrayBuffer(file);
         }
     };
-
     useEffect(() => {
 
     }, [questionData])

@@ -29,15 +29,11 @@ export const ButtonControl = ({ data }: ButtonControlProps) => {
 
     useEffect(() => {
         if (typeof localStorage !== "undefined") {
-            const savedAnswer = localStorage.getItem('j-antonim');
-            if (savedAnswer) {
-                setSavedAnswers(JSON.parse(savedAnswer));
-            }
+            const storedData = JSON.parse(localStorage.getItem('j-psikotest') || "{}") || {};
+            const savedAnswer = storedData['j-antonim'] || [];
+            setSavedAnswers(savedAnswer);
         }
     }, [currentPage]);
-
-    // output :
-    // [{"numberSoal":1,"questionId":1,"selectedAnswer":"A"},{"numberSoal":2,"questionId":7,"selectedAnswer":"C"}]
 
     const ButtonItem = ({ variant, number }: buttonItemProps) => {
         const isAnswered = savedAnswers.some(answer => answer.numberSoal === number);

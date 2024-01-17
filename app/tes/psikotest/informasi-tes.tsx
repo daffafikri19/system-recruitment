@@ -14,28 +14,43 @@ export const InformasiTesCard = () => {
     const { setCurrentPage } = useTestPageStore();
     const [settings, setSettings] = useState<settinganSoal>();
     const router = useRouter();
-    const getTestInformation = async () => {
-        try {
-            const response = await axios.get('/api/settingan-soal/get');
-            setSettings(response.data[0])
-            console.log(response.data[0])
-            return response.data
-        } catch (error) {
-            toast({
-                title: 'Terjadi kesalahan server',
-                variant: 'destructive'
-            })
-        }
-    }
 
     useEffect(() => {
+        const getTestInformation = async () => {
+            try {
+                const response = await axios.get('/api/settingan-soal/get');
+                setSettings(response.data[0]);
+                const data = response.data[0] as settinganSoal
+                localStorage.setItem('w-psikotest', JSON.stringify({
+                    'w-antonim': data.waktu_pengerjaan_antonim,
+                    'w-antonim-sinonim': data.waktu_pengerjaan_antonim_sinonim,
+                    'w-deret-angka': data.waktu_pengerjaan_deret_angka,
+                    'w-hitung-cepat': data.waktu_pengerjaan_hitung_cepat,
+                    'w-informasi-singkat': data.waktu_pengerjaan_informasi_singkat,
+                    'w-kalimat-tak-teratur': data.waktu_pengerjaan_kalimat_tak_teratur,
+                    'w-kemampuan-teknikal': data.waktu_pengerjaan_kemampuan_teknikal,
+                    'w-kepribadian': data.waktu_pengerjaan_kepribadian,
+                    'w-ketelitian': data.waktu_pengerjaan_ketelitian,
+                    'w-kuantitatif-analisis': data.waktu_pengerjaan_kuantitatif_analisis,
+                    'w-penalaran-analitik': data.waktu_pengerjaan_penalaran_analitik,
+                    'w-penalaran-logis': data.waktu_pengerjaan_penalaran_logis,
+                    'w-sinonim': data.waktu_pengerjaan_sinonim,
+                    'w-verbal': data.waktu_pengerjaan_verbal
+                }));
+    
+                return response.data;
+            } catch (error) {
+                toast({
+                    title: 'Pengaturan tes belum di konfigurasi',
+                    variant: 'destructive'
+                });
+            }
+        };
+    
         getTestInformation();
-        if (typeof localStorage !== 'undefined') {
-            localStorage.setItem('w-verbal', settings?.waktu_pengerjaan_verbal.toString() || "1200")
-            localStorage.removeItem('j-verbal')
-        }
-        console.log('data setting', settings);
     }, []);
+    
+
 
     const handleStartTest = () => {
         setCurrentPage('verbal');
@@ -71,7 +86,7 @@ export const InformasiTesCard = () => {
                         <TableFooter>
                             <TableRow>
                                 <TableCell colSpan={5} className="text-right">
-                                    <Button onClick={handleStartTest}>
+                                    <Button onClick={handleStartTest} disabled={!settings}>
                                         Mulai Tes
                                     </Button>
                                 </TableCell>

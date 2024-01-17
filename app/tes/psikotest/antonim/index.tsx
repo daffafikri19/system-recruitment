@@ -5,9 +5,11 @@ import { ItemSoal } from "./item-soal"
 import { toast } from "@/components/ui/use-toast"
 import axios from "axios"
 import { settinganSoal } from "@prisma/client"
+import { useSession } from "next-auth/react"
 
 export const AntonimTes = () => {
     const [settings, setSettings] = useState<settinganSoal>();
+    const { data: session, status } = useSession();
 
     useEffect(() => {
         const getSettinganSoal = async () => {
@@ -28,7 +30,11 @@ export const AntonimTes = () => {
     return (
         <Card>
             <CardContent>
-                <ItemSoal id_user={"clq4bdbrv0001etghj6ye600w"} max_soal={settings?.max_soal_antonim} title="Tes Antonim (Lawan Kata)" waktu_pengerjaan={settings?.waktu_pengerjaan_antonim} />
+                <ItemSoal 
+                id_user={session?.user.id} 
+                max_soal={settings?.max_soal_antonim} 
+                title="Tes Antonim (Lawan Kata)" 
+                waktu_pengerjaan={settings?.waktu_pengerjaan_antonim} />
             </CardContent>
         </Card>
     )

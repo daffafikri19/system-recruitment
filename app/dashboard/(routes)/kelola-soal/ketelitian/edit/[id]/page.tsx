@@ -51,7 +51,7 @@ const EditSoalKetelitanPage = () => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const response = await axios.post('/api/question-tes/ketelititan', {
+        const response = await axios.post('/api/questions/ketelititan', {
           id: parseInt(id!)
         }, {
           headers: {

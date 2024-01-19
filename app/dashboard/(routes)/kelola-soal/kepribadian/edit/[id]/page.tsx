@@ -61,7 +61,7 @@ const EditSoalKepribadianPage = () => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const response = await axios.post('/api/question-tes/kepribadian', {
+        const response = await axios.post('/api/questions/kepribadian', {
           id: parseInt(id!)
         }, {
           headers: {

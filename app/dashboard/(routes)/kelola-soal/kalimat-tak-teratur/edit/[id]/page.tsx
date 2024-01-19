@@ -50,7 +50,7 @@ const EditKalimatTakTeraturPage = () => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const response = await axios.post('/api/question-tes/kalimat-tak-teratur', {
+        const response = await axios.post('/api/questions/kalimat-tak-teratur', {
           id: parseInt(id!)
         }, {
           headers: {

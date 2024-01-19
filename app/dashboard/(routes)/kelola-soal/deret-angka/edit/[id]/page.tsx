@@ -61,7 +61,7 @@ const EditSoalDeretAngkaPage = () => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const response = await axios.post('/api/question-tes/deret-angka', {
+        const response = await axios.post('/api/questions/deret-angka', {
           id: parseInt(id!)
         }, {
           headers: {

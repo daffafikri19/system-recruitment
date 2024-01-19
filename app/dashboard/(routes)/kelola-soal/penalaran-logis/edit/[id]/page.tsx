@@ -60,7 +60,7 @@ const EditSoalPenalaranLogisPage = () => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const response = await axios.post('/api/question-tes/penalaran-logis', {
+        const response = await axios.post('/api/questions/penalaran-logis', {
           id: parseInt(id!)
         }, {
           headers: {

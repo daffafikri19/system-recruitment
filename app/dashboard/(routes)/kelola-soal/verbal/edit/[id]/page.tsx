@@ -61,7 +61,7 @@ const EditSoalVerbalPage = () => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const response = await axios.post('/api/question-tes/verbal', {
+        const response = await axios.post('/api/questions/verbal', {
           id: parseInt(id!)
         }, {
           headers: {

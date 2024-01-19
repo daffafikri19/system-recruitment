@@ -53,7 +53,7 @@ const EditSoalInformasiSingkatPage = () => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const response = await axios.post('/api/question-tes/informasi-singkat', {
+        const response = await axios.post('/api/questions/informasi-singkat', {
           id: parseInt(id!)
         }, {
           headers: {

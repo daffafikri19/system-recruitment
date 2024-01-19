@@ -61,7 +61,7 @@ const EditSoalKuantitatifAnalisisPage = () => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const response = await axios.post('/api/question-tes/kuantitatif-analisis', {
+        const response = await axios.post('/api/questions/kuantitatif-analisis', {
           id: parseInt(id!)
         }, {
           headers: {

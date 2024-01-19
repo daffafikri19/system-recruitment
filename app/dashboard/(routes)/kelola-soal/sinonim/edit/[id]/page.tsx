@@ -60,7 +60,7 @@ const EditSoalSinonimPage = () => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const response = await axios.post('/api/question-tes/sinonim', {
+        const response = await axios.post('/api/questions/sinonim', {
           id: parseInt(id!)
         }, {
           headers: {

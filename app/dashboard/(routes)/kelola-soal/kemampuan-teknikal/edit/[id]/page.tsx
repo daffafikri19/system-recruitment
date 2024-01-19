@@ -61,7 +61,7 @@ const EditSoalKemampuanTeknikalPage = () => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const response = await axios.post('/api/question-tes/kemampuan-teknikal', {
+        const response = await axios.post('/api/questions/kemampuan-teknikal', {
           id: parseInt(id!)
         }, {
           headers: {

@@ -51,7 +51,7 @@ const EditSoalHitungCepatPage = () => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const response = await axios.post('/api/question-tes/hitung-cepat', {
+        const response = await axios.post('/api/questions/hitung-cepat', {
           id: parseInt(id!)
         }, {
           headers: {

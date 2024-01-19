@@ -61,7 +61,7 @@ const EditSoalAntonimPage = () => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const response = await axios.post('/api/question-tes/antonim', {
+        const response = await axios.post('/api/questions/antonim', {
           id: parseInt(id!)
         }, {
           headers: {

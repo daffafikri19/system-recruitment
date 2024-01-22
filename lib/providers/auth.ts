@@ -47,7 +47,6 @@ export const authOptions: NextAuthOptions = {
                     email: user.email,
                     role: user.role,
                     foto_profile: user.foto_profile,
-                    profession: user.profession,
                     isNewUser: user.isNewUser,
                     no_pendaftaran: user.no_pendaftaran
                 }
@@ -77,7 +76,6 @@ export const authOptions: NextAuthOptions = {
                     name: user.name,
                     email: user.email,
                     role: user.role,
-                    profession: user.profession,
                     foto_profile: user.foto_profile,
                     isNewUser: user.isNewUser,
                     no_pendaftaran: user.no_pendaftaran
@@ -94,7 +92,6 @@ export const authOptions: NextAuthOptions = {
                     name: token.name,
                     email: token.email,
                     role: token.role,
-                    profession: token.profession,
                     foto_profile: token.foto_profile,
                     isNewUser: token.isNewUser,
                     no_pendaftaran: token.no_pendaftaran

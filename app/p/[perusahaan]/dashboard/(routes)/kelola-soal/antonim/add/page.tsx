@@ -1,8 +1,9 @@
 "use client"
 
 import { addSingleSoal } from '@/actions/mutations/soal/antonim/addSingleSoal'
-import { FileManagerOpener } from '@/app/dashboard/components/FileManager/open'
-import { TextEditor } from '@/app/dashboard/components/TextEditor'
+import { FileManagerOpener } from '@/app/p/[perusahaan]/dashboard/components/FileManager/open'
+
+import { TextEditor } from '@/app/p/[perusahaan]/dashboard/components/TextEditor'
 import { useLoadingContext } from '@/lib/providers/loadingStateProvider'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'

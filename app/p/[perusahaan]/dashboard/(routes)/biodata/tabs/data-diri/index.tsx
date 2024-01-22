@@ -17,7 +17,7 @@ import axios from 'axios';
 import { toast } from '@/components/ui/use-toast';
 import { Edit2Icon } from 'lucide-react';
 import { useCountries, useProvinces, useCities, useDistrict } from '@/hooks/useDataLocation';
-import { DatePicker } from '@/app/dashboard/components/DatePicker';
+import { DatePicker } from '../../../../components/DatePicker';
 
 interface dataDiriTabProps {
     sessionUserId: string,

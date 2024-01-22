@@ -53,7 +53,7 @@ model User {
   scorePsikotest scoreTotalPsikotest[]
   status String?
   perusahaanId String? @unique
-  melamar_ke Perusahaan? @relation(fields: [perusahaanId], references: [id])
+  melamar_ke Perusahaan[]
   createdAt String?
   updatedAt String?
 }

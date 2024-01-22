@@ -7,7 +7,6 @@ declare module "next-auth" {
         name?: any
         email?: any
         role?: any
-        profession?: any
         foto_profile?: any
         isNewUser?: any
         no_pendaftaran?: any
@@ -19,7 +18,6 @@ declare module "next-auth" {
             name?: any
             email?: any
             role?: any
-            profession?: any
             foto_profile?: any
             isNewUser?: any
             no_pendaftaran?: any
@@ -29,7 +27,6 @@ declare module "next-auth" {
             name?: any
             email?: any
             role?: any
-            profession?: any
             foto_profile?: any
             isNewUser?: any
             no_pendaftaran?: any

@@ -10,7 +10,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { Textarea } from '@/components/ui/textarea';
 import { addPengalamanKerja } from '@/actions/mutations/pengalaman-kerja/addPengalamanKerja';
 import { addSertifikat } from '@/actions/mutations/sertifikat/addSertifikat';
-import { DatePicker } from '@/app/dashboard/components/DatePicker';
+import { DatePicker } from '../../../../components/DatePicker';
 
 export const FormDialog = ({ username }: { username: string }) => {
     const [openDialog, setOpenDialog] = useState(false);

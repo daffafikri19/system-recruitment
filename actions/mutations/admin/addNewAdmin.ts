@@ -49,7 +49,7 @@ export const addNewAdminAccount = async (formdata: FormData) => {
     //     }
     // }
 
-    const exisingUsername = await prisma.user.findUnique({
+    const exisingUsername = await prisma.admin.findUnique({
         where: {
             name: data.name
         }
@@ -78,13 +78,15 @@ export const addNewAdminAccount = async (formdata: FormData) => {
     const hashedPassword = await bcrypt.hash(data.password, 10)
 
     try {
-        await prisma.user.create({
+        await prisma.admin.create({
             data: {
                 name: data.name,
                 email: data.email,
-                tgl_lahir: data.tgl_lahir,
                 role: data.role as any,
+                emailVerified: false,
                 password: hashedPassword,
+                createdAt: new Date(Date.now()).toLocaleString(),
+                updatedAt: new Date(Date.now()).toLocaleString(),
             }
         });
 

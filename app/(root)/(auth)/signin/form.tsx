@@ -6,7 +6,7 @@ import Link from "next/link"
 import { signIn } from "next-auth/react";
 import { useState } from "react"
 import { toast } from "@/components/ui/use-toast"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { AlertTriangle, Loader2 } from "lucide-react"
 import { Toaster } from "@/components/ui/toaster"
 
@@ -19,6 +19,10 @@ export const FormLogin = () => {
     const [errorEmail, setErrorEmail] = useState(false);
     const [errorPassword, setErrorPassword] = useState(false);
     const [loading, setloading] = useState(false);
+
+    const params = useSearchParams();
+
+    const reffCode = params.get('reff');
 
     const LoginWithEmail = async () => {
         setloading(true)
@@ -45,7 +49,7 @@ export const FormLogin = () => {
             console.log(LOGIN.error)
             setloading(false)
         } else {
-            router.push('/dashboard');
+            router.push(`/p/${reffCode}/dashboard`);
         }
     }
 

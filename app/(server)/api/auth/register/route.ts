@@ -3,9 +3,21 @@ import prisma from "@/lib/utils/prisma";
 import bcrypt from "bcrypt";
 
 export async function POST(req: NextRequest) {
+    const { name, email, password, confPassword, reffcode } = await req.json();
 
-    const body = await req.json();
-    const { name, email, password, confPassword, tgl_lahir } = body
+    const existingPT = await prisma.perusahaan.findUnique({
+        where: {
+            reffCode: reffcode
+        }
+    });
+
+    if(!existingPT) {
+        return NextResponse.json({
+            message: 'Refferal kode perusahaan tidak ada / tidak ditemukan!'
+        }, {
+            status: 404
+        })
+    }
 
     const existingEmail = await prisma.user.findUnique({
         where: {
@@ -44,18 +56,26 @@ export async function POST(req: NextRequest) {
     const hashPassword = await bcrypt.hash(password, salt)
 
     try {
-        const reponse = await prisma.user.create({
+        await prisma.user.create({
             data: {
                 name: name,
                 email: email,
                 password: hashPassword,
-                tgl_lahir: tgl_lahir,
-                profession: '',
-                isNewUser: "true"
+                isNewUser: "true",
+                melamar_ke: {
+                    connect: {
+                        reffCode: reffcode
+                    }
+                }
+            },
+            include: {
+                melamar_ke: true
             }
         });
 
-        return NextResponse.json(reponse, {
+        return NextResponse.json({
+            message: 'Berhasil mendaftar'
+        }, {
             status: 201
         })
     } catch (error) {

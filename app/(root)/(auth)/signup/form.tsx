@@ -1,4 +1,5 @@
 "use client"
+import { FindPTByReff } from "@/actions/mutations/perusahaan/FindPTByReff";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -6,22 +7,38 @@ import { toast } from "@/components/ui/use-toast";
 import axios from "axios";
 import { CircleDashed } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export const FormSignUp = () => {
     const router = useRouter();
     const [hidePassword, setHidePassword] = useState(true);
     const [hideConfPassword, setHideConfPassword] = useState(true);
     const [loading, setLoading] = useState(false);
+    const params = useSearchParams();
 
+    const reffcode = params.get('reff');
+    
     const [formdata, setFormdata] = useState({
         name: "",
         email: "",
-        tgl_lahir: "",
+        perusahaan: "",
         password: "",
         confPassword: "",
-    })
+    });
+
+    useEffect(() => {
+        const getPtName = async () => {
+           const result = await FindPTByReff(reffcode || "");
+           if(result) {
+            setFormdata((prev) => ({
+                ...prev,
+                perusahaan: result?.data?.name!
+            }))
+           }
+        }
+        getPtName();
+    }, [reffcode])
 
     const handleShowPassword = () => {
         setHidePassword(!hidePassword)
@@ -37,8 +54,8 @@ export const FormSignUp = () => {
             const response = await axios.post('/api/auth/register', {
                 name: formdata.name,
                 email: formdata.email,
-                tgl_lahir: formdata.tgl_lahir,
                 password: formdata.password,
+                reffcode: reffcode,
                 confPassword: formdata.confPassword
             }, {
                 headers: {
@@ -49,7 +66,7 @@ export const FormSignUp = () => {
                 title: 'berhasil register'
             });
             setLoading(false);
-            router.push('/signin')
+            router.push(`/signin?${reffcode}`)
         } catch (error : any) {
             if(error) {
                 toast({
@@ -64,7 +81,7 @@ export const FormSignUp = () => {
 
     return (
         <div className="w-full border-stroke dark:border-strokedark xl:w-1/2 xl:border-l-2">
-            <div className="w-full p-4 sm:p-12.5 xl:p-17.5">
+            <div className="w-full p-4 sm:p-7 xl:p-8">
                 <h2 className="mb-9 text-2xl font-bold text-black dark:text-white sm:text-title-xl2">
                     Daftar
                 </h2>
@@ -155,24 +172,9 @@ export const FormSignUp = () => {
 
                     <div className="mb-4">
                         <Label className="mb-2.5 block font-medium text-black dark:text-white">
-                            Tanggal Lahir
+                           Melamar ke Perusahaan
                         </Label>
-                        <div className="relative">
-                            <Input
-                                required
-                                value={formdata.tgl_lahir}
-                                onChange={(e) => {
-                                    setFormdata((prev) => ({
-                                        ...prev,
-                                        tgl_lahir: e.target.value
-                                    }))
-                                }}
-                                type="text"
-                                name="tgl_lahir"
-                                className="w-full py-4 pl-6 pr-10"
-                            />
-                           
-                        </div>
+                        <Input name="perusahaan" value={formdata.perusahaan} readOnly />
                     </div>
 
                     <div className="mb-4">
@@ -281,7 +283,7 @@ export const FormSignUp = () => {
                     </div>
                 </form>
 
-                <Button type="button" className="flex w-full mt-2 items-center justify-center gap-3.5" variant="outline">
+                {/* <Button type="button" className="flex w-full mt-2 items-center justify-center gap-3.5" variant="outline">
                         <span>
                             <svg
                                 width="20"
@@ -316,7 +318,7 @@ export const FormSignUp = () => {
                             </svg>
                         </span>
                         Sign up with Google
-                    </Button>
+                    </Button> */}
             </div>
         </div>
     )

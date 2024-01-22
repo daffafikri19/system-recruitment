@@ -13,7 +13,7 @@ const SignUp: React.FC = () => {
   return (
     <>
       <div className="h-full rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-        <div className="flex items-center">
+        <div className="flex w-full h-full items-center justify-center">
           <div className="hidden w-full lg:block lg:w-1/2">
             <div className="py-17.5 px-26 text-center">
               <div>

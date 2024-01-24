@@ -8,7 +8,7 @@ export async function POST(req: NextRequest) {
     try {
         const result = await prisma.dokumenUser.findUnique({
             where: {   
-                user_id: user_id
+                user_id: user_id!
             },
             include: {
                 biodata: true

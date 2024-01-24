@@ -3,14 +3,15 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
     const { filename, file, username } = await req.json();
-    const existingBiodata = await prisma.biodataUser.findUnique({
+
+    const existingUser = await prisma.biodataUser.findUnique({
         where: {
             nama_lengkap: username
         }
     });
 
-    if (!existingBiodata) return NextResponse.json({
-        message: 'Maaf sesi telah habis, harap login kembali'
+    if (!existingUser) return NextResponse.json({
+        message: 'Harap lengkapi biodata sebelum upload berkas'
     }, {
         status: 401
     });
@@ -71,22 +72,22 @@ export async function POST(req: NextRequest) {
 
         await prisma.dokumenUser.upsert({
             where: {
-                user_id: existingBiodata.id_user!,
+                user_id: existingUser.id!,
             },
             update: {
                 ...fileData,
-                user_id: existingBiodata.id_user!,
+                user_id: existingUser.id!,
                 updatedAt: new Date(Date.now()).toLocaleString(),
                 createdAt: new Date(Date.now()).toLocaleString(),
             },
             create: {
                 ...fileData,
-                user_id: existingBiodata.id_user!,
+                user_id: existingUser.id!,
                 updatedAt: new Date(Date.now()).toLocaleString(),
                 createdAt: new Date(Date.now()).toLocaleString(),
                 biodata: {
                     connect: {
-                        nama_lengkap: existingBiodata.nama_lengkap
+                        nama_lengkap: existingUser.nama_lengkap
                     }
                 }
             },

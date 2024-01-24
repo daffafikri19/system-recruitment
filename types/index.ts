@@ -164,3 +164,138 @@ export interface DokumenProps {
     createdAt: string,
     updatedAt: string
 }
+
+export interface ScoreTotalPsikotestProps {
+    id: string,
+    id_user: string,
+    average: number,
+    user: {
+        id: string
+        name: string,
+        email: string,
+        role: string,
+        foto_profile: string,
+        no_pendaftaran: string | undefined
+    },
+    scoreVerbal: {
+        id: number
+        benar: number
+        salah: number
+        score: number
+        kosong: number | undefined
+        maxScore: number
+    },
+    scoreAntonim: {
+        id: number
+        benar: number
+        salah: number
+        score: number
+        kosong: number | undefined
+        maxScore: number
+    },
+    scoreSinonim: {
+        id: number
+        benar: number
+        salah: number
+        score: number
+        kosong: number | undefined
+        maxScore: number
+    },
+    scoreAntonimSinonim: {
+        id: number
+        benar: number
+        salah: number
+        score: number
+        kosong: number | undefined
+        maxScore: number
+    },
+    scoreDeretAngka: {
+        id: number
+        benar: number
+        salah: number
+        score: number
+        kosong: number | undefined
+        maxScore: number
+    },
+    scoreHitungCepat: {
+        id: number
+        benar: number
+        salah: number
+        score: number
+        kosong: number | undefined
+        maxScore: number
+    },
+    scoreInformasiSingkat: {
+        id: number
+        benar: number
+        salah: number
+        score: number
+        kosong: number | undefined
+        maxScore: number
+    },
+    scoreKalimatTakTeratur: {
+        id: number
+        benar: number
+        salah: number
+        score: number
+        kosong: number | undefined
+        maxScore: number
+    },
+    scoreKemampuanTeknikal: {
+        id: number
+        benar: number
+        salah: number
+        score: number
+        kosong: number | undefined
+        maxScore: number
+    },
+    scoreKetelitian: {
+        id: number
+        benar: number
+        salah: number
+        score: number
+        kosong: number | undefined
+        maxScore: number
+    },
+    scoreKuantitatifAnalisis: {
+        id: number
+        benar: number
+        salah: number
+        score: number
+        kosong: number | undefined
+        maxScore: number
+    },
+    scorePenalaranLogis: {
+        id: number
+        benar: number
+        salah: number
+        score: number
+        kosong: number | undefined
+        maxScore: number
+    },
+    scorePenalaranAnalitik: {
+        id: number
+        benar: number
+        salah: number
+        score: number
+        kosong: number | undefined
+        maxScore: number 
+    },
+    scoreKepribadian: {
+        id: number
+        benar: number
+        salah: number
+        score: number
+        kosong: number | undefined
+        maxScore: number 
+    },
+    scoreInggris: {
+        id: number
+        benar: number
+        salah: number
+        score: number
+        kosong: number | undefined
+        maxScore: number 
+    },
+    scoreTotal: number
+}

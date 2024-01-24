@@ -12,12 +12,12 @@ export async function POST(req: NextRequest) {
             }
         })
 
-        if(!biodata) return NextResponse.json({
-            message: "biodata tidak ditemukan"
-        }, {
-            status: 401,
-            statusText: 'unauthorize'
-        });
+        // if(!biodata) return NextResponse.json({
+        //     message: "biodata tidak ditemukan"
+        // }, {
+        //     status: 401,
+        //     statusText: 'unauthorize'
+        // });
 
         return NextResponse.json(biodata, {
             status: 200

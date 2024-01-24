@@ -66,7 +66,7 @@ export const FormSignUp = () => {
                 title: 'berhasil register'
             });
             setLoading(false);
-            router.push(`/signin?${reffcode}`)
+            router.push(`/signin?reff=${reffcode}`)
         } catch (error : any) {
             if(error) {
                 toast({

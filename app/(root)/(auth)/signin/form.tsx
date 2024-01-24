@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import Link from "next/link"
 import { signIn } from "next-auth/react";
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { toast } from "@/components/ui/use-toast"
 import { useRouter, useSearchParams } from "next/navigation"
 import { AlertTriangle, Loader2 } from "lucide-react"
@@ -23,6 +23,10 @@ export const FormLogin = () => {
     const params = useSearchParams();
 
     const reffCode = params.get('reff');
+
+    useEffect(() => {
+        console.log("reffcode", reffCode)
+    }, [reffCode])
 
     const LoginWithEmail = async () => {
         setloading(true)
@@ -49,7 +53,7 @@ export const FormLogin = () => {
             console.log(LOGIN.error)
             setloading(false)
         } else {
-            router.push(`/p/${reffCode}/dashboard`);
+            router.push(`/dashboard`);
         }
     }
 

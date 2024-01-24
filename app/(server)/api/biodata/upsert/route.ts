@@ -109,6 +109,19 @@ export async function POST(req: NextRequest) {
             }
         });
 
+        await prisma.dokumenUser.create({
+            data: {
+                user_id: existingUser.id,
+                createdAt: new Date(Date.now()).toLocaleString(),
+                updatedAt: new Date(Date.now()).toLocaleString(),
+                biodata: {
+                    connect: {
+                        id_user: existingUser.id
+                    }
+                }
+            }
+        });
+
         return NextResponse.json({
             message: 'Berhasil menambahkan data biodata',
         }, {

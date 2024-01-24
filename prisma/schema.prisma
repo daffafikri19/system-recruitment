@@ -20,7 +20,7 @@ enum question_type {
 model Account {
   id                String  @id @default(cuid())
   userId            String  @unique
-  adminId           String @unique
+  adminId           String  @unique
   type              String
   provider          String
   providerAccountId String
@@ -32,7 +32,7 @@ model Account {
   id_token          String? @db.Text
   session_state     String?
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
   admin Admin @relation(fields: [adminId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
@@ -42,7 +42,7 @@ model User {
   id             String                @id @default(cuid())
   name           String?               @unique
   email          String?               @unique
-  emailVerified  Boolean @default(false)
+  emailVerified  Boolean               @default(false)
   role           role                  @default(peserta)
   isNewUser      String?
   foto_profile   String?
@@ -51,46 +51,45 @@ model User {
   biodata        biodataUser[]
   accounts       Account[]
   scorePsikotest scoreTotalPsikotest[]
-  status String?
-  perusahaanId String? @unique
-  melamar_ke Perusahaan[]
-  createdAt String?
-  updatedAt String?
+  status         String?
+  melamar_ke     Perusahaan[]
+  createdAt      String?
+  updatedAt      String?
 }
 
 model Admin {
-  id String @id @default(cuid())
-  name String @unique
-  email String @unique
-  emailVerified  Boolean @default(false)
-  role role @default(admin)
-  foto_profile String?
-  password String
-  accounts       Account[]
-  createdAt String
-  updatedAt String
+  id            String    @id @default(cuid())
+  name          String    @unique
+  email         String    @unique
+  emailVerified Boolean   @default(false)
+  role          role      @default(admin)
+  foto_profile  String?
+  password      String
+  accounts      Account[]
+  createdAt     String
+  updatedAt     String
 }
 
 model Perusahaan {
-  id String @id @default(cuid())
-  name String
-  joblist Job[]
-  schedule String?
-  pelamar User[]
+  id               String  @id @default(cuid())
+  name             String
+  joblist          Job[]
+  schedule         String?
+  pelamar          User[]
   status_Pembelian String?
-  reffCode String? @unique
-  createdAt String?
-  updatedAt String?
+  reffCode         String? @unique
+  createdAt        String?
+  updatedAt        String?
 }
 
 model Job {
-  id Int @id @default(autoincrement())
-  name String
-  max_apply Int
-  ptId String @unique
+  id         Int         @id @default(autoincrement())
+  name       String
+  max_apply  Int
+  ptId       String      @unique
   perusahaan Perusahaan? @relation(fields: [ptId], references: [id])
-  createdAt String
-  updatedAt String
+  createdAt  String
+  updatedAt  String
 }
 
 model soalVerbal {
@@ -326,7 +325,7 @@ model settinganSoal {
   waktu_pengerjaan_kepribadian          Int
   waktu_pengerjaan_inggris              Int
   max_soal_verbal                       Int    @default(50)
-  max_soal_antonim                       Int    @default(50)
+  max_soal_antonim                      Int    @default(50)
   max_soal_sinonim                      Int    @default(50)
   max_soal_antonim_sinonim              Int    @default(50)
   max_soal_deret_angka                  Int    @default(50)
@@ -345,192 +344,192 @@ model settinganSoal {
 }
 
 model scoreVerbal {
-  id      Int    @id @unique @default(autoincrement())
-  benar Int
-  salah Int
-  score Float
-  kosong Int
-  maxScore Int
+  id         Int                  @id @unique @default(autoincrement())
+  benar      Int
+  salah      Int
+  score      Float
+  kosong     Int
+  maxScore   Int
   scoreTotal scoreTotalPsikotest?
-} 
+}
 
 model scoreAntonim {
-  id      Int    @id @unique @default(autoincrement())
-  benar Int
-  salah Int
-  score Float
-  kosong Int
-  maxScore Int
+  id         Int                  @id @unique @default(autoincrement())
+  benar      Int
+  salah      Int
+  score      Float
+  kosong     Int
+  maxScore   Int
   scoreTotal scoreTotalPsikotest?
-} 
+}
 
 model scoreSinonim {
-  id      Int    @id @unique @default(autoincrement())
-  benar Int
-  salah Int
-  score Float
-  kosong Int
-  maxScore Int
+  id         Int                  @id @unique @default(autoincrement())
+  benar      Int
+  salah      Int
+  score      Float
+  kosong     Int
+  maxScore   Int
   scoreTotal scoreTotalPsikotest?
-} 
+}
 
 model scoreAntonimSinonim {
-  id      Int    @id @unique @default(autoincrement())
-  benar Int
-  salah Int
-  score Float
-  kosong Int
-  maxScore Int
+  id         Int                  @id @unique @default(autoincrement())
+  benar      Int
+  salah      Int
+  score      Float
+  kosong     Int
+  maxScore   Int
   scoreTotal scoreTotalPsikotest?
-} 
+}
 
 model scoreDeretAngka {
-  id      Int    @id @unique @default(autoincrement())
-  benar Int
-  salah Int
-  score Float
-  kosong Int
-  maxScore Int
+  id         Int                  @id @unique @default(autoincrement())
+  benar      Int
+  salah      Int
+  score      Float
+  kosong     Int
+  maxScore   Int
   scoreTotal scoreTotalPsikotest?
-} 
+}
 
 model scoreHitungCepat {
-  id      Int    @id @unique @default(autoincrement())
-  benar Int
-  salah Int
-  score Float
-  kosong Int
-  maxScore Int
+  id         Int                  @id @unique @default(autoincrement())
+  benar      Int
+  salah      Int
+  score      Float
+  kosong     Int
+  maxScore   Int
   scoreTotal scoreTotalPsikotest?
-} 
+}
 
 model scoreInformasiSingkat {
-  id      Int    @id @unique @default(autoincrement())
-  benar Int
-  salah Int
-  score Float
-  kosong Int
-  maxScore Int
+  id         Int                  @id @unique @default(autoincrement())
+  benar      Int
+  salah      Int
+  score      Float
+  kosong     Int
+  maxScore   Int
   scoreTotal scoreTotalPsikotest?
-} 
+}
 
 model scoreKalimatTakTeratur {
-  id      Int    @id @unique @default(autoincrement())
-  benar Int
-  salah Int
-  score Float
-  kosong Int
-  maxScore Int
+  id         Int                  @id @unique @default(autoincrement())
+  benar      Int
+  salah      Int
+  score      Float
+  kosong     Int
+  maxScore   Int
   scoreTotal scoreTotalPsikotest?
-} 
+}
 
 model scoreKemampuanTeknikal {
-  id      Int    @id @unique @default(autoincrement())
-  benar Int
-  salah Int
-  score Float
-  kosong Int
-  maxScore Int
+  id         Int                  @id @unique @default(autoincrement())
+  benar      Int
+  salah      Int
+  score      Float
+  kosong     Int
+  maxScore   Int
   scoreTotal scoreTotalPsikotest?
-} 
+}
 
 model scoreKetelitian {
-  id      Int    @id @unique @default(autoincrement())
-  benar Int
-  salah Int
-  score Float
-  kosong Int
-  maxScore Int
+  id         Int                  @id @unique @default(autoincrement())
+  benar      Int
+  salah      Int
+  score      Float
+  kosong     Int
+  maxScore   Int
   scoreTotal scoreTotalPsikotest?
-} 
+}
 
 model scoreKuantitatifAnalisis {
-  id      Int    @id @unique @default(autoincrement())
-  benar Int
-  salah Int
-  score Float
-  kosong Int
-  maxScore Int
+  id         Int                  @id @unique @default(autoincrement())
+  benar      Int
+  salah      Int
+  score      Float
+  kosong     Int
+  maxScore   Int
   scoreTotal scoreTotalPsikotest?
-} 
+}
 
 model scorePenalaranLogis {
-  id      Int    @id @unique @default(autoincrement())
-  benar Int
-  salah Int
-  score Float
-  kosong Int
-  maxScore Int
-  scoreTotal scoreTotalPsikotest? 
-} 
+  id         Int                  @id @unique @default(autoincrement())
+  benar      Int
+  salah      Int
+  score      Float
+  kosong     Int
+  maxScore   Int
+  scoreTotal scoreTotalPsikotest?
+}
 
 model scorePenalaranAnalitik {
-  id      Int    @id @unique @default(autoincrement())
-  benar Int
-  salah Int
-  score Float
-  kosong Int
-  maxScore Int
+  id         Int                  @id @unique @default(autoincrement())
+  benar      Int
+  salah      Int
+  score      Float
+  kosong     Int
+  maxScore   Int
   scoreTotal scoreTotalPsikotest?
 }
 
 model scoreKepribadian {
-  id      Int    @id @unique @default(autoincrement())
-  benar Int
-  salah Int
-  score Float
-  kosong Int
-  maxScore Int
+  id         Int                  @id @unique @default(autoincrement())
+  benar      Int
+  salah      Int
+  score      Float
+  kosong     Int
+  maxScore   Int
   scoreTotal scoreTotalPsikotest?
 }
 
 model scoreInggris {
-  id      Int    @id @unique @default(autoincrement())
-  benar Int
-  salah Int
-  score Float
-  kosong Int
-  maxScore Int
+  id         Int                  @id @unique @default(autoincrement())
+  benar      Int
+  salah      Int
+  score      Float
+  kosong     Int
+  maxScore   Int
   scoreTotal scoreTotalPsikotest?
 }
 
 model scoreTotalPsikotest {
-  id         Int    @id @unique @default(autoincrement())
-  id_user    String? @unique
-  user       User?   @relation(fields: [id_user], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  average    Int?
-  id_score_verbal Int? @unique
-  id_score_antonim Int? @unique
-  id_score_sinonim Int? @unique
-  id_score_antonim_sinonim Int? @unique
-  id_score_deret Int? @unique
-  id_score_hitung_cepat Int? @unique
-  id_score_informasi_singkat Int? @unique
-  id_score_kalimat_tak_teratur Int? @unique
-  id_score_kemampuan_teknikal Int? @unique
-  id_score_ketelitian Int? @unique
-  id_score_kuantitatif_analisis Int? @unique
-  id_score_penalaran_logis Int? @unique
-  id_score_penalaran_analitik Int? @unique
-  id_score_kepribadian Int? @unique
-  id_score_inggris Int? @unique
-  scoreVerbal scoreVerbal? @relation(fields: [id_score_verbal], references: [id])
-  scoreAntonim scoreAntonim? @relation(fields: [id_score_antonim], references: [id])
-  scoreSinonim scoreSinonim? @relation(fields: [id_score_sinonim], references: [id])
-  scoreAntonimSinonim scoreAntonimSinonim? @relation(fields: [id_score_antonim_sinonim], references: [id])
-  scoreDeretAngka scoreDeretAngka? @relation(fields: [id_score_deret], references: [id])
-  scoreHitungCepat scoreHitungCepat? @relation(fields: [id_score_hitung_cepat], references: [id])
-  scoreInformasiSingkat scoreInformasiSingkat? @relation(fields: [id_score_informasi_singkat], references: [id])
-  scoreKalimatTakTeratur scoreKalimatTakTeratur? @relation(fields: [id_score_kalimat_tak_teratur], references: [id])
-  scoreKemampuanTeknikal scoreKemampuanTeknikal? @relation(fields: [id_score_kemampuan_teknikal], references: [id])
-  scoreKetelitian scoreKetelitian? @relation(fields: [id_score_ketelitian], references: [id])
-  scoreKuantitatifAnalisis scoreKuantitatifAnalisis? @relation(fields: [id_score_kuantitatif_analisis], references: [id])
-  scorePenalaranLogis scorePenalaranLogis? @relation(fields: [id_score_penalaran_logis], references: [id])
-  scorePenalaranAnalitik scorePenalaranAnalitik? @relation(fields: [id_score_penalaran_analitik], references: [id])
-  scoreKepribadian scoreKepribadian? @relation(fields: [id_score_kepribadian], references: [id])
-  scoreInggris scoreInggris? @relation(fields: [id_score_inggris], references: [id])
-  scoreTotal Int?
-  createdAt  String?
+  id                            Int                       @id @unique @default(autoincrement())
+  id_user                       String?                   @unique
+  user                          User?                     @relation(fields: [id_user], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  average                       Int?
+  id_score_verbal               Int?                      @unique
+  id_score_antonim              Int?                      @unique
+  id_score_sinonim              Int?                      @unique
+  id_score_antonim_sinonim      Int?                      @unique
+  id_score_deret                Int?                      @unique
+  id_score_hitung_cepat         Int?                      @unique
+  id_score_informasi_singkat    Int?                      @unique
+  id_score_kalimat_tak_teratur  Int?                      @unique
+  id_score_kemampuan_teknikal   Int?                      @unique
+  id_score_ketelitian           Int?                      @unique
+  id_score_kuantitatif_analisis Int?                      @unique
+  id_score_penalaran_logis      Int?                      @unique
+  id_score_penalaran_analitik   Int?                      @unique
+  id_score_kepribadian          Int?                      @unique
+  id_score_inggris              Int?                      @unique
+  scoreVerbal                   scoreVerbal?              @relation(fields: [id_score_verbal], references: [id])
+  scoreAntonim                  scoreAntonim?             @relation(fields: [id_score_antonim], references: [id])
+  scoreSinonim                  scoreSinonim?             @relation(fields: [id_score_sinonim], references: [id])
+  scoreAntonimSinonim           scoreAntonimSinonim?      @relation(fields: [id_score_antonim_sinonim], references: [id])
+  scoreDeretAngka               scoreDeretAngka?          @relation(fields: [id_score_deret], references: [id])
+  scoreHitungCepat              scoreHitungCepat?         @relation(fields: [id_score_hitung_cepat], references: [id])
+  scoreInformasiSingkat         scoreInformasiSingkat?    @relation(fields: [id_score_informasi_singkat], references: [id])
+  scoreKalimatTakTeratur        scoreKalimatTakTeratur?   @relation(fields: [id_score_kalimat_tak_teratur], references: [id])
+  scoreKemampuanTeknikal        scoreKemampuanTeknikal?   @relation(fields: [id_score_kemampuan_teknikal], references: [id])
+  scoreKetelitian               scoreKetelitian?          @relation(fields: [id_score_ketelitian], references: [id])
+  scoreKuantitatifAnalisis      scoreKuantitatifAnalisis? @relation(fields: [id_score_kuantitatif_analisis], references: [id])
+  scorePenalaranLogis           scorePenalaranLogis?      @relation(fields: [id_score_penalaran_logis], references: [id])
+  scorePenalaranAnalitik        scorePenalaranAnalitik?   @relation(fields: [id_score_penalaran_analitik], references: [id])
+  scoreKepribadian              scoreKepribadian?         @relation(fields: [id_score_kepribadian], references: [id])
+  scoreInggris                  scoreInggris?             @relation(fields: [id_score_inggris], references: [id])
+  scoreTotal                    Int?
+  createdAt                     String?
 }
 
 model settinganApi {
@@ -693,25 +692,25 @@ model serfitikatUser {
 
 model dokumenUser {
   id                     String        @id @unique @default(cuid())
-  user_id                String        @unique
+  user_id                String?       @unique
   biodata                biodataUser[]
-  ktp                    String?
-  npwp                   String?
-  sim                    String?
-  ijazah                 String?
-  transkrip_nilai        String?
-  kartu_keluarga         String?
-  skck                   String?
-  kartu_kuning           String?
-  surat_pengalaman_kerja String?
-  akta_kelahiran         String?
-  cv                     String?
-  pas_foto               String?
-  sertifikat_keahlian    String?
-  sertifikat_bahasa      String?
-  buku_nikah             String?
-  createdAt              String
-  updatedAt              String
+  ktp                    String?       @unique
+  npwp                   String?       @unique
+  sim                    String?       @unique
+  ijazah                 String?       @unique
+  transkrip_nilai        String?       @unique
+  kartu_keluarga         String?       @unique
+  skck                   String?       @unique
+  kartu_kuning           String?       @unique
+  surat_pengalaman_kerja String?       @unique
+  akta_kelahiran         String?       @unique
+  cv                     String?       @unique
+  pas_foto               String?       @unique
+  sertifikat_keahlian    String?       @unique
+  sertifikat_bahasa      String?       @unique
+  buku_nikah             String?       @unique
+  createdAt              String?
+  updatedAt              String?
 }
 
 enum options {
@@ -729,12 +728,12 @@ enum role {
 }
 
 model wilayah {
-  id Int @id @unique @default(autoincrement())
+  id        Int    @id @unique @default(autoincrement())
   kelurahan String
   kecamatan String
   kabupaten String
-  provinsi String
-  kodepos String
+  provinsi  String
+  kodepos   String
 }
 
 model VerificationToken {

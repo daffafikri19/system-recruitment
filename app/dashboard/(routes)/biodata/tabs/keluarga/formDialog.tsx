@@ -16,7 +16,7 @@ export const FormDialog = ({ username }: { username: string }) => {
     const [openDialog, setOpenDialog] = useState(false);
     const ref = useRef<HTMLFormElement>(null);
     const [selectedDate, setSelectedDate] = useState('');
-    const [isSudahMenikah, setIsSudahMenikah] = useState<boolean | null>(false);
+    const [isSudahMenikah, setIsSudahMenikah] = useState<boolean>(false);
     const { loading, setLoading } = useLoadingContext();
 
     const getBiodata = async () => {
@@ -28,17 +28,20 @@ export const FormDialog = ({ username }: { username: string }) => {
                     "Content-Type": 'application/json'
                 }
             });
-            const statusPernikahan = response.data.status_pernikahan;
-            if (statusPernikahan === 'Belum Menikah') {
-                setIsSudahMenikah(false)
-            } else if (statusPernikahan === 'Sudah Menikah') {
-                setIsSudahMenikah(true)
-            } else {
-                setIsSudahMenikah(null)
+            if(response.data) {
+                const statusPernikahan = response.data.status_pernikahan;
+                if (statusPernikahan === 'Belum Menikah') {
+                    setIsSudahMenikah(false)
+                } else if (statusPernikahan === 'Sudah Menikah') {
+                    setIsSudahMenikah(true)
+                } else {
+                    setIsSudahMenikah(false)
+                }
+    
+                console.log(response.data)
+                return response.data
             }
-
-            console.log(response.data)
-            return response.data
+            return;
         } catch (error: any) {
             if (error) {
                 toast({
@@ -51,7 +54,7 @@ export const FormDialog = ({ username }: { username: string }) => {
 
     useEffect(() => {
         getBiodata();
-    });
+    }, []);
 
     const handleSelectedDate = (date: any) => {
         setSelectedDate(date)
@@ -96,7 +99,7 @@ export const FormDialog = ({ username }: { username: string }) => {
 
 
                             <div className='grid grid-cols-2 gap-2'>
-                                {isSudahMenikah ? (
+                                {isSudahMenikah !== null ? (
                                     <div>
                                         <Label>Hubungan</Label>
                                         <Select required name='hubungan'>

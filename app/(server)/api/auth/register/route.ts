@@ -3,21 +3,7 @@ import prisma from "@/lib/utils/prisma";
 import bcrypt from "bcrypt";
 
 export async function POST(req: NextRequest) {
-    const { name, email, password, confPassword, reffcode } = await req.json();
-
-    const existingPT = await prisma.perusahaan.findUnique({
-        where: {
-            reffCode: reffcode
-        }
-    });
-
-    if(!existingPT) {
-        return NextResponse.json({
-            message: 'Refferal kode perusahaan tidak ada / tidak ditemukan!'
-        }, {
-            status: 404
-        })
-    }
+    const { name, email, password, confPassword } = await req.json();
 
     const existingEmail = await prisma.user.findUnique({
         where: {
@@ -62,11 +48,6 @@ export async function POST(req: NextRequest) {
                 email: email,
                 password: hashPassword,
                 isNewUser: "true",
-                melamar_ke: {
-                    connect: {
-                        reffCode: reffcode
-                    }
-                }
             },
             include: {
                 melamar_ke: true

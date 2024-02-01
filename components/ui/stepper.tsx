@@ -215,6 +215,7 @@ const icons = {
   error: <X className="h-6 w-6" />,
   loading: <Loader2 className="h-6 w-6 animate-spin" />,
   default: null,
+  none: null,
 } as const
 
 export const StepperItem = React.forwardRef<
@@ -306,7 +307,7 @@ export const StepperItem = React.forwardRef<
           disabled={isDisabled}
           onClick={onClickItem}
           className={cn(
-            "stepper-item-button aspect-square h-10 w-10 rounded-md p-2.5",
+            "stepper-item-button aspect-square h-12 w-12 rounded-md p-2.5",
             isClickable && "cursor-pointer",
             !isActive && !isDisabled && !isCompleted && "opacity-50",
             isCompleted && "bg-green-700 text-white"

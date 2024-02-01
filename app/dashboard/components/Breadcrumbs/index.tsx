@@ -6,9 +6,10 @@ interface BreadcrumbProps {
   pageName: string;
 }
 const Breadcrumb = ({ pageName }: BreadcrumbProps) => {
+
   const pathname = usePathname();
   const routeParts = pathname.split("/").filter((part) => part !== "");
-  const filteredRouteParts = routeParts.slice(2); // Menghilangkan dua segmen pertama
+
 
   return (
     <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -17,17 +18,24 @@ const Breadcrumb = ({ pageName }: BreadcrumbProps) => {
       </h2>
 
       <nav>
-        <ol className="flex items-center gap-2">
-          {filteredRouteParts.map((part, index) => (
+      <ol className="flex items-center gap-2">
+          {routeParts.map((part, index) => (
             <React.Fragment key={index}>
-              {index === 0 ? null : <span className="">-</span>}
-              {index === filteredRouteParts.length - 1 ? (
-                <span className="font-medium text-primary cursor-not-allowed">
+              {index === 0 ? (
+                // 
+                null
+              ) : (
+                <span className="">-</span>
+              )}
+              {index === routeParts.length - 1 ? (
+                <span className="font-medium text-primary cursor-not-allowed ">
                   {part}
                 </span>
               ) : (
-                <Link href={`/${filteredRouteParts.slice(0, index + 1).join("/")}`}>
-                  <span className="font-medium cursor-pointer">{part}</span>
+                <Link href={`/${routeParts.slice(0, index + 1).join("/")}`}>
+                  <span className="font-medium cursor-pointer">
+                    {part}
+                  </span>
                 </Link>
               )}
             </React.Fragment>

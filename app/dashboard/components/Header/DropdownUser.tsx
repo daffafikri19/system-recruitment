@@ -117,7 +117,7 @@ const DropdownUser = () => {
               onClick={() => {
                 signOut({
                   redirect: true,
-                  callbackUrl: `${window.location.origin}/signin?reff=${reffcode}`
+                  callbackUrl: `${window.location.origin}/signin`
                 })
               }}
               className="flex w-full items-center gap-3.5 px-2 py-2 text-sm font-medium duration-300 ease-in-out lg:text-base">

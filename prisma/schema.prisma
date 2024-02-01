@@ -73,7 +73,7 @@ model Admin {
 model Perusahaan {
   id               String  @id @default(cuid())
   name             String
-  joblist          Job[]
+  joblist          Joblist[]
   schedule         String?
   pelamar          User[]
   status_Pembelian String?
@@ -82,9 +82,11 @@ model Perusahaan {
   updatedAt        String?
 }
 
-model Job {
+model Joblist {
   id         Int         @id @default(autoincrement())
   name       String
+  description String @db.VarChar(1000)
+  qualification String @db.VarChar(1000)
   max_apply  Int
   ptId       String      @unique
   perusahaan Perusahaan? @relation(fields: [ptId], references: [id])

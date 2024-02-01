@@ -5,19 +5,19 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { toast } from '@/components/ui/use-toast';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
-import { KeterampilanProps } from '@/types';
 import { editKeterampilan } from '@/actions/mutations/keterampilan/editKeterampilan';
 import { Textarea } from '@/components/ui/textarea';
+import { keterampilanUser } from '@prisma/client';
 
 interface EditFormProps {
-    selectedData: KeterampilanProps,
+    selectedData: keterampilanUser,
     openDialog: boolean,
     setOpenDialog: Dispatch<SetStateAction<boolean>>
 }
 
 export const EditForm = ({ selectedData, openDialog, setOpenDialog } : EditFormProps) => {
 
-    const [keterampilanUser, setKeterampilanUser] = useState<KeterampilanProps>(selectedData)
+    const [keterampilanUser, setKeterampilanUser] = useState<keterampilanUser>(selectedData)
     useEffect(() => {   
         setKeterampilanUser(selectedData);
     }, [selectedData]);

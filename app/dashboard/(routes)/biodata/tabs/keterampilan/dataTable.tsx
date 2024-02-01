@@ -1,17 +1,7 @@
 "use client"
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { KeterampilanProps, PengalamanKerjaProps, SerfitikatUserProps } from "@/types"
-import { Edit2Icon, Eye, Trash2Icon } from "lucide-react"
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-} from "@/components/ui/popover"
+import { Edit2Icon, Trash2Icon } from "lucide-react"
 import { useState } from "react"
-import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Dialog, DialogContent } from "@/components/ui/dialog"
 import { keterampilanUser } from "@prisma/client"
 import { EditForm } from "./editForm"
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog"
@@ -27,7 +17,7 @@ export const TableData = ({ contentData }: tableDataProps) => {
     const [openEditDialog, setOpenEditDialog] = useState(false);
     const [openValidationDialog, setOpenValidationDialog] = useState(false);
 
-    const [editData, setEditData] = useState<KeterampilanProps>({
+    const [editData, setEditData] = useState<keterampilanUser>({
         id: "",
         nama_keterampilan: "",
         tipe_keterampilan: "",
@@ -36,7 +26,7 @@ export const TableData = ({ contentData }: tableDataProps) => {
         updatedAt: ""
     })
 
-    const handleEditData = (data: KeterampilanProps) => {
+    const handleEditData = (data: keterampilanUser) => {
         setOpenEditDialog(true);
         setEditData(data)
     }

@@ -6,7 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useState } from 'react';
 import { toast } from '@/components/ui/use-toast';
-import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import { Textarea } from '@/components/ui/textarea';
 import { addPengalamanKerja } from '@/actions/mutations/pengalaman-kerja/addPengalamanKerja';
 
@@ -65,11 +65,11 @@ export const FormDialog = ({ username }: { username: string }) => {
                                 </div>
                                 <div>
                                     <Label>Tahun Masuk Bekerja</Label>
-                                    <Input name='awal_masuk' type='number' required placeholder='' />
+                                    <Input name='awal_masuk' type='number' required placeholder='' max={4} />
                                 </div>
                                 <div>
                                     <Label>Tahun Keluar Kerja</Label>
-                                    <Input name='keluar' type='number' required />
+                                    <Input name='keluar' type='number' required max={4} />
                                 </div>
                                 <div>
                                     <Label>Uraian / Detail Pekerjaan</Label>
@@ -82,12 +82,14 @@ export const FormDialog = ({ username }: { username: string }) => {
                             </div>
                         </div>
                         <Input type='hidden' name='username' value={username} />
-
-                        <div className='w-full flex items-center justify-end space-x-4 mt-10'>
-                            <Button type='button' variant="outline" onClick={() => setOpenDialog(false)}>Cancel</Button>
-                            <Button type='submit' className='text-white'>Simpan</Button>
-                        </div>
-                       
+                        <AlertDialogFooter className='mt-10'>
+                            <AlertDialogCancel asChild>
+                                <Button type='button' variant="outline" onClick={() => setOpenDialog(false)}>Cancel</Button>
+                            </AlertDialogCancel>
+                            <AlertDialogAction asChild>
+                                <Button type='submit' className='text-white'>Simpan</Button>
+                            </AlertDialogAction>
+                        </AlertDialogFooter>
                     </form>
                 </AlertDialogContent>
             </AlertDialog>

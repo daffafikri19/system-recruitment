@@ -17,7 +17,6 @@ interface SidebarProps {
 const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   const pathname = usePathname();
   const pathSegments = pathname.split('/');
-  const reffcode = pathSegments[2];
   const trigger = useRef<any>(null);
   const sidebar = useRef<any>(null);
 

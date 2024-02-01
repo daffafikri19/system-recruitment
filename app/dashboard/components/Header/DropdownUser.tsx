@@ -10,8 +10,6 @@ const DropdownUser = () => {
 
   const { data: session, status } = useSession();
   const pathname = usePathname();
-  const routeParts = pathname.split("/").filter((part) => part !== "");
-  const reffcode = routeParts[1];
 
   const getLetterFallback = (name: string) => {
     if (name) {

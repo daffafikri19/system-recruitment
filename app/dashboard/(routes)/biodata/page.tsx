@@ -10,6 +10,7 @@ export const metadata: Metadata = {
 
 const BiodataPage = async () => {
     const session = await getServerSession(authOptions);
+    
     return (
         <div>
             <TabBox name={session?.user.name} email={session?.user.email} id={session?.user.id} />

@@ -17,7 +17,6 @@ export const ReffLink = ({
 
     const pathname = usePathname();
     const pathSegments = pathname.split('/');
-    const reffcode = pathSegments[2];
 
     return (
         <Link href={`${href}`} className={className}>

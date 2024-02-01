@@ -23,7 +23,7 @@ import { useLoadingContext } from '@/lib/providers/loadingStateProvider'
 import { Loader2 } from 'lucide-react'
 
 interface BiodataProps {
-    data: biodataUser
+    data?: biodataUser
     id_user: string
 }
 
@@ -78,7 +78,7 @@ export const FormBiodata = ({
         if (biodata.no_ponsel === biodata.no_wa) {
             setIsSameNumber(!isSameNumber)
         };
-    }, [biodata]);
+    }, []);
 
 
     const handlePhoneChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -183,11 +183,6 @@ export const FormBiodata = ({
                     <CardContent className='p-4'>
                         <CardHeader className='flex flex-row w-full items-center justify-between'>
                             <CardTitle>Biodata Diri</CardTitle>
-                            {/* {modeEdit ? (
-                                <Button type='button' onClick={() => setModeEdit(!modeEdit)} className='text-white'>Edit <Edit2Icon className='w-4 h-4 ml-2' /></Button>
-                            ) : (
-                                <></>
-                            )} */}
                         </CardHeader>
                         <div className='my-5 w-full'>
                             <div>

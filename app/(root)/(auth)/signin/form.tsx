@@ -20,14 +20,6 @@ export const FormLogin = () => {
     const [errorPassword, setErrorPassword] = useState(false);
     const [loading, setloading] = useState(false);
 
-    const params = useSearchParams();
-
-    const reffCode = params.get('reff');
-
-    useEffect(() => {
-        console.log("reffcode", reffCode)
-    }, [reffCode])
-
     const LoginWithEmail = async () => {
         setloading(true)
         if (formdata.email.length <= 5) {

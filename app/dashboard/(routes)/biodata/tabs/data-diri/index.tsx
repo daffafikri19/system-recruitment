@@ -14,11 +14,11 @@ export const DataDiriTab = async ({ sessionUserId, username, email }: dataDiriTa
         where: {
             id_user: sessionUserId
         }
-    }) as biodataUser
-    
+    }) as biodataUser | null
+
     return (
         <div className='dark:bg-boxdark'>
-            <FormBiodata data={data} id_user={sessionUserId} />
+            <FormBiodata data={data ?? undefined} id_user={sessionUserId} />
         </div >
     )
 }

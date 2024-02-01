@@ -116,45 +116,6 @@ export interface PengalamanOrganisasiProps {
     updatedAt: string
 }
 
-export interface KeterampilanProps {
-    id: string,
-    nama_keterampilan: string,
-    tipe_keterampilan: string,
-    keterangan: string,
-    createdAt: string,
-    updatedAt: string
-}
-
-export interface SoalTPAProps {
-    id: number;
-    soal: string;
-    a: string;
-    b: string;
-    c: string;
-    d: string;
-    kunci_jawaban: string;
-    gambar: string | null;
-    isAktif: string;
-    createdAt: string;
-    updatedAt: string;
-}
-
-export interface SoalTKBProps {
-    id: number,
-    soal: string,
-    a: string,
-    b: string,
-    c: string,
-    point_a: string | any,
-    point_b: string | any,
-    point_c: string | any,
-    kunci_jawaban: string,
-    isAktif: string,
-    gambar: string | null,
-    createdAt: string,
-    updatedAt: string
-}
-
 export interface DokumenProps {
     id: string,
     no_urut: string,

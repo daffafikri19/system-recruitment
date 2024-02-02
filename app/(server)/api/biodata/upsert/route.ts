@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/utils/prisma";
+import { revalidatePath } from "next/cache";
 
 export async function POST(req: NextRequest) {
     const {
@@ -109,8 +110,21 @@ export async function POST(req: NextRequest) {
             }
         });
 
-        await prisma.dokumenUser.create({
-            data: {
+        await prisma.dokumenUser.upsert({
+            where: {
+                user_id: existingUser.id
+            },
+            create: {
+                user_id: existingUser.id,
+                createdAt: new Date(Date.now()).toLocaleString(),
+                updatedAt: new Date(Date.now()).toLocaleString(),
+                biodata: {
+                    connect: {
+                        id_user: existingUser.id
+                    }
+                }
+            },
+            update: {
                 user_id: existingUser.id,
                 createdAt: new Date(Date.now()).toLocaleString(),
                 updatedAt: new Date(Date.now()).toLocaleString(),
@@ -122,15 +136,18 @@ export async function POST(req: NextRequest) {
             }
         });
 
+        revalidatePath('/dashboard/biodata');
+
         return NextResponse.json({
-            message: 'Berhasil menambahkan data biodata',
+            message: 'Berhasil menyimpan biodata',
         }, {
             status: 200,
             statusText: "ok"
         })
-    } catch (error) {
+    } catch (error : any) {
         return NextResponse.json({
-            message: "Terjadi kesalahan server saat menambahkan biodata"
+            message: "Terjadi kesalahan server saat menambahkan biodata",
+            error: error.message
         }, {
             status: 500,
             statusText: "error"

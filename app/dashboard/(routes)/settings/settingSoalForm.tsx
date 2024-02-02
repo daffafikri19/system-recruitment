@@ -13,7 +13,7 @@ interface SettingSoalProps {
     dataSetting: settinganSoal
 }
 
-export const SettingSoalForm = ({ dataSetting}: SettingSoalProps) => {
+export const SettingSoalForm = ({ dataSetting }: SettingSoalProps) => {
 
     const router = useRouter();
     const { loading, setLoading } = useLoadingContext();

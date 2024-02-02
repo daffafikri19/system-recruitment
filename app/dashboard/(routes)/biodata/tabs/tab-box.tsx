@@ -8,6 +8,7 @@ import { KeterampilanTab } from "./keterampilan";
 import { KeluargaTab } from "./keluarga";
 import { SertifikatTab } from "./sertifikat";
 import { DokumenTab } from "./dokumen-pelengkap";
+import { revalidatePath } from "next/cache";
 
 interface TabProps {
     name: string,
@@ -20,6 +21,7 @@ interface ComponentProps {
 }
 
 export const DataDiri = ({ children }: ComponentProps) => {
+    revalidatePath('/dashboard/biodata')
     return (
         <>
             {children}

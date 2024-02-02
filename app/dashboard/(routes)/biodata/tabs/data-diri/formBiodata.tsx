@@ -12,25 +12,26 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import { Textarea } from '@/components/ui/textarea';
-import { biodataProps } from '@/types';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/use-toast';
 import { DatePicker } from '../../../../components/DatePicker';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
-import { revalidatePath } from 'next/cache'
 import { useLoadingContext } from '@/lib/providers/loadingStateProvider'
 import { Loader2 } from 'lucide-react'
+import { SaveBiodata } from '@/actions/mutations/biodata/saveBiodata'
+import { InputBox } from './input'
+import { revalidatePath } from 'next/cache'
 
 interface BiodataProps {
-    data?: biodataUser
+    data: biodataUser
     id_user: string
 }
 
 export const FormBiodata = ({
     data,
     id_user
-} : BiodataProps) => {
+}: BiodataProps) => {
     const [biodata, setBiodata] = useState<biodataUser>({
         id: "",
         id_user: "",
@@ -67,19 +68,17 @@ export const FormBiodata = ({
     const { loading, setLoading } = useLoadingContext();
 
     useEffect(() => {
-
-        if(data) {
+        if (data) {
             setBiodata(data)
         }
+    }, [data, biodata.id_user]);
 
+    useEffect(() => {
         getListCountry();
-        // getProvincesList();
-
         if (biodata.no_ponsel === biodata.no_wa) {
             setIsSameNumber(!isSameNumber)
         };
-    }, []);
-
+    }, [biodata])
 
     const handlePhoneChange = (event: ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
@@ -106,65 +105,6 @@ export const FormBiodata = ({
         }
     };
 
-    const handleSubmitBiodata = async () => {
-
-        if (biodata.nik.length < 16) {
-            setIsInvalidNik(true);
-            return
-        } else {
-            setLoading(true)
-            try {
-                const response = await axios.post('/api/biodata/upsert', {
-                    id_user: id_user,
-                    nama_lengkap: biodata.nama_lengkap,
-                    jenis_kelamin: biodata.jenis_kelamin,
-                    agama: biodata.agama,
-                    tanggal_lahir: biodata.tanggal_lahir,
-                    negara_lahir: biodata.negara_lahir,
-                    provinsi_lahir: biodata.provinsi_lahir,
-                    kota_lahir: biodata.kota_lahir,
-                    kewarganegaraan: biodata.kewarganegaraan,
-                    negara_asal: biodata.negara_asal,
-                    nik: biodata.nik,
-                    no_paspor: biodata.no_paspor,
-                    buta_warna: biodata.buta_warna,
-                    kebutuhan_khusus: biodata.kebutuhan_khusus,
-                    negara: biodata.negara,
-                    provinsi: biodata.provinsi,
-                    kota: biodata.kota,
-                    kecamatan: biodata.kecamatan,
-                    alamat: biodata.alamat,
-                    kode_pos: biodata.kode_pos,
-                    no_telp_rumah: biodata.no_telp_rumah,
-                    email: biodata.email,
-                    status_pernikahan: biodata.status_pernikahan,
-                    no_ponsel: biodata.no_ponsel,
-                    no_wa: biodata.no_wa,
-                }, {
-                    headers: {
-                        "Content-Type": 'application/json'
-                    }
-                });
-
-                toast({
-                    title: response.data.message,
-                });
-                revalidatePath('/dashboard')
-                setLoading(false)
-                return response.data
-            } catch (error: any) {
-                setLoading(false)
-                if (error) {
-                    toast({
-                        title: error.response.data.message,
-                        description: error.message,
-                        variant: 'destructive'
-                    });
-                }
-            }
-        }
-    }
-
     const handleSelectedDate = (date: any) => {
         console.log("selected date", date)
         setBiodata((prev) => ({
@@ -173,11 +113,17 @@ export const FormBiodata = ({
         }))
     }
 
-  return (
-    <div>
-        <form onSubmit={(e) => {
-                e.preventDefault();
-                handleSubmitBiodata();
+    return (
+        <div>
+            <form action={async formdata => {
+                setLoading(true)
+                const result = await SaveBiodata(formdata);
+                setLoading(false)
+                toast({
+                    title: result.message,
+                    variant: result.status === 200 ? "default" : "destructive"
+                });
+
             }} className='flex flex-col space-y-4'>
                 <Card className='w-full'>
                     <CardContent className='p-4'>
@@ -185,24 +131,24 @@ export const FormBiodata = ({
                             <CardTitle>Biodata Diri</CardTitle>
                         </CardHeader>
                         <div className='my-5 w-full'>
-                            <div>
-                                <Label>Nama Lengkap</Label>
-                                <Input required type='text' name='nama_lengkap'
-                                    value={biodata.nama_lengkap} onChange={(e) => {
-                                        setBiodata((prev) => ({
-                                            ...prev,
-                                            nama_lengkap: e.target.value
-                                        }))
-                                    }}
-                                />
-                            </div>
+                            <InputBox
+                                name="nama_lengkap"
+                                label="Nama Lengkap"
+                                type="text"
+                                value={biodata.nama_lengkap}
+                                onValueChange={(e) => {
+                                    setBiodata((prev) => ({
+                                        ...prev,
+                                        nama_lengkap: e.target.value
+                                    }))
+                                }}
+                            />
                         </div>
 
                         <div className='grid grid-cols-1 sm:grid-cols-3 sm:space-x-4 my-5'>
                             <div>
                                 <Label>Jenis Kelamin</Label>
                                 <Select required name='jenis_kelamin'
-                                    defaultValue={biodata.jenis_kelamin}
                                     value={biodata.jenis_kelamin}
                                     onValueChange={(e) => {
                                         setBiodata((prev) => ({
@@ -247,16 +193,24 @@ export const FormBiodata = ({
                                 </Select>
                             </div>
                             <div>
-                                <Label>Tanggal Lahir</Label>
                                 {biodata.tanggal_lahir ? (
-                                    <Input type='text' value={biodata.tanggal_lahir} onChange={(e) => {
-                                        setBiodata((prev) => ({
-                                            ...prev,
-                                            tanggal_lahir: e.target.value
-                                        }))
-                                    }} />
+                                    <InputBox
+                                        name="tanggal_lahir"
+                                        label="Tanggal Lahir"
+                                        type="text"
+                                        value={biodata.tanggal_lahir}
+                                        onValueChange={(e) => {
+                                            setBiodata((prev) => ({
+                                                ...prev,
+                                                tanggal_lahir: e.target.value
+                                            }))
+                                        }}
+                                    />
                                 ) : (
+                                    <>
+                                    <Label>Tanggal Lahir</Label>
                                     <DatePicker disabled={false} selectedDate={handleSelectedDate} />
+                                    </>
                                 )}
                             </div>
                         </div>
@@ -266,7 +220,6 @@ export const FormBiodata = ({
                                 <Label>Negara Kelahiran</Label>
                                 <Select required name='negara_lahir'
                                     value={biodata.negara_lahir.toUpperCase()}
-
                                     onValueChange={(e) => {
                                         setBiodata((prev) => ({
                                             ...prev,
@@ -289,29 +242,6 @@ export const FormBiodata = ({
                                 <>
                                     <div>
                                         <Label>Provinsi Kelahiran</Label>
-                                        {/* <Select required name='provinsi_lahir'
-                                            value={biodata.provinsi_lahir}
-                                            onValueChange={(e) => {
-                                                const selectedProvince: any = provinces.find((province: any) => province.name === e);
-                                                const selectedProvinceId = selectedProvince ? selectedProvince.id : 36;
-                                                getCitiesList(selectedProvinceId)
-                                                setBiodata((prev) => ({
-                                                    ...prev,
-                                                    provinsi_lahir: e,
-                                                }));
-                                            }}
-                                        >
-                                            <SelectTrigger className="w-full">
-                                                <SelectValue placeholder="" />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                {provinces.map((province: any, index: number) => (
-                                                    <SelectItem key={index} value={province.name} onClick={() => {
-                                                    }}>{province.name}</SelectItem>
-                                                ))}
-                                            </SelectContent>
-                                        </Select> */}
-
                                         <Input type='text' name='provinsi_lahir' value={biodata.provinsi_lahir}
                                             onChange={(e) => {
                                                 setBiodata((prev) => ({
@@ -321,27 +251,8 @@ export const FormBiodata = ({
                                             }}
                                         />
                                     </div>
-
                                     <div>
                                         <Label>Kabupaten / Kota Kelahiran</Label>
-                                        {/* <Select required name='kota_lahir'
-                                            value={biodata.kota_lahir}
-                                            onValueChange={(e) => {
-                                                setBiodata((prev) => ({
-                                                    ...prev,
-                                                    kota_lahir: e
-                                                }))
-                                            }}
-                                        >
-                                            <SelectTrigger className="w-full">
-                                                <SelectValue placeholder="" />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                {cities.map((city: any, index: number) => (
-                                                    <SelectItem key={index} value={city.name}>{city.name}</SelectItem>
-                                                ))}
-                                            </SelectContent>
-                                        </Select> */}
                                         <Input type='text' name='kota_lahir' value={biodata.kota_lahir}
                                             onChange={(e) => {
                                                 setBiodata((prev) => ({
@@ -355,26 +266,33 @@ export const FormBiodata = ({
                             ) : (
                                 <>
                                     <div>
-                                        <Label>Provinsi Kelahiran</Label>
-                                        <Input required type='text' name='provinsi_lahir'
+                                        <InputBox
+                                            name="provinsi_lahir"
+                                            label="Provinsi Kelahiran"
+                                            type="text"
                                             value={biodata.provinsi_lahir}
-                                            onChange={(e) => {
+                                            onValueChange={(e) => {
                                                 setBiodata((prev) => ({
                                                     ...prev,
                                                     provinsi_lahir: e.target.value
                                                 }))
-                                            }} disabled />
+                                            }}
+                                        />
                                     </div>
 
                                     <div>
-                                        <Label>Kabupaten / Kota Kelahiran</Label>
-                                        <Input required type='text' name='kota_lahir'
-                                            value={biodata.kota_lahir} onChange={(e) => {
+                                        <InputBox
+                                            name="kota_lahir"
+                                            label="Kota Kelahiran"
+                                            type="text"
+                                            value={biodata.kota_lahir}
+                                            onValueChange={(e) => {
                                                 setBiodata((prev) => ({
                                                     ...prev,
                                                     kota_lahir: e.target.value
                                                 }))
-                                            }} disabled />
+                                            }}
+                                        />
                                     </div>
                                 </>
                             )}
@@ -405,7 +323,7 @@ export const FormBiodata = ({
                             </div>
                             <div>
                                 <Label>Negara Asal</Label>
-                                <Select required name='negara_lahir'
+                                <Select required name='negara_asal'
                                     value={biodata.negara_asal.toUpperCase()}
                                     onValueChange={(e) => {
                                         setBiodata((prev) => ({
@@ -697,7 +615,7 @@ export const FormBiodata = ({
                                     onChange={(e) => {
                                         setBiodata((prev) => ({
                                             ...prev,
-                                            kode_pos: e.target.value
+                                            kode_pos: e.target.value.toString()
                                         }))
                                     }} />
                             </div>
@@ -708,7 +626,7 @@ export const FormBiodata = ({
                                     onChange={(e) => {
                                         setBiodata((prev) => ({
                                             ...prev,
-                                            no_telp_rumah: e.target.value
+                                            no_telp_rumah: e.target.value.toString()
                                         }))
                                     }} />
                             </div>
@@ -740,7 +658,7 @@ export const FormBiodata = ({
                             </div>
                             <div>
                                 <Label>Nomor Whatsapp</Label>
-                                <Input type='tel' value={biodata.no_wa} onChange={(e) => {
+                                <Input type='tel' name='no_wa' value={biodata.no_wa} onChange={(e) => {
                                     setBiodata((prev) => ({
                                         ...prev,
                                         no_wa: e.target.value
@@ -752,7 +670,6 @@ export const FormBiodata = ({
                                         className='w-3 h-3 mt-1'
                                         checked={isSameNumber}
                                         onChange={handleCheckboxChange}
-
                                     />
                                     <p className='text-[10px] mt-1 sm:text-xs text-muted-foreground'>* Ceklis jika nomor telp ponsel sama dengan nomor WhatsApp</p>
                                 </div>
@@ -761,14 +678,15 @@ export const FormBiodata = ({
                     </CardContent>
                 </Card>
 
+                <input type="hidden" name='id_user' value={id_user.toString()} readOnly />
                 <div className='mt-5 w-full flex items-center justify-end space-x-4'>
                     <Button className='text-white' type='submit' disabled={loading}>
                         {loading ? (
-                            <Loader2 className='w-5 h-5' />
-                        ): "Simpan Perubahan"}
+                            <Loader2 className='w-5 h-5 animate-spin' />
+                        ) : "Simpan Perubahan"}
                     </Button>
                 </div>
             </form>
-    </div>
-  )
+        </div>
+    )
 }
